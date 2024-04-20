@@ -84,7 +84,65 @@ create table comorbidade(
 	foreign key (fk_registro_urgencia_codigo) references registro_urgencia(fk_registro_codigo)
 );
 
+create table medico(
+	cpf varchar(11) primary key,
+	rqe integer not null,
+	nome varchar(100) not null,
+	especialidade varchar(100) not null,
+	crm varchar(10) not null,
+	fk_medico_cpf_gerente varchar(11),
+	foreign key (fk_medico_cpf_gerente) references medico(cpf)
+);
+
+create table examina(
+	fk_medico_cpf varchar(11),
+	fk_paciente_internado_cpf varchar(11),
+	primary key(fk_medico_cpf, fk_paciente_internado_cpf),
+	foreign key (fk_medico_cpf) references medico(cpf),
+	foreign key (fk_paciente_internado_cpf) references paciente_internado(fk_paciente_cpf)
+);
+
+create table exame_complementar(
+	codigo integer primary key,
+	resultados varchar(500) not null,
+	data_realizacao date not null,
+	tipo varchar(100) not null
+);
+
+create table solicita(
+	fk_examina_medico_cpf varchar(11),
+	fk_examina_paciente_internado_cpf varchar(11),
+	fk_exame_complementar_codigo integer,
+	primary key (fk_examina_medico_cpf, fk_examina_paciente_internado_cpf, fk_exame_complementar_codigo),
+	foreign key (fk_examina_medico_cpf) references examina(fk_medico_cpf),
+	foreign key (fk_examina_paciente_internado_cpf) references examina(fk_paciente_internado_cpf),
+	foreign key (fk_exame_complementar_codigo) references exame_complementar(codigo)
+);
+
+create table consulta_urgencia(
+	data_realizacao date not null,
+	fk_registro_urgencia_codigo integer not null,
+	fk_medico_cpf varchar(11) not null,
+	fk_paciente_urgencia_cpf varchar(11) not null,
+	primary key (fk_registro_urgencia_codigo, fk_medico_cpf, fk_paciente_urgencia_cpf),
+	foreign key (fk_registro_urgencia_codigo) references registro_urgencia(fk_registro_codigo),
+	foreign key (fk_medico_cpf) references medico(cpf),
+	foreign key (fk_paciente_urgencia_cpf) references paciente_urgencia(fk_paciente_cpf)
+);
+
+create table consulta_internado(
+	data_realizacao date not null,
+	fk_registro_internado_codigo integer not null,
+	fk_medico_cpf varchar(11) not null,
+	fk_paciente_internado_cpf varchar(11) not null,
+	primary key (fk_registro_internado_codigo, fk_medico_cpf, fk_paciente_internado_cpf),
+	foreign key (fk_registro_internado_codigo) references registro_internado(fk_registro_codigo),
+	foreign key (fk_medico_cpf) references medico(cpf),
+	foreign key (fk_paciente_internado_cpf) references paciente_internado(fk_paciente_cpf)
+);
+
 commit;
+
 
 
 
