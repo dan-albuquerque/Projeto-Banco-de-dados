@@ -1,5 +1,5 @@
 package com.hospital.hospital.models;
 
-public class Medicos {
+public class Doctor {
     
 }
