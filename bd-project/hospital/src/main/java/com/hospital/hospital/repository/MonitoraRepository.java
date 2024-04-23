@@ -7,6 +7,8 @@ import java.util.List;
 import com.hospital.hospital.models.relacoes.Monitora;
 
 import org.springframework.jdbc.core.RowMapper;
+
+@Repository
 public class MonitoraRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
