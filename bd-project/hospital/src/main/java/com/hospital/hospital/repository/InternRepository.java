@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import com.hospital.hospital.models.Interno;
+
+import com.hospital.hospital.models.elenco.Interno;
+
 import org.springframework.jdbc.core.RowMapper;
 
 @Repository

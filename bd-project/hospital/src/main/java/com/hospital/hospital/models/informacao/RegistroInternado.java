@@ -1,4 +1,4 @@
-package com.hospital.hospital.models;
+package com.hospital.hospital.models.informacao;
 
 public class RegistroInternado {
     public int fk_registro_codigo;

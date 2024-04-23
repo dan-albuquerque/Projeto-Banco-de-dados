@@ -1,4 +1,4 @@
-package com.hospital.hospital.models;
+package com.hospital.hospital.models.relacoes;
 
 public class Examina {
     public String fk_medico_cpf;

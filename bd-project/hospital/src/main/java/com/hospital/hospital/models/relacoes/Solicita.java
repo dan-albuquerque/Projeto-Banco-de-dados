@@ -1,11 +1,11 @@
-package com.hospital.hospital.models;
+package com.hospital.hospital.models.relacoes;
 
-public class ConsultaUrgencia {
+public class Solicita {
     public String fk_examina_medico_cpf;
     public String fk_examina_paciente_internado_cpf;
     public int fk_exame_complementar_codigo;
 
-    public ConsultaUrgencia(String fk_examina_medico_cpf, String fk_examina_paciente_internado_cpf, int fk_exame_complementar_codigo){
+    public Solicita(String fk_examina_medico_cpf, String fk_examina_paciente_internado_cpf, int fk_exame_complementar_codigo){
         this.fk_examina_medico_cpf = fk_examina_medico_cpf;
         this.fk_examina_paciente_internado_cpf = fk_examina_paciente_internado_cpf;
         this.fk_exame_complementar_codigo = fk_exame_complementar_codigo;
@@ -34,6 +34,7 @@ public class ConsultaUrgencia {
     public void setExameComplementarCodigo(int fk_exame_complementar_codigo){
         this.fk_exame_complementar_codigo = fk_exame_complementar_codigo;
     }
+
 
     
 }

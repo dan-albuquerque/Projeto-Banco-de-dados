@@ -1,7 +1,7 @@
 package com.hospital.hospital.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hospital.hospital.models.Interno;
+import com.hospital.hospital.models.elenco.Interno;
 import com.hospital.hospital.repository.InternRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

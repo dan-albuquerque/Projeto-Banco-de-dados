@@ -1,4 +1,4 @@
-package com.hospital.hospital.models;
+package com.hospital.hospital.models.pacientes;
 
 public class PacienteInternado {
     private int sala;

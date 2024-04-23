@@ -1,4 +1,4 @@
-package com.hospital.hospital.models;
+package com.hospital.hospital.models.informacao;
 import java.sql.Date;
 
 public class ExameComplementar {
@@ -49,6 +49,6 @@ public class ExameComplementar {
         this.tipo = tipo;
     }
 
-    
+
     
 }

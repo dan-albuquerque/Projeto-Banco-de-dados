@@ -1,17 +1,17 @@
-package com.hospital.hospital.models;
+package com.hospital.hospital.models.informacao;
 
-public class Comorbidade {
+public class Medicacao {
     public int fk_registro_urgencia_codigo;
     public int id;
     public String nome;
-    
-    public Comorbidade(int fk_registro_urgencia_codigo, int id, String nome){
+
+    public Medicacao(int fk_registro_urgencia_codigo, int id, String nome){
         this.fk_registro_urgencia_codigo = fk_registro_urgencia_codigo;
         this.id = id;
         this.nome = nome;
     }
 
-    public Comorbidade(){
+    public Medicacao(){
     }
 
     public int getRegistroUrgenciaCodigo(){

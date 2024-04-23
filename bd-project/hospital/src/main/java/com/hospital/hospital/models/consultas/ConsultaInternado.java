@@ -1,4 +1,4 @@
-package com.hospital.hospital.models;
+package com.hospital.hospital.models.consultas;
 import java.sql.Date;
 public class ConsultaInternado {
     public Date data_realizacao;

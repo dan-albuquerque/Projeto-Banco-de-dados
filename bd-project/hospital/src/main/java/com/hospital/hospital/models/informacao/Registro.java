@@ -1,4 +1,4 @@
-package com.hospital.hospital.models;
+package com.hospital.hospital.models.informacao;
 
 public class Registro {
     public int codigo;

@@ -1,4 +1,4 @@
-package com.hospital.hospital.models;
+package com.hospital.hospital.models.pacientes;
 
 public class Paciente {
     private String nome, cpf, telefone_residencial, telefone_pessoal, cidade, bairro, rua;
