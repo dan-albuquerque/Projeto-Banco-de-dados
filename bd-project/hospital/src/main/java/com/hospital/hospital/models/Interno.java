@@ -14,6 +14,9 @@ public class Interno {
         this.matricula = matricula;
     }
 
+    public Interno(){
+    }
+
     public String getNome(){
         return nome;
     }
