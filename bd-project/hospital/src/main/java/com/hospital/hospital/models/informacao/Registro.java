@@ -27,6 +27,4 @@ public class Registro {
     public void setConduta(String conduta){
         this.conduta = conduta;
     }
-
-    
 }

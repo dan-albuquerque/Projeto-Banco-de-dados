@@ -141,8 +141,8 @@ create table consulta_internado(
 	foreign key (fk_paciente_internado_cpf) references paciente_internado(fk_paciente_cpf)
 );
 
-commit;
-
-
-
+INSERT INTO interno (cpf, nome, senha, matricula) VALUES
+('12345678901', 'João Silva', 'senha123', 1001),
+('23456789012', 'Maria Souza', 'senha456', 1002),
+('34567890123', 'Carlos Pereira', 'senha789', 1003);
 
