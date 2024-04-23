@@ -10,6 +10,9 @@ public class Monitora {
         this.fk_cpf_paciente = fk_cpf_paciente;
     }
 
+    public Monitora() {
+    }
+
     public String getCpfInterno() {
         return fk_cpf_interno;
     }

@@ -9,6 +9,9 @@ public class PacienteInternado {
         this.fk_paciente_cpf = fk_paciente_cpf;
     }
 
+    public PacienteInternado(){
+    }
+
     public int getSala(){
         return sala;
     }

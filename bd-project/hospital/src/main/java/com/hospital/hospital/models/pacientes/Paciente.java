@@ -34,7 +34,7 @@ public class Paciente {
         this.cpf = cpf;
     }
 
-    public String getTelefone_residencial(){
+    public String getTelefoneResidencial(){
         return telefone_residencial;
     }
 
