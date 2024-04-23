@@ -1,7 +1,7 @@
 package com.hospital.hospital.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hospital.hospital.models.Intern;
+import com.hospital.hospital.models.Interno;
 import com.hospital.hospital.repository.InternRepository;
 
 import org.springframework.web.bind.annotation.*;
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/intern")
 public class InternController {
     @PostMapping
-    public String createIntern(@RequestBody Intern intern) {
+    public String createIntern(@RequestBody Interno interno) {
         InternRepository ir = new InternRepository();
-        ir.insertIntern(intern);
-        return "Intern created: " + intern.getName();
+        ir.insertIntern(interno);
+        return "Intern created: " + interno.getNome();
     }
     @DeleteMapping
     public String deleteIntern(@PathVariable String intern){
@@ -21,7 +21,7 @@ public class InternController {
     @GetMapping
     public String getIntern(){
         InternRepository intern = new InternRepository();
-        intern.selectIntern();
+        intern.selectInterno();
         return "Intern selected";
     }
 

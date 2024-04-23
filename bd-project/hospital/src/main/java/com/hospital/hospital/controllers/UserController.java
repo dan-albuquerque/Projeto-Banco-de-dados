@@ -1,24 +1,31 @@
 package com.hospital.hospital.controllers;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
-import com.hospital.hospital.models.Intern;
+import com.hospital.hospital.models.Interno;
 import com.hospital.hospital.repository.InternRepository;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    private List<String> users = new ArrayList<>();  
+    @Autowired
+    private InternRepository internRepository;
+
+    private List<String> users = new ArrayList<>();
+
     @GetMapping
-    public List<String> getAllUsers(){
+    public List<String> getAllUsers() {
         return users;
     }
+
     @PostMapping
-    public String createIntern(@RequestBody Intern intern) {
-        InternRepository ir = new InternRepository();
-        ir.insertIntern(intern);
-        return "Intern created: " + intern.getName();
+    public String createIntern(@RequestBody Interno interno) {
+        internRepository.insertIntern(interno);
+        return "Intern created: " + interno.getNome();
     }
+
     @DeleteMapping("/{user}")
     public String deleteUser(@PathVariable String user) {
         if (users.contains(user)) {
