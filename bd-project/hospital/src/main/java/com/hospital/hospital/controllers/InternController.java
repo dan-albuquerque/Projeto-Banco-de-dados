@@ -20,13 +20,22 @@ public class InternController {
     }
 
     @DeleteMapping
-    public String deleteIntern(@PathVariable String intern){
-        return "Intern deleted: " + intern;
+    public String deleteIntern(@RequestBody Interno interno){
+        internRepository.deleteIntern(interno);
+        return "Intern deleted! ";
     }
 
     @GetMapping
     public List<Interno> getAllInterns() {
         return internRepository.selectInterns();
     }
+
+    @PutMapping
+    public String updateIntern(@RequestBody Interno interno){
+        internRepository.updateIntern(interno);
+        return "Intern updated: " + interno.getNome();
+    }
+
+   
 
 }

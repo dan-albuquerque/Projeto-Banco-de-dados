@@ -12,20 +12,19 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class PacientRepository {
-
-    // this.nome = nome;
-    //     this.cpf = cpf;
-    //     this.telefone_residencial = telefone_residencial;
-    //     this.telefone_pessoal = telefone_pessoal;
-    //     this.cidade = cidade;
-    //     this.bairro = bairro;
-    //     this.rua = rua;
-    //     this.numero = numero;
     @Autowired
     private JdbcTemplate jdbcTemplate;
     
     public void insertPacient(Paciente paciente){
-        jdbcTemplate.update("insert into paciente(cpf,telefone_residencial,telefone_pessoal,cidade,bairro,rua) values(?, ?, ?, ?, ?, ?)", paciente.getCpf(), paciente.getTelefoneResidencial(), paciente.getTelefonePessoal(), paciente.getCidade(), paciente.getBairro(), paciente.getRua());
+        System.out.println(paciente.getNome());
+        System.out.println(paciente.getCpf());
+        System.out.println(paciente.getTelefoneResidencial());
+        System.out.println(paciente.getTelefonePessoal());
+        System.out.println(paciente.getCidade());
+        System.out.println(paciente.getBairro());
+        System.out.println(paciente.getRua());
+        System.out.println(paciente.getNumero());
+        
     }
 
     public List<Paciente> selectPacients() {
@@ -46,5 +45,13 @@ public class PacientRepository {
 
         return paciente;
     };
+
+    public void updatePacient(Paciente paciente){
+        jdbcTemplate.update("update paciente set nome = ?, telefone_residencial = ?, telefone_pessoal = ?, cidade = ?, bairro = ?, rua = ?, numero = ? where cpf = ?", paciente.getNome(), paciente.getTelefoneResidencial(), paciente.getTelefonePessoal(), paciente.getCidade(), paciente.getBairro(), paciente.getRua(), paciente.getNumero(), paciente.getCpf());
+    }
+
+    public void deletePacient(Paciente paciente){
+        jdbcTemplate.update("delete from paciente where cpf = ?", paciente.getCpf());
+    }
     
 }

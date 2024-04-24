@@ -31,4 +31,13 @@ public class InternRepository {
         interno.setmatricula(rs.getInt("matricula"));
         return interno;
     };
+
+    public void updateIntern(Interno interno){
+        jdbcTemplate.update("update interno set nome = ?, senha = ?, matricula = ? where cpf = ?", interno.getNome(), interno.getSenha(), interno.getMatricula(), interno.getCpf());
+    }
+
+    public void deleteIntern(Interno interno){
+        jdbcTemplate.update("delete from interno where cpf = ?", interno.getCpf());
+    }
+
 }
