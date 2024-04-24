@@ -5,8 +5,7 @@ public class Paciente {
     private int numero;
     private String telefone_residencial;
     private String telefone_pessoal;
-
-    public Paciente(String nome, String cpf, String telefone_pessoal, String cidade, String bairro, String rua, int numero, String telefone_residencial){
+    public Paciente(String nome, String cpf, String telefone_pessoal, String cidade, String bairro, String rua, int numero, String telefone_residencial, String teste, String teste2){
         this.nome = nome;
         this.cpf = cpf;
         this.cidade = cidade;
@@ -14,7 +13,7 @@ public class Paciente {
         this.rua = rua;
         this.numero = numero;
         this.telefone_residencial = telefone_residencial; 
-        this.telefone_pessoal = telefone_pessoal;   
+        this.telefone_pessoal = telefone_pessoal;  
     }
 
     public Paciente(){
@@ -34,22 +33,6 @@ public class Paciente {
 
     public void setCpf(String cpf){
         this.cpf = cpf;
-    }
-
-    public String getTelefoneResidencial(){
-        return telefone_residencial;
-    }
-
-    public void setTelefoneResidencial(String telefone_residencial){
-        this.telefone_residencial = telefone_residencial;
-    }
-
-    public String getTelefonePessoal(){
-        return telefone_pessoal;
-    }
-
-    public void setTelefonePessoal(String telefone_pessoal){
-        this.telefone_pessoal = telefone_pessoal;
     }
 
     public String getCidade(){
@@ -90,6 +73,14 @@ public class Paciente {
 
     public void settelefone_residencial(String telefone_residencial){
         this.telefone_residencial = telefone_residencial;
+    }
+
+    public String gettelefone_pessoal(){
+        return telefone_pessoal;
+    }
+
+    public void settelefone_pessoal(String telefone_pessoal){
+        this.telefone_pessoal = telefone_pessoal;
     }
 
     

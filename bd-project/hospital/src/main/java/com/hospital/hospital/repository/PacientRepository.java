@@ -16,15 +16,8 @@ public class PacientRepository {
     private JdbcTemplate jdbcTemplate;
     
     public void insertPacient(Paciente paciente){
-        System.out.println(paciente.getNome());
-        System.out.println(paciente.getCpf());
-        System.out.println(paciente.getTelefonePessoal());
-        System.out.println(paciente.getCidade());
-        System.out.println(paciente.getBairro());
-        System.out.println(paciente.getRua());
-        System.out.println(paciente.getNumero());
-        System.out.println(paciente.gettelefone_residencial());
-        
+        jdbcTemplate.update("insert into paciente(cpf,nome,telefone_residencial,cidade,bairro,rua,numero,telefone_pessoal) values(?, ?, ?, ?, ?, ?, ?,?)", paciente.getCpf(), paciente.getNome(), paciente.gettelefone_residencial(), paciente.getCidade(), paciente.getBairro(), paciente.getRua(), paciente.getNumero(), paciente.gettelefone_pessoal());
+        System.out.println(paciente);
     }
 
     public List<Paciente> selectPacients() {
@@ -36,19 +29,15 @@ public class PacientRepository {
         Paciente paciente = new Paciente();
         paciente.setNome(rs.getString("nome"));
         paciente.setCpf(rs.getString("cpf"));
-        paciente.setTelefoneResidencial(rs.getString("telefone_residencial"));
-        paciente.setTelefonePessoal(rs.getString("telefone_pessoal"));
+        paciente.settelefone_residencial(rs.getString("telefone_residencial"));
         paciente.setCidade(rs.getString("cidade"));
         paciente.setBairro(rs.getString("bairro"));
         paciente.setRua(rs.getString("rua"));
         paciente.setNumero(rs.getInt("numero"));
 
+
         return paciente;
     };
-
-    public void updatePacient(Paciente paciente){
-        jdbcTemplate.update("update paciente set nome = ?, telefone_residencial = ?, telefone_pessoal = ?, cidade = ?, bairro = ?, rua = ?, numero = ? where cpf = ?", paciente.getNome(), paciente.getTelefoneResidencial(), paciente.getTelefonePessoal(), paciente.getCidade(), paciente.getBairro(), paciente.getRua(), paciente.getNumero(), paciente.getCpf());
-    }
 
     public void deletePacient(Paciente paciente){
         jdbcTemplate.update("delete from paciente where cpf = ?", paciente.getCpf());

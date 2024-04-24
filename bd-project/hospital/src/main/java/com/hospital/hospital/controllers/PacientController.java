@@ -36,10 +36,5 @@ public class PacientController {
         return pacientRepository.selectPacients();
     }
 
-    @PutMapping
-    public String updatePacient(@RequestBody Paciente paciente){
-        pacientRepository.updatePacient(paciente);
-        return "Pacient updated: " + paciente.getNome();
-    }
-    
+
 }
