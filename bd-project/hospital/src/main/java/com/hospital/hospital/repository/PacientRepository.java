@@ -34,6 +34,7 @@ public class PacientRepository {
         paciente.setBairro(rs.getString("bairro"));
         paciente.setRua(rs.getString("rua"));
         paciente.setNumero(rs.getInt("numero"));
+        paciente.settelefone_pessoal(rs.getString("telefone_pessoal"));
 
 
         return paciente;
