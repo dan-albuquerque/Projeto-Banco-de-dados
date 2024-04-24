@@ -17,7 +17,7 @@ public class PacienteUrgenciaRepository {
     private JdbcTemplate jdbcTemplate;
     
     public void insertPacient(PacienteUrgencia paciente){
-        jdbcTemplate.update("insert into paciente_urgencia(fk_paciente_cpf, nivel_triagem) values(?, ?)", paciente.getPacienteCpf(), paciente.getNivelTriagem());
+        jdbcTemplate.update("insert into paciente_urgencia(fk_paciente_cpf,nivel_triagem) values(?, ?)", paciente.getPacienteCpf(), paciente.getNivelTriagem());
     }
 
     public List<PacienteUrgencia> selectPacients() {
@@ -32,6 +32,14 @@ public class PacienteUrgenciaRepository {
 
         return paciente;
     };
+
+    public void deletePacient(PacienteUrgencia paciente){
+        jdbcTemplate.update("delete from paciente_urgencia where fk_paciente_cpf = ?", paciente.getPacienteCpf());
+    }
+
+    public void updatePacient(PacienteUrgencia paciente){
+        jdbcTemplate.update("update paciente_urgencia set nivel_triagem = ? where fk_paciente_cpf = ?", paciente.getNivelTriagem(), paciente.getPacienteCpf());
+    }
 
     
 }

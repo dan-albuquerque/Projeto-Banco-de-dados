@@ -2,8 +2,8 @@ package com.hospital.hospital.models.pacientes;
 
 public class PacienteUrgencia {
 
-    private String fk_paciente_cpf;
-    private int nivel_triagem;
+    public String fk_paciente_cpf;
+    public int nivel_triagem;
 
     public PacienteUrgencia(String fk_paciente_cpf, int nivel_triagem) {
         this.fk_paciente_cpf = fk_paciente_cpf;
