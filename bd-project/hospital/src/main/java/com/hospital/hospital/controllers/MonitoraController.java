@@ -22,7 +22,7 @@ public class MonitoraController {
     @PostMapping
     public String createMonitora(@RequestBody Monitora monitora) {
         monitoraRepository.insertMonitora(monitora);
-        return "Monitora created: " + monitora.getCpfInterno();
+        return "Monitora created: " ;
     }
 
     @DeleteMapping
@@ -36,11 +36,4 @@ public class MonitoraController {
         return monitoraRepository.selectMonitoras();
     }
 
-    @PutMapping
-    public String updateMonitora(@RequestBody Monitora monitora){
-        monitoraRepository.updateMonitora(monitora);
-        return "Monitora updated: " + monitora.getCpfInterno();
-    }
-
-    
 }

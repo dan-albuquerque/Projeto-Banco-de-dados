@@ -2,30 +2,32 @@ package com.hospital.hospital.models.relacoes;
 
 public class Monitora {
 
-    private String fk_cpf_interno;
-    private String fk_cpf_paciente;
+    private String fk_interno_cpf;
+    private String fk_paciente_cpf;
 
-    public Monitora(String fk_cpf_interno, String fk_cpf_paciente) {
-        this.fk_cpf_interno = fk_cpf_interno;
-        this.fk_cpf_paciente = fk_cpf_paciente;
+    public Monitora(String fk_interno_cpf, String fk_paciente_cpf){
+        this.fk_paciente_cpf = fk_paciente_cpf;
+        this.fk_interno_cpf = fk_interno_cpf;
     }
 
-    public Monitora() {
+    public Monitora(){
     }
 
-    public String getCpfInterno() {
-        return fk_cpf_interno;
+    public String getfk_intern_cpf(){
+        return fk_interno_cpf;
     }
 
-    public void setCpfInterno(String fk_cpf_interno) {
-        this.fk_cpf_interno = fk_cpf_interno;
+    public void setfk_intern_cpf(String fk_intern_cpfy){
+        this.fk_interno_cpf = fk_intern_cpfy;
     }
 
-    public String getCpfPaciente() {
-        return fk_cpf_paciente;
+    public String getfk_paciente_cpf(){
+        return fk_paciente_cpf;
     }
 
-    public void setCpfPaciente(String fk_cpf_paciente) {
-        this.fk_cpf_paciente = fk_cpf_paciente;
+    public void setfk_paciente_cpf(String fk_paciente_cpf){
+        this.fk_paciente_cpf = fk_paciente_cpf;
     }
+
 }
+    
