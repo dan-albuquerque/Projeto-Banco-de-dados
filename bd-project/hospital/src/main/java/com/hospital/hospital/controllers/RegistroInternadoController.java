@@ -23,7 +23,7 @@ public class RegistroInternadoController {
     @PostMapping
     public String createRegistroInternado(@RequestBody RegistroInternado registro) {
         registroInternadoRepository.insertRegistroInternado(registro);
-        return "Registro Internado criado: " + registro.getEvolucao();
+        return "Registro Internado criado: " + registro.getRegistroCodigo();
     }
 
     @GetMapping
@@ -40,7 +40,7 @@ public class RegistroInternadoController {
     public String deleteRegistroInternado(@PathVariable int fk_registro_codigo) {
         RegistroInternado registro = registroInternadoRepository.selectRegistroInternado(fk_registro_codigo);
         registroInternadoRepository.deleteRegistroInternado(registro);
-        return "Registro Internado deletado: " + registro.getEvolucao();
+        return "Registro Internado deletado: " + registro.getRegistroCodigo();
     }
 
     @PutMapping("/{fk_registro_codigo}")
