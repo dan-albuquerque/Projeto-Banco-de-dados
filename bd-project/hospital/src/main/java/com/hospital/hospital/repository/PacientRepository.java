@@ -12,20 +12,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class PacientRepository {
-
-    // this.nome = nome;
-    //     this.cpf = cpf;
-    //     this.telefone_residencial = telefone_residencial;
-    //     this.telefone_pessoal = telefone_pessoal;
-    //     this.cidade = cidade;
-    //     this.bairro = bairro;
-    //     this.rua = rua;
-    //     this.numero = numero;
     @Autowired
     private JdbcTemplate jdbcTemplate;
     
     public void insertPacient(Paciente paciente){
-        jdbcTemplate.update("insert into paciente(cpf,telefone_residencial,telefone_pessoal,cidade,bairro,rua) values(?, ?, ?, ?, ?, ?)", paciente.getCpf(), paciente.getTelefoneResidencial(), paciente.getTelefonePessoal(), paciente.getCidade(), paciente.getBairro(), paciente.getRua());
+        jdbcTemplate.update("insert into paciente(cpf,nome,telefone_residencial,cidade,bairro,rua,numero,telefone_pessoal) values(?, ?, ?, ?, ?, ?, ?,?)", paciente.getCpf(), paciente.getNome(), paciente.gettelefone_residencial(), paciente.getCidade(), paciente.getBairro(), paciente.getRua(), paciente.getNumero(), paciente.gettelefone_pessoal());
+        System.out.println(paciente);
     }
 
     public List<Paciente> selectPacients() {
@@ -37,14 +29,18 @@ public class PacientRepository {
         Paciente paciente = new Paciente();
         paciente.setNome(rs.getString("nome"));
         paciente.setCpf(rs.getString("cpf"));
-        paciente.setTelefoneResidencial(rs.getString("telefone_residencial"));
-        paciente.setTelefonePessoal(rs.getString("telefone_pessoal"));
+        paciente.settelefone_residencial(rs.getString("telefone_residencial"));
         paciente.setCidade(rs.getString("cidade"));
         paciente.setBairro(rs.getString("bairro"));
         paciente.setRua(rs.getString("rua"));
         paciente.setNumero(rs.getInt("numero"));
 
+
         return paciente;
     };
+
+    public void deletePacient(Paciente paciente){
+        jdbcTemplate.update("delete from paciente where cpf = ?", paciente.getCpf());
+    }
     
 }

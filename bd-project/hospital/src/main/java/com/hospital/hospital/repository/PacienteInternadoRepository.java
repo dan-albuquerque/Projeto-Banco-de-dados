@@ -6,6 +6,7 @@ import java.util.List;
 import com.hospital.hospital.models.pacientes.PacienteInternado;
 
 import org.springframework.jdbc.core.RowMapper;
+@Repository
 public class PacienteInternadoRepository {
 
     @Autowired
