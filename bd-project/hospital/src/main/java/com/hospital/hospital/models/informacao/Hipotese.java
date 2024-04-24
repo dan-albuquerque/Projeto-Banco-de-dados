@@ -27,6 +27,5 @@ public class Hipotese {
     public void setRegistroCodigo(int fk_registro_codigo){
         this.fk_registro_codigo = fk_registro_codigo;
     }
-
     
 }

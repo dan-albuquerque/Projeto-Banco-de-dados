@@ -3,12 +3,12 @@ package com.hospital.hospital.models.informacao;
 public class RegistroInternado {
     public int fk_registro_codigo;
     public String evolucao;
-    public String exame_fisico;
+    public String historico_exames;
 
     public RegistroInternado(int fk_registro_codigo, String evolucao, String exame_fisico){
         this.fk_registro_codigo = fk_registro_codigo;
         this.evolucao = evolucao;
-        this.exame_fisico = exame_fisico;
+        this.historico_exames = exame_fisico;
     }
 
     public RegistroInternado(){
@@ -30,12 +30,12 @@ public class RegistroInternado {
         this.evolucao = evolucao;
     }
 
-    public String getExameFisico(){
-        return exame_fisico;
+    public String getHistoricoExames(){
+        return historico_exames;
     }
 
-    public void setExameFisico(String exame_fisico){
-        this.exame_fisico = exame_fisico;
+    public void setHistoricoExames(String historico_exames){
+        this.historico_exames = historico_exames;
     }
 
     
