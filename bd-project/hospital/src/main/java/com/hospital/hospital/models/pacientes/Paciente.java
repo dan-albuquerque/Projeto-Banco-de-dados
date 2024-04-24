@@ -1,18 +1,20 @@
 package com.hospital.hospital.models.pacientes;
 
 public class Paciente {
-    private String nome, cpf, telefone_residencial, telefone_pessoal, cidade, bairro, rua;
+    private String nome, cpf, cidade, bairro, rua;
     private int numero;
+    private String telefone_residencial;
+    private String telefone_pessoal;
 
-    public Paciente(String nome, String cpf, String telefone_residencial, String telefone_pessoal, String cidade, String bairro, String rua, int numero){
+    public Paciente(String nome, String cpf, String telefone_pessoal, String cidade, String bairro, String rua, int numero, String telefone_residencial){
         this.nome = nome;
         this.cpf = cpf;
-        this.telefone_residencial = telefone_residencial;
-        this.telefone_pessoal = telefone_pessoal;
         this.cidade = cidade;
         this.bairro = bairro;
         this.rua = rua;
         this.numero = numero;
+        this.telefone_residencial = telefone_residencial; 
+        this.telefone_pessoal = telefone_pessoal;   
     }
 
     public Paciente(){
@@ -82,7 +84,13 @@ public class Paciente {
         this.numero = numero;
     }
 
+    public String gettelefone_residencial(){
+        return telefone_residencial;
+    }
 
+    public void settelefone_residencial(String telefone_residencial){
+        this.telefone_residencial = telefone_residencial;
+    }
 
     
 }

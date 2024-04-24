@@ -18,12 +18,12 @@ public class PacientRepository {
     public void insertPacient(Paciente paciente){
         System.out.println(paciente.getNome());
         System.out.println(paciente.getCpf());
-        System.out.println(paciente.getTelefoneResidencial());
         System.out.println(paciente.getTelefonePessoal());
         System.out.println(paciente.getCidade());
         System.out.println(paciente.getBairro());
         System.out.println(paciente.getRua());
         System.out.println(paciente.getNumero());
+        System.out.println(paciente.gettelefone_residencial());
         
     }
 
