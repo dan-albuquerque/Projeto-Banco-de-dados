@@ -4,6 +4,9 @@ public class Examina {
     public String fk_medico_cpf;
     public String fk_paciente_internado_cpf;
 
+    public Examina(){
+    }
+
     public Examina(String fk_medico_cpf, String fk_paciente_internado_cpf){
         this.fk_medico_cpf = fk_medico_cpf;
         this.fk_paciente_internado_cpf = fk_paciente_internado_cpf;
@@ -23,7 +26,5 @@ public class Examina {
 
     public void setPacienteInternadoCpf(String fk_paciente_internado_cpf){
         this.fk_paciente_internado_cpf = fk_paciente_internado_cpf;
-    }
-
-    
+    }   
 }

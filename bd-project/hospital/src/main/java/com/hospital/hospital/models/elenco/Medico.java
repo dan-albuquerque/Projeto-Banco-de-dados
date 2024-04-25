@@ -21,6 +21,7 @@ public Medico (String cpf, int rqe, String nome, String senha, String especialid
 }
 
 public Medico(){
+    this.fk_medico_cpf_gerente = null;
 }
 
 public String getCpf(){

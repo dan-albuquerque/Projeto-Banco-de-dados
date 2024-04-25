@@ -13,7 +13,7 @@ public class MedicoRepository {
     private JdbcTemplate jdbcTemplate;
 
     public void insertMedico(Medico medico){
-        jdbcTemplate.update("insert into medico(cpf, rqe, nome, especialidade, crm, fk_medico_cpf_gerente) values(?, ?, ?, ?, ?, ?, ?)", medico.getCpf(), medico.getRqe(), medico.getNome(), medico.getEspecialidade(), medico.getCrm(), medico.getMedicoCpfGerente());
+        jdbcTemplate.update("insert into medico(cpf, rqe, nome, especialidade, crm, fk_medico_cpf_gerente, senha) values(?, ?, ?, ?, ?, ?, ?)", medico.getCpf(), medico.getRqe(), medico.getNome(), medico.getEspecialidade(), medico.getCrm(), medico.getMedicoCpfGerente(), medico.getSenha());
     }
 
     public List<Medico> selectMedicos() {
@@ -29,7 +29,12 @@ public class MedicoRepository {
         medico.setSenha(rs.getString("senha"));
         medico.setEspecialidade(rs.getString("especialidade"));
         medico.setCrm(rs.getString("crm"));
-        medico.setMedicoCpfGerente(rs.getString("fk_medico_cpf_gerente"));
+        if(rs.getString("fk_medico_cpf_gerente") != null){
+            medico.setMedicoCpfGerente(rs.getString("fk_medico_cpf_gerente"));
+        }
+        else{
+            medico.setMedicoCpfGerente(null);
+        }
         return medico;
     };
 
@@ -37,8 +42,9 @@ public class MedicoRepository {
         jdbcTemplate.update("update medico set rqe = ?, nome = ?, senha = ?, especialidade = ?, crm = ?, fk_medico_cpf_gerente = ? where cpf = ?", medico.getRqe(), medico.getNome(), medico.getSenha(), medico.getEspecialidade(), medico.getCrm(), medico.getMedicoCpfGerente(), medico.getCpf());
     }
 
-    public void deleteMedico(Medico medico){
-        jdbcTemplate.update("delete from medico where cpf = ?", medico.getCpf());
+    public void deleteMedico(String cpf){
+        jdbcTemplate.update("UPDATE medico SET fk_medico_cpf_gerente = NULL WHERE fk_medico_cpf_gerente = ?", cpf);
+        jdbcTemplate.update("delete from medico where cpf = ?", cpf);
     }
 
     public Medico selectMedico(String cpf){

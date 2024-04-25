@@ -37,9 +37,8 @@ public class MedicoController {
 
     @DeleteMapping("/{cpf}")
     public String deleteMedico(@PathVariable String cpf) {
-        Medico medico = medicoRepository.selectMedico(cpf);
-        medicoRepository.deleteMedico(medico);
-        return medico.toString();
+        medicoRepository.deleteMedico(cpf);
+        return "Medico deletado!";
     }
 
     @PutMapping("/{cpf}")
