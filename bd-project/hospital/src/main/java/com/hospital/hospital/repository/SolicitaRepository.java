@@ -25,7 +25,7 @@ public class SolicitaRepository {
     }
 
     private RowMapper<Solicita> solicitaMapper = (rs, rowNum) -> {
-        Solicita solicita = new Solicita(null, null, rowNum);
+        Solicita solicita = new Solicita();
         solicita.setMedicoCpf(rs.getString("fk_examina_medico_cpf"));
         solicita.setPacienteInternadoCpf(rs.getString("fk_examina_paciente_internado_cpf"));
         solicita.setExameComplementarCodigo(rs.getInt("fk_exame_complementar_codigo"));

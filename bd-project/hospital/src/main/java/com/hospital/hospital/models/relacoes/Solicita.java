@@ -11,6 +11,10 @@ public class Solicita {
         this.fk_exame_complementar_codigo = fk_exame_complementar_codigo;
     }
 
+    public Solicita(){
+
+    }
+    
     public String getMedicoCpf(){
         return fk_examina_medico_cpf;
     }

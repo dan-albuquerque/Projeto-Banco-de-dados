@@ -39,4 +39,8 @@ public class HipoteseRepository {
     public Hipotese selectHipotese(int id){
         return jdbcTemplate.queryForObject("select * from hipotese where id = ?", hipoteseMapper, id);
     }
+
+    public List<Hipotese> selectHipotesesByRegistro(int fk_registro_codigo){
+        return jdbcTemplate.query("select * from hipotese where fk_registro_codigo = ?", hipoteseMapper, fk_registro_codigo);
+    }
 }

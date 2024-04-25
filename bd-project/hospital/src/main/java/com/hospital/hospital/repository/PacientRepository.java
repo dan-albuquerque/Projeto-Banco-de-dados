@@ -43,5 +43,9 @@ public class PacientRepository {
     public void deletePacient(Paciente paciente){
         jdbcTemplate.update("delete from paciente where cpf = ?", paciente.getCpf());
     }
+
+    public void updatePacient(Paciente paciente){
+        jdbcTemplate.update("update paciente set nome = ?, telefone_residencial = ?, cidade = ?, bairro = ?, rua = ?, numero = ?, telefone_pessoal = ? where cpf = ?", paciente.getNome(), paciente.gettelefone_residencial(), paciente.getCidade(), paciente.getBairro(), paciente.getRua(), paciente.getNumero(), paciente.gettelefone_pessoal(), paciente.getCpf());
+    }
     
 }
