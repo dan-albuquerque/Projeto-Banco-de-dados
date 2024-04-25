@@ -36,8 +36,4 @@ public class MonitoraRepository {
     public void updateMonitora(Monitora monitora){
         jdbcTemplate.update("update monitora set fk_cpf_interno = ? where fk_cpf_paciente = ?", monitora.getfk_intern_cpf(), monitora.getfk_paciente_cpf());
     }
-
-   
-    
-    
 }
