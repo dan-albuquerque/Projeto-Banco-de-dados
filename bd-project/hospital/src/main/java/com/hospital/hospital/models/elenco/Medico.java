@@ -88,8 +88,4 @@ public void setMedicoCpfGerente(String fk_medico_cpf_gerente){
     this.fk_medico_cpf_gerente = fk_medico_cpf_gerente;
 
 }
-
-
-
-
 }

@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.hospital.hospital.models.elenco.Medico;
 import org.springframework.jdbc.core.RowMapper;
 import java.util.List;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Repository
 public class MedicoRepository {
@@ -13,8 +14,11 @@ public class MedicoRepository {
     private JdbcTemplate jdbcTemplate;
 
     public void insertMedico(Medico medico){
-        jdbcTemplate.update("insert into medico(cpf, rqe, nome, especialidade, crm, fk_medico_cpf_gerente, senha) values(?, ?, ?, ?, ?, ?, ?)", medico.getCpf(), medico.getRqe(), medico.getNome(), medico.getEspecialidade(), medico.getCrm(), medico.getMedicoCpfGerente(), medico.getSenha());
+        String encodedPassword = new BCryptPasswordEncoder().encode(medico.getSenha());
+        jdbcTemplate.update("insert into medico(cpf, rqe, nome, especialidade, crm, fk_medico_cpf_gerente, senha) values(?, ?, ?, ?, ?, ?, ?)",
+            medico.getCpf(), medico.getRqe(), medico.getNome(), medico.getEspecialidade(), medico.getCrm(), medico.getMedicoCpfGerente(), encodedPassword);
     }
+    
 
     public List<Medico> selectMedicos() {
         return jdbcTemplate.query("SELECT * FROM medico", medicoMapper);
@@ -50,5 +54,4 @@ public class MedicoRepository {
     public Medico selectMedico(String cpf){
         return jdbcTemplate.queryForObject("select * from medico where cpf = ?", medicoMapper, cpf);
     }
-    
 }
