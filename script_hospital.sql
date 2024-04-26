@@ -84,11 +84,14 @@ create table comorbidade(
 	foreign key (fk_registro_urgencia_codigo) references registro_urgencia(fk_registro_codigo)
 );
 
+# adicionada senha
 create table medico(
 	cpf varchar(11) primary key,
 	rqe integer not null,
 	nome varchar(100) not null,
 	especialidade varchar(100) not null,
+	
+	senha varchar (200) not null
 	crm varchar(10) not null,
 	fk_medico_cpf_gerente varchar(11),
 	foreign key (fk_medico_cpf_gerente) references medico(cpf)
@@ -146,3 +149,5 @@ INSERT INTO interno (cpf, nome, senha, matricula) VALUES
 ('23456789012', 'Maria Souza', 'senha456', 1002),
 ('34567890123', 'Carlos Pereira', 'senha789', 1003);
 
+alter table medico 
+add column senha varchar(200) not null;
