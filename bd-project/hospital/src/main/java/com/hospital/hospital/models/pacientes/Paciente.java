@@ -5,6 +5,7 @@ public class Paciente {
     private int numero;
     private String telefone_residencial;
     private String telefone_pessoal;
+
     public Paciente(String nome, String cpf, String telefone_pessoal, String cidade, String bairro, String rua, int numero, String telefone_residencial, String teste, String teste2){
         this.nome = nome;
         this.cpf = cpf;

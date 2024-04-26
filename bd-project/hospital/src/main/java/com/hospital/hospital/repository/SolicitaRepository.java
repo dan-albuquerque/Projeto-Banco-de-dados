@@ -32,15 +32,15 @@ public class SolicitaRepository {
         return solicita;
     };
 
-    public void deleteSolicita(Solicita solicita) {
+    public void deleteSolicita(String medicoCpf, String pacienteInternadoCpf, int exameComplementarCodigo) {
         jdbcTemplate.update(
                 "delete from solicita where fk_examina_medico_cpf = ? and fk_examina_paciente_internado_cpf = ? and fk_exame_complementar_codigo = ?",
-                solicita.getMedicoCpf(), solicita.getPacienteInternadoCpf(), solicita.getExameComplementarCodigo());
+                medicoCpf, pacienteInternadoCpf, exameComplementarCodigo);
     }
 
-    public void updateSolicita(Solicita solicita) {
+    public void updateSolicita(String medicoCpf, String examinaPacienteInternadoCpf, int exameComplementarCodigo) {
         jdbcTemplate.update(
                 "update solicita set fk_examina_medico_cpf = ? where fk_examina_paciente_internado_cpf = ? and fk_exame_complementar_codigo = ?",
-                solicita.getMedicoCpf(), solicita.getPacienteInternadoCpf(), solicita.getExameComplementarCodigo());
+                medicoCpf, examinaPacienteInternadoCpf, exameComplementarCodigo);
     }
 }

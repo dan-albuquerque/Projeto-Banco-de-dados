@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 @Repository
 public class ComorbidadeRepository {
+    
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -44,8 +45,8 @@ public class ComorbidadeRepository {
         return jdbcTemplate.queryForObject("select * from comorbidade where id = ?", comorbidadeMapper, id);
     }
 
-    public List<Comorbidade> selectComorbidadesByRegistro(int fk_registro_urgencia_codigo){
-        return jdbcTemplate.query("select * from comorbidade where fk_registro_urgencia_codigo = ?", comorbidadeMapper, fk_registro_urgencia_codigo);
+    public Comorbidade selectComorbidadesById(int id){
+        return jdbcTemplate.queryForObject("SELECT * FROM comorbidade WHERE id = ?", comorbidadeMapper, id);
     }
     
 }

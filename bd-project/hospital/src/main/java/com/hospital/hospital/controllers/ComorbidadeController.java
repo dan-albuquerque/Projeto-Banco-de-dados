@@ -1,15 +1,12 @@
 package com.hospital.hospital.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
-
 import com.hospital.hospital.models.pacientes.Comorbidade;
 import com.hospital.hospital.repository.ComorbidadeRepository;
-
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 @RestController
 @RequestMapping("/comorbidade")
@@ -29,10 +26,21 @@ public class ComorbidadeController {
         comorbidadeRepository.deleteComorbidade(id);
         return "Comorbidade deleted! " + id;
     }
-/* 
-    @GetMapping("/{id}")
-    public Comorbidade getComorbidade(){
-        return comorbidadeRepository.selectComorbidade();
+
+    @GetMapping()
+    public List<Comorbidade> getAllComorbidade(){
+        return comorbidadeRepository.selectComorbidades();
     }
-*/
+
+    @GetMapping("/{id}")
+    public Comorbidade getComorbidadeById(@PathVariable int id){
+        return comorbidadeRepository.selectComorbidadesById(id);
+    }
+
+    @PutMapping("/{id}")
+    public String updateComorbidade(@RequestBody Comorbidade comorbidade) {
+        comorbidadeRepository.updateComorbidade(comorbidade);
+        return "Comorbidade updated: " + comorbidade.getId();
+    }
+
 }

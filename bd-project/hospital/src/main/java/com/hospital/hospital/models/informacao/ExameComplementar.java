@@ -4,13 +4,13 @@ import java.sql.Date;
 public class ExameComplementar {
     public int codigo;
     public String resultados;
-    public Date data;
+    public Date data_realizacao;
     public String tipo;
 
-    public ExameComplementar(int codigo, String resultados, Date data, String tipo){
+    public ExameComplementar(int codigo, String resultados, Date data_realizacao, String tipo){
         this.codigo = codigo;
         this.resultados = resultados;
-        this.data = data;
+        this.data_realizacao = data_realizacao;
         this.tipo = tipo;
     }
 
@@ -33,12 +33,12 @@ public class ExameComplementar {
         this.resultados = resultados;
     }
 
-    public Date getData(){
-        return data;
+    public Date getData_realizacao(){
+        return data_realizacao;
     }
 
-    public void setData(Date data){
-        this.data = data;
+    public void setData_realizacao(Date data_realizacao){
+        this.data_realizacao = data_realizacao;
     }
 
     public String getTipo(){
@@ -47,8 +47,5 @@ public class ExameComplementar {
 
     public void setTipo(String tipo){
         this.tipo = tipo;
-    }
-
-
-    
+    }   
 }

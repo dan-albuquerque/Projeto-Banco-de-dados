@@ -1,7 +1,5 @@
 package com.hospital.hospital.controllers;
 
-import org.springframework.web.bind.annotation.RestController;
-
 import com.hospital.hospital.models.relacoes.Solicita;
 import com.hospital.hospital.repository.SolicitaRepository;
 
@@ -20,17 +18,27 @@ public class SolicitaController {
     @PostMapping
     public String createSolicita(@RequestBody Solicita solicita) {
         solicitaRepository.insertSolicita(solicita); 
-        return "Solicita created: ";
+        return "Solicita created! ";
     }
 
     @DeleteMapping
-    public String deleteSolicita(@RequestBody Solicita solicita){
-        solicitaRepository.deleteSolicita(solicita);
-        return "Solicita deleted! ";
+    public String deleteSolicita(@RequestBody Solicita solicita) {
+        solicitaRepository.deleteSolicita(solicita.getMedicoCpf(), solicita.getPacienteInternadoCpf(), solicita.getExameComplementarCodigo());
+        return "Solicita deleted: " + solicita.getMedicoCpf() + " " + solicita.getPacienteInternadoCpf() + " " + solicita.getExameComplementarCodigo();
     }
 
     @GetMapping
     public List<Solicita> getAllSolicitas() {
         return solicitaRepository.selectSolicitas();
+    }
+
+    @PutMapping
+    public String updateSolicita(@PathVariable String examinaMedicoCpf, 
+                                @PathVariable String examinaPacienteInternadoCpf, 
+                                @PathVariable int exameComplementarCodigo,
+                                @RequestBody Solicita solicita) {
+
+        solicitaRepository.updateSolicita(examinaMedicoCpf, examinaPacienteInternadoCpf, exameComplementarCodigo);
+        return "Solicita updated: " + solicita.getMedicoCpf() + " " + solicita.getPacienteInternadoCpf() + " " + solicita.getExameComplementarCodigo();
     }
 }
