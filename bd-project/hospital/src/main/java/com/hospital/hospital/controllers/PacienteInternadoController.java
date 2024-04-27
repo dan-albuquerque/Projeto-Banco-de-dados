@@ -25,23 +25,22 @@ public class PacienteInternadoController {
         return "Paciente Internado created: " + pacienteInternado.getfk_paciente_cpf();
     }
 
-    @DeleteMapping
-    public String deletePacienteInternado(@RequestBody PacienteInternado pacienteInternado){
-        pacienteInternadoRepository.deletePacienteInternado(pacienteInternado);
-        return "Paciente Internado deleted! " + pacienteInternado.getfk_paciente_cpf();
+    @DeleteMapping("/{cpf}")
+    public String deletePacienteInternado(@PathVariable String cpf) {
+        pacienteInternadoRepository.deletePacienteInternado(cpf);
+        return "Paciente Internado deleted: " + cpf;
     }
-
+    
     @GetMapping
     public List<PacienteInternado> getAllPacientesInternados() {
         return pacienteInternadoRepository.selectPacientesInternados();
     }
 
-    @PutMapping
-    public String updatePacienteInternado(@RequestBody PacienteInternado pacienteInternado){
-        pacienteInternadoRepository.updatePacienteInternado(pacienteInternado);
+    @PutMapping("/{cpf}")
+    public String updatePacienteInternado(@PathVariable String cpf, @RequestBody PacienteInternado pacienteInternado) {
+        pacienteInternadoRepository.updatePacienteInternado(cpf, pacienteInternado);
         return "Paciente Internado updated: " + pacienteInternado.getfk_paciente_cpf();
     }
-
     @GetMapping("/{cpf}")
     public PacienteInternado getPacienteInternado(@PathVariable String cpf){
         return pacienteInternadoRepository.selectPacienteInternado(cpf);

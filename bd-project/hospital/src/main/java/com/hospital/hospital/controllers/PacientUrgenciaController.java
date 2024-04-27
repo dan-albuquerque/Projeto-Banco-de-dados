@@ -25,21 +25,20 @@ public class PacientUrgenciaController {
         return "Pacient created: " + paciente.getPacienteCpf();
     }
 
-    @DeleteMapping
-    public String deletePacient(@RequestBody PacienteUrgencia paciente){
-        pacientRepository.deletePacient(paciente);
-        return "Pacient deleted! ";
+    @DeleteMapping("/{cpf}")
+    public String deletePacient(@PathVariable String cpf) {
+        pacientRepository.deletePacient(cpf);
+        return "Pacient deleted: " + cpf;
     }
-
     @GetMapping
     public List<PacienteUrgencia> getAllPacients() {
         return pacientRepository.selectPacients();
     }
 
-    @PutMapping
-    public String updatePacient(@RequestBody PacienteUrgencia paciente){
-        pacientRepository.updatePacient(paciente);
-        return "Pacient updated: " + paciente.getPacienteCpf();
+    @PutMapping("/{cpf}")
+    public String updatePacient(@PathVariable String cpf, @RequestBody PacienteUrgencia paciente) {
+        pacientRepository.updatePacient(cpf, paciente);
+        return "Pacient updated: " + cpf;
     }
 
     @GetMapping("/{cpf}")

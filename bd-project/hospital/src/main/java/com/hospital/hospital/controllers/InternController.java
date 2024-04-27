@@ -19,26 +19,26 @@ public class InternController {
         return "Intern created: " + interno.getNome();
     }
 
-    @DeleteMapping
-    public String deleteIntern(@RequestBody Interno interno){
-        internRepository.deleteIntern(interno);
-        return "Intern deleted! ";
-    }
-
     @GetMapping
     public List<Interno> getAllInterns() {
         return internRepository.selectInterns();
     }
 
-    @PutMapping
-    public String updateIntern(@RequestBody Interno interno){
-        internRepository.updateIntern(interno);
+    @PutMapping("/{cpf}")
+    public String updateIntern(@PathVariable String cpf, @RequestBody Interno interno) {
+        internRepository.updateIntern(cpf, interno);  // Note: Using path variable 'cpf' directly.
         return "Intern updated: " + interno.getNome();
     }
 
     @GetMapping("/{cpf}")
     public Interno getIntern(@PathVariable String cpf){
         return internRepository.selectIntern(cpf);
+    }
+
+    @DeleteMapping("/{cpf}")
+    public String deleteIntern(@PathVariable String cpf){
+        internRepository.deleteIntern(cpf);
+        return "Intern deleted: " + cpf;
     }
 
    

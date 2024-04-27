@@ -29,14 +29,18 @@ public class PacienteInternadoRepository {
         return pacienteInternado;
     };
 
-    public void deletePacienteInternado(PacienteInternado pacienteInternado){
-        jdbcTemplate.update("delete from paciente_internado where fk_paciente_cpf = ?");
-    }
-    
-    public void updatePacienteInternado(PacienteInternado pacienteInternado){
-        jdbcTemplate.update("update paciente_internado set sala = ? where fk_paciente_cpf = ?", pacienteInternado.getSala());
+    public void deletePacienteInternado(String cpf) {
+        jdbcTemplate.update("delete from paciente_internado where fk_paciente_cpf = ?", cpf);
     }
 
+    
+    public void updatePacienteInternado(String cpf, PacienteInternado pacienteInternado) {
+        jdbcTemplate.update(
+            "update paciente_internado set sala = ? where fk_paciente_cpf = ?",
+            pacienteInternado.getSala(),
+            cpf
+        );
+    }
     public PacienteInternado selectPacienteInternado(String cpf){
         return jdbcTemplate.queryForObject("select * from paciente_internado where fk_paciente_cpf = ?", pacienteInternadoMapper, cpf);
     }

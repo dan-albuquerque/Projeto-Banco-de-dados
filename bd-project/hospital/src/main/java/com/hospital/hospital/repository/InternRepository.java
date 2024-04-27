@@ -31,12 +31,18 @@ public class InternRepository {
         return interno;
     };
 
-    public void updateIntern(Interno interno){
-        jdbcTemplate.update("update interno set nome = ?, senha = ?, matricula = ? where cpf = ?", interno.getNome(), interno.getSenha(), interno.getMatricula(), interno.getCpf());
-    }
+   public void updateIntern(String cpf, Interno interno) {
+    jdbcTemplate.update(
+        "update interno set nome = ?, senha = ?, matricula = ? where cpf = ?",
+        interno.getNome(),
+        interno.getSenha(),
+        interno.getMatricula(),
+        cpf 
+    );
+}
 
-    public void deleteIntern(Interno interno){
-        jdbcTemplate.update("delete from interno where cpf = ?", interno.getCpf());
+    public void deleteIntern(String cpf) {
+        jdbcTemplate.update("delete from interno where cpf = ?", cpf);
     }
 
     public Interno selectIntern(String cpf){

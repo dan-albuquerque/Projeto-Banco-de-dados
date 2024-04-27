@@ -1,15 +1,9 @@
 package com.hospital.hospital.controllers;
-
 import org.springframework.web.bind.annotation.RestController;
-
 import com.hospital.hospital.models.relacoes.Monitora;
-
 import com.hospital.hospital.repository.MonitoraRepository;
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,21 +19,20 @@ public class MonitoraController {
         return "Monitora created: " ;
     }
 
-    @DeleteMapping
-    public String deleteMonitora(@RequestBody Monitora monitora){
-        monitoraRepository.deleteMonitora(monitora);
-        return "Monitora deleted! ";
+    @DeleteMapping("/{fk_cpf_interno}/{fk_cpf_paciente}")
+    public String deleteMonitora(@PathVariable String fk_cpf_interno, @PathVariable String fk_cpf_paciente){
+        monitoraRepository.deleteMonitora(fk_cpf_interno, fk_cpf_paciente);
+        return "Monitora deleted: ";
     }
-
     @GetMapping
     public List<Monitora> getAllMonitoras() {
         return monitoraRepository.selectMonitoras();
     }
 
-    @PutMapping
-    public String updateMonitora(@RequestBody Monitora monitora){
-        monitoraRepository.updateMonitora(monitora);
-        return "Monitora updated!";
+    @PutMapping("/{fk_cpf_interno}")
+    public String updateMonitora(@PathVariable String fk_cpf_interno, @RequestBody Monitora monitora) {
+        monitoraRepository.updateMonitora(fk_cpf_interno, monitora);
+        return "Monitora updated: ";
     }
 
     @GetMapping("/{fk_cpf_interno}/{fk_cpf_paciente}")

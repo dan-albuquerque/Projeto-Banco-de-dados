@@ -14,7 +14,7 @@ public class MonitoraRepository {
     private JdbcTemplate jdbcTemplate;
     
     public void insertMonitora(Monitora monitora){
-        jdbcTemplate.update("insert into monitora(fk_cpf_interno,fk_cpf_paciente) values(?, ?)", monitora.getfk_intern_cpf(), monitora.getfk_paciente_cpf());
+        jdbcTemplate.update("insert into monitora(fk_cpf_interno, fk_cpf_paciente) values(?, ?)", monitora.getfk_interno_cpf(), monitora.getfk_paciente_cpf());
     }
 
     public List<Monitora> selectMonitoras() {
@@ -24,17 +24,22 @@ public class MonitoraRepository {
     private RowMapper<Monitora> monitoraMapper = (rs, rowNum) ->
     {
         Monitora monitora = new Monitora();
-        monitora.setfk_intern_cpf(rs.getString("fk_cpf_interno"));
         monitora.setfk_paciente_cpf(rs.getString("fk_cpf_paciente"));
+        monitora.setfk_interno_cpf(rs.getString("fk_cpf_interno"));
         return monitora;
     };
 
-    public void deleteMonitora(Monitora monitora){
-        jdbcTemplate.update("delete from monitora where fk_cpf_interno = ? and fk_cpf_paciente = ?", monitora.getfk_intern_cpf(), monitora.getfk_paciente_cpf());
+    public void deleteMonitora(String fk_cpf_interno, String fk_cpf_paciente) {
+        jdbcTemplate.update("delete from monitora where fk_cpf_interno = ? and fk_cpf_paciente = ?", fk_cpf_interno, fk_cpf_paciente);
     }
 
-    public void updateMonitora(Monitora monitora){
-        jdbcTemplate.update("update monitora set fk_cpf_interno = ? where fk_cpf_paciente = ?", monitora.getfk_intern_cpf(), monitora.getfk_paciente_cpf());
+    public void updateMonitora(String fk_cpf_interno, Monitora monitora){
+        jdbcTemplate.update(
+            "update monitora set fk_cpf_paciente = ? where fk_cpf_interno = ?",
+            monitora.getfk_paciente_cpf(),
+            fk_cpf_interno
+        );
+      
     }
 
     public Monitora selectMonitora(String fk_cpf_interno, String fk_cpf_paciente){

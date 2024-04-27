@@ -25,10 +25,10 @@ public class PacientController {
         return "Pacient created: " + paciente.getNome();
     }
 
-    @DeleteMapping
-    public String deletePacient(@RequestBody Paciente paciente){
-        pacientRepository.deletePacient(paciente);
-        return "Pacient deleted! ";
+    @DeleteMapping("/{cpf}")
+    public String deletePacient(@PathVariable String cpf){
+        pacientRepository.deletePacient(cpf);
+        return "Pacient deleted: " + cpf;
     }
 
     @GetMapping
@@ -36,10 +36,10 @@ public class PacientController {
         return pacientRepository.selectPacients();
     }
 
-    @PutMapping
-    public String updatePacient(@RequestBody Paciente paciente){
-        pacientRepository.updatePacient(paciente);
-        return "Pacient updated!";
+    @PutMapping("/{cpf}")
+    public String updatePacient(@PathVariable String cpf, @RequestBody Paciente paciente) {
+        pacientRepository.updatePacient(cpf, paciente);  // Note: Using path variable 'cpf' directly.
+        return "Pacient updated: " + paciente.getNome();
     }
 
     @GetMapping("/{cpf}")

@@ -33,14 +33,14 @@ public class PacienteUrgenciaRepository {
         return paciente;
     };
 
-    public void deletePacient(PacienteUrgencia paciente){
-        jdbcTemplate.update("delete from paciente_urgencia where fk_paciente_cpf = ?", paciente.getPacienteCpf());
+    public void deletePacient(String cpf){
+        jdbcTemplate.update("delete from paciente_urgencia where fk_paciente_cpf = ?", cpf);
     }
 
-    public void updatePacient(PacienteUrgencia paciente){
-        jdbcTemplate.update("update paciente_urgencia set nivel_triagem = ? where fk_paciente_cpf = ?", paciente.getNivelTriagem(), paciente.getPacienteCpf());
+    public void updatePacient(String cpf, PacienteUrgencia paciente){
+        jdbcTemplate.update("update paciente_urgencia set nivel_triagem = ? where fk_paciente_cpf = ?", paciente.getNivelTriagem(), cpf);
     }
-
+    
     public PacienteUrgencia selectPacient(String cpf){
         return jdbcTemplate.queryForObject("select * from paciente_urgencia where fk_paciente_cpf = ?", pacienteMapper, cpf);
     }
