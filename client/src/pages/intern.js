@@ -1,4 +1,5 @@
 import React from 'react';
+import "../app/globals.css";
 
 export async function getServerSideProps(context) {
     const res = await fetch(`http://localhost:8080/intern`)
@@ -20,7 +21,7 @@ export async function getServerSideProps(context) {
 export default function Interns({ interns }) {
     return (
       <div>
-        <h1>Interns List</h1>
+        <h1 className='text-red-500'>Interns List</h1>
         <ul>
           {interns.map((intern) => (
             <li key={intern.cpf}>
