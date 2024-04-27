@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas</title>
+</head>
+<body>
+    <h2>Criando consulta de urgência</h2>
+    <form id="registroForm">
+        <div>
+            <label>Codigo:</label>
+            <input type="number" id="codigo" required>
+        </div>
+        <div>
+            <label>Conduta:</label>
+            <input type="text" id="conduta" required>
+        </div>
+        <div>
+            <label>Histórico doença:</label>
+            <input type="text" id="historico_doenca" required>
+        </div>
+        <div>
+            <label>Exame físico:</label>
+            <input type="text" id="exame_fisico" required>
+        </div>
+        <div>
+            <label>Paciente:</label>
+            <input type="text" id="paciente_cpf" required>
+        </div>
+        <div>
+            <label>Data realização:</label>
+            <input type="date" id="data_realizacao" required>
+        </div>
+        <div>
+            <button type="submit">Gerar registro</button>
+        </div>
+    </form>
+    <script src="/js/submitForm.js"></script>
+</body>
+</html>

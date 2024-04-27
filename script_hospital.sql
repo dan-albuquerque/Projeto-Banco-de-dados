@@ -151,3 +151,28 @@ INSERT INTO interno (cpf, nome, senha, matricula) VALUES
 
 alter table medico 
 add column senha varchar(200) not null;
+
+INSERT INTO registro (codigo, conduta) VALUES
+(1, 'Prescrever medicação'),
+(2, 'Encaminhar para especialista'),
+(3, 'Realizar exames adicionais');
+
+INSERT INTO registro_urgencia (fk_registro_codigo, historico_doenca, exame_fisico) VALUES
+(1, 'Histórico de diabetes', 'Exame físico normal'),
+(2, 'Dor abdominal recorrente', 'Sinais vitais estáveis'),
+(3, 'Cefaleia frequente', 'Pressão arterial elevada');
+
+INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES
+('12345678901', 'João Silva', '3132123456', '31987654321', 'Belo Horizonte', 'Centro', 'Rua Floresta', 100),
+('23456789012', 'Maria Oliveira', '2123456789', '21987654321', 'Rio de Janeiro', 'Copacabana', 'Av Atlântica', 321),
+('34567890123', 'Carlos Souza', '1134567890', '11987654321', 'São Paulo', 'Jardins', 'Alameda Santos', 213);
+
+INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES
+('12345678901', 3),
+('23456789012', 2),
+('34567890123', 1);
+
+INSERT INTO consulta_urgencia (fk_registro_urgencia_codigo, fk_medico_cpf, fk_paciente_urgencia_cpf, data_realizacao) VALUES
+(1, '98765432101', '12345678901', '2024-04-27'),
+(2, '87654321012', '12345678901', '2024-04-28'),
+(3, '76543210923', '12345678901', '2024-04-29');

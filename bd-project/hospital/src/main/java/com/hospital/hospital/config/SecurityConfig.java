@@ -29,12 +29,12 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/medico/**").permitAll()
-                .requestMatchers("/hello").authenticated()
+                .requestMatchers("js/**", "css/**", "images/**").permitAll()
+                .requestMatchers("/hello", "/consulta", "/user").authenticated()
                 .anyRequest().permitAll())
             .formLogin(form -> form
-                .loginPage("/login1") // Caminho para a página de login
-                .loginProcessingUrl("/login1") // URL que vai processar o login
+                .loginPage("/login") // Caminho para a página de login
+                .loginProcessingUrl("/login") // URL que vai processar o login
                 .defaultSuccessUrl("/hello", true) // Página para redirecionar após login com sucesso
                 .permitAll())
             .logout(logout -> logout.permitAll());
