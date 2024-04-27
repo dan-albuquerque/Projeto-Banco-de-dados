@@ -36,6 +36,11 @@ public class InternController {
         return "Intern updated: " + interno.getNome();
     }
 
+    @GetMapping("/{cpf}")
+    public Interno getIntern(@PathVariable String cpf){
+        return internRepository.selectIntern(cpf);
+    }
+
    
 
 }

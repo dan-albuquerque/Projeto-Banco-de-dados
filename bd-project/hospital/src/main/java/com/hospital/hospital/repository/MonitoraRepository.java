@@ -36,4 +36,8 @@ public class MonitoraRepository {
     public void updateMonitora(Monitora monitora){
         jdbcTemplate.update("update monitora set fk_cpf_interno = ? where fk_cpf_paciente = ?", monitora.getfk_intern_cpf(), monitora.getfk_paciente_cpf());
     }
+
+    public Monitora selectMonitora(String fk_cpf_interno, String fk_cpf_paciente){
+        return jdbcTemplate.queryForObject("select * from monitora where fk_cpf_interno = ? and fk_cpf_paciente = ?", monitoraMapper, fk_cpf_interno, fk_cpf_paciente);
+    }
 }

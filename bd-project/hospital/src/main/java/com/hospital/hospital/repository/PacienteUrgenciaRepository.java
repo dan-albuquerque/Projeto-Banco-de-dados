@@ -41,5 +41,8 @@ public class PacienteUrgenciaRepository {
         jdbcTemplate.update("update paciente_urgencia set nivel_triagem = ? where fk_paciente_cpf = ?", paciente.getNivelTriagem(), paciente.getPacienteCpf());
     }
 
+    public PacienteUrgencia selectPacient(String cpf){
+        return jdbcTemplate.queryForObject("select * from paciente_urgencia where fk_paciente_cpf = ?", pacienteMapper, cpf);
+    }
     
 }

@@ -42,5 +42,11 @@ public class PacientController {
         return "Pacient updated!";
     }
 
+    @GetMapping("/{cpf}")
+    public Paciente getPacient(@PathVariable String cpf){
+        return pacientRepository.selectPacient(cpf);
+    }
+    
+
 
 }

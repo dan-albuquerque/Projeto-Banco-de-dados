@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.hospital.hospital.models.elenco.Interno;
-
 import org.springframework.jdbc.core.RowMapper;
 
 @Repository
@@ -38,6 +37,10 @@ public class InternRepository {
 
     public void deleteIntern(Interno interno){
         jdbcTemplate.update("delete from interno where cpf = ?", interno.getCpf());
+    }
+
+    public Interno selectIntern(String cpf){
+        return jdbcTemplate.queryForObject("select * from interno where cpf = ?", internoMapper, cpf);
     }
 
 }

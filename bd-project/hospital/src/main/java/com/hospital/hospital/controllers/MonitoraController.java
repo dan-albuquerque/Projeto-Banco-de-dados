@@ -36,4 +36,15 @@ public class MonitoraController {
         return monitoraRepository.selectMonitoras();
     }
 
+    @PutMapping
+    public String updateMonitora(@RequestBody Monitora monitora){
+        monitoraRepository.updateMonitora(monitora);
+        return "Monitora updated!";
+    }
+
+    @GetMapping("/{fk_cpf_interno}/{fk_cpf_paciente}")
+    public Monitora getMonitora(@PathVariable String fk_cpf_interno, @PathVariable String fk_cpf_paciente){
+        return monitoraRepository.selectMonitora(fk_cpf_interno, fk_cpf_paciente);
+    }
+
 }

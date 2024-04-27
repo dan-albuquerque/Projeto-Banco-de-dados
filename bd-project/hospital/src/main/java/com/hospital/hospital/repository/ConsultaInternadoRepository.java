@@ -44,5 +44,9 @@ public class ConsultaInternadoRepository {
             jdbcTemplate.update("UPDATE consulta_internado SET data_realizacao = ? WHERE fk_medico_cpf = ? AND fk_paciente_internado_cpf = ?",
                 consultaInternado.getDataRealizacao(), consultaInternado.getMedicoCpf(), consultaInternado.getPacienteInternadoCpf());
         }
+
+        public ConsultaInternado selectConsultaInternado(String fk_medico_cpf, String fk_paciente_internado_cpf, java.sql.Date data_realizacao) {
+            return jdbcTemplate.queryForObject("SELECT * FROM consulta_internado WHERE fk_medico_cpf = ? AND fk_paciente_internado_cpf = ? AND data_realizacao = ?", consultaInternadoMapper, fk_medico_cpf, fk_paciente_internado_cpf, data_realizacao);
+        }
     }
         

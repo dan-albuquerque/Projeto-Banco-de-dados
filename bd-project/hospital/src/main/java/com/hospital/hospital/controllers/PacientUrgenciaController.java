@@ -41,4 +41,9 @@ public class PacientUrgenciaController {
         pacientRepository.updatePacient(paciente);
         return "Pacient updated: " + paciente.getPacienteCpf();
     }
+
+    @GetMapping("/{cpf}")
+    public PacienteUrgencia getPacient(@PathVariable String cpf){
+        return pacientRepository.selectPacient(cpf);
+    }
 }

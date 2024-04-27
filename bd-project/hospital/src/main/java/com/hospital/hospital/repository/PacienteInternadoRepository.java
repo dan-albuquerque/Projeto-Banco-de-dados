@@ -27,5 +27,17 @@ public class PacienteInternadoRepository {
         pacienteInternado.setSala(rs.getInt("sala"));
         return pacienteInternado;
     };
+
+    public void deletePacienteInternado(PacienteInternado pacienteInternado){
+        jdbcTemplate.update("delete from paciente_internado where fk_paciente_cpf = ?", pacienteInternado.getPacienteCpf());
+    }
+    
+    public void updatePacienteInternado(PacienteInternado pacienteInternado){
+        jdbcTemplate.update("update paciente_internado set sala = ? where fk_paciente_cpf = ?", pacienteInternado.getSala(), pacienteInternado.getPacienteCpf());
+    }
+
+    public PacienteInternado selectPacienteInternado(String cpf){
+        return jdbcTemplate.queryForObject("select * from paciente_internado where fk_paciente_cpf = ?", pacienteInternadoMapper, cpf);
+    }
     
 }
