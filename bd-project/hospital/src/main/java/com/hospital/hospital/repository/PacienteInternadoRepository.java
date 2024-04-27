@@ -13,7 +13,8 @@ public class PacienteInternadoRepository {
     private JdbcTemplate jdbcTemplate;
     
     public void insertPacienteInternado(PacienteInternado pacienteInternado){
-        jdbcTemplate.update("insert into paciente_internado(sala, fk_paciente_cpf) values(?, ?)", pacienteInternado.getSala(), pacienteInternado.getPacienteCpf());
+        jdbcTemplate.update("insert into paciente_internado(fk_paciente_cpf, sala) values(?, ?)", pacienteInternado.getfk_paciente_cpf(), pacienteInternado.getSala());
+           
     }
 
     public List<PacienteInternado> selectPacientesInternados() {
@@ -23,17 +24,17 @@ public class PacienteInternadoRepository {
     private RowMapper<PacienteInternado> pacienteInternadoMapper = (rs, rowNum) ->
     {
         PacienteInternado pacienteInternado = new PacienteInternado();
-        pacienteInternado.setPacienteCpf(rs.getString("fk_paciente_cpf"));
         pacienteInternado.setSala(rs.getInt("sala"));
+        pacienteInternado.setfk_paciente_cpf(rs.getString("fk_paciente_cpf"));
         return pacienteInternado;
     };
 
     public void deletePacienteInternado(PacienteInternado pacienteInternado){
-        jdbcTemplate.update("delete from paciente_internado where fk_paciente_cpf = ?", pacienteInternado.getPacienteCpf());
+        jdbcTemplate.update("delete from paciente_internado where fk_paciente_cpf = ?");
     }
     
     public void updatePacienteInternado(PacienteInternado pacienteInternado){
-        jdbcTemplate.update("update paciente_internado set sala = ? where fk_paciente_cpf = ?", pacienteInternado.getSala(), pacienteInternado.getPacienteCpf());
+        jdbcTemplate.update("update paciente_internado set sala = ? where fk_paciente_cpf = ?", pacienteInternado.getSala());
     }
 
     public PacienteInternado selectPacienteInternado(String cpf){

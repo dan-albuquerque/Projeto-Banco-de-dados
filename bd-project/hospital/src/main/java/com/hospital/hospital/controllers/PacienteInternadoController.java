@@ -22,13 +22,13 @@ public class PacienteInternadoController {
     @PostMapping
     public String createPacienteInternado(@RequestBody PacienteInternado pacienteInternado) {
         pacienteInternadoRepository.insertPacienteInternado(pacienteInternado);
-        return "Paciente Internado created: " + pacienteInternado.getPacienteCpf();
+        return "Paciente Internado created: " + pacienteInternado.getfk_paciente_cpf();
     }
 
     @DeleteMapping
     public String deletePacienteInternado(@RequestBody PacienteInternado pacienteInternado){
         pacienteInternadoRepository.deletePacienteInternado(pacienteInternado);
-        return "Paciente Internado deleted! ";
+        return "Paciente Internado deleted! " + pacienteInternado.getfk_paciente_cpf();
     }
 
     @GetMapping
@@ -39,7 +39,7 @@ public class PacienteInternadoController {
     @PutMapping
     public String updatePacienteInternado(@RequestBody PacienteInternado pacienteInternado){
         pacienteInternadoRepository.updatePacienteInternado(pacienteInternado);
-        return "Paciente Internado updated: " + pacienteInternado.getPacienteCpf();
+        return "Paciente Internado updated: " + pacienteInternado.getfk_paciente_cpf();
     }
 
     @GetMapping("/{cpf}")
