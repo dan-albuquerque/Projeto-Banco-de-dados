@@ -14,7 +14,7 @@ e-Hospital is a robust hospital management system designed to streamline hospita
 
 - **Backend**: Spring Boot
 - **Database**: SQL Commands using MySQL
-- **Frontend**: React with Tailwind CSS and React Router
+- **Frontend**: React with Tailwind CSS and Next.js for routes
 - **Authentication**: Integrated user authentication system
 
 ## Getting Started
