@@ -17,8 +17,8 @@ import com.hospital.hospital.repository.MedicacaoRepository;
 @RestController
 @RequestMapping("/medicacao")
 public class MedicacaoController {
+    
     @Autowired
-
     private MedicacaoRepository medicacaoRepository;
 
     @PostMapping

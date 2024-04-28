@@ -25,8 +25,14 @@ public class ConsultaUrgenciaRepository {
         return jdbcTemplate.query("SELECT * FROM consulta_urgencia", consultaUrgenciaMapper);
     }
 
-    public ConsultaUrgencia selectConsultaUrgencia(int fk_registro_urgencia_codigo, String fk_medico_cpf, String fk_paciente_urgencia_cpf) {
-        return jdbcTemplate.queryForObject("SELECT * FROM consulta_urgencia WHERE fk_registro_urgencia_codigo = ? AND fk_medico_cpf = ? AND fk_paciente_urgencia_cpf = ?", consultaUrgenciaMapper, fk_registro_urgencia_codigo, fk_medico_cpf, fk_paciente_urgencia_cpf);
+    public ConsultaUrgencia selectConsultaUrgencia(int fk_registro_urgencia_codigo, 
+                                                   String fk_medico_cpf, 
+                                                   String fk_paciente_urgencia_cpf) {
+        return jdbcTemplate.queryForObject("SELECT * FROM consulta_urgencia WHERE fk_registro_urgencia_codigo = ? AND fk_medico_cpf = ? AND fk_paciente_urgencia_cpf = ?", 
+                                           consultaUrgenciaMapper, 
+                                           fk_registro_urgencia_codigo, 
+                                           fk_medico_cpf, 
+                                           fk_paciente_urgencia_cpf);
     }
 
     private RowMapper<ConsultaUrgencia> consultaUrgenciaMapper = (rs, rowNum) -> {
@@ -39,16 +45,23 @@ public class ConsultaUrgenciaRepository {
         return consultaUrgencia;
     };
 
-    public void deleteConsultaUrgencia(int fk_registro_urgencia_codigo, String fk_medico_cpf, String fk_paciente_urgencia_cpf) {
-        jdbcTemplate.update("DELETE FROM consulta_urgencia WHERE fk_registro_urgencia_codigo = ? AND fk_medico_cpf = ? AND fk_paciente_urgencia_cpf = ?", fk_registro_urgencia_codigo, fk_medico_cpf, fk_paciente_urgencia_cpf);
+    public void deleteConsultaUrgencia(int fk_registro_urgencia_codigo, 
+                                       String fk_medico_cpf, 
+                                       String fk_paciente_urgencia_cpf) {
+        jdbcTemplate.update("DELETE FROM consulta_urgencia WHERE fk_registro_urgencia_codigo = ? AND fk_medico_cpf = ? AND fk_paciente_urgencia_cpf = ?", 
+                            fk_registro_urgencia_codigo, 
+                            fk_medico_cpf, 
+                            fk_paciente_urgencia_cpf);
     }
 
-    //so da pra alterar a data?
-    public void updateConsultaUrgencia(ConsultaUrgencia consultaUrgencia) {
+    //so pode alterar a data?
+    public void updateConsultaUrgencia(int fk_registro_urgencia_codigo, String fk_medico_cpf, 
+                                       String fk_paciente_urgencia_cpf, 
+                                       ConsultaUrgencia consultaUrgencia) {
         jdbcTemplate.update("UPDATE consulta_urgencia SET data_realizacao = ? WHERE fk_medico_cpf = ? AND fk_paciente_urgencia_cpf = ? AND fk_registro_urgencia_codigo = ?",
-                            consultaUrgencia.getDataRealizacao(),
-                            consultaUrgencia.getMedicoCpf(),
-                            consultaUrgencia.getPacienteUrgenciaCpf(),
-                            consultaUrgencia.getRegistroUrgenciaCodigo());
-    }
+                            consultaUrgencia.getDataRealizacao(), 
+                            fk_medico_cpf, 
+                            fk_paciente_urgencia_cpf, 
+                            fk_registro_urgencia_codigo);
+    }  
 }

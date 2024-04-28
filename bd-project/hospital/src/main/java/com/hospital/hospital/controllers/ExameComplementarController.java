@@ -44,9 +44,10 @@ public class ExameComplementarController {
         return exameComplementarRepository.selectExameComplementarByCodigo(codigo);
     }
 
-    @PutMapping
-    public String updateExameComplementar(@RequestBody ExameComplementar exameComplementar){
-        exameComplementarRepository.updateExameComplementar(exameComplementar);
-        return "ExameComplementar updated: " + exameComplementar.getCodigo();
+    @PutMapping("/{codigo}")
+    public String updateExameComplementar(@PathVariable int codigo, @RequestBody ExameComplementar exameComplementar){
+        exameComplementarRepository.updateExameComplementar(exameComplementar, codigo);
+        return "ExameComplementar updated: " + codigo;
     }
+
 }

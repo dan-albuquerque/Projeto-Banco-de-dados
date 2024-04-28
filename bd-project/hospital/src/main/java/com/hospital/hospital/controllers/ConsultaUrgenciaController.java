@@ -17,30 +17,35 @@ public class ConsultaUrgenciaController {
     private ConsultaUrgenciaRepository consultaUrgenciaRepository;
 
     @PostMapping
-    public String createComorbidade(@RequestBody ConsultaUrgencia consultaUrgencia) {
+    public String createConsultaUrgencia(@RequestBody ConsultaUrgencia consultaUrgencia){
         consultaUrgenciaRepository.insertConsultaUrgencia(consultaUrgencia);
-        return "Comorbidade created: " + consultaUrgencia.getRegistroUrgenciaCodigo();
+        return "ConsultaUrgencia added!" + consultaUrgencia.getDataRealizacao() + " " + 
+                consultaUrgencia.getRegistroUrgenciaCodigo() + " " + 
+                consultaUrgencia.getMedicoCpf() + " " + 
+                consultaUrgencia.getPacienteUrgenciaCpf();
     }
 
-    @DeleteMapping("/{id}/{cpfMedico}/{cpfPaciente}")
-    public String deleteComorbidade(@PathVariable int id, @PathVariable String cpfMedico, @PathVariable String cpfPaciente){
-        consultaUrgenciaRepository.deleteConsultaUrgencia(id, cpfMedico, cpfPaciente);
-        return "Comorbidade deleted! " + id;
+    @DeleteMapping("/{codigo}/{cpfMedico}/{cpfPaciente}")
+    public String deleteConsultaUrgencia(@PathVariable int codigo, @PathVariable String cpfMedico, @PathVariable String cpfPaciente){
+        consultaUrgenciaRepository.deleteConsultaUrgencia(codigo, cpfMedico, cpfPaciente);
+        return "ConsultaUrgencia deleted: " + codigo + " " + cpfMedico + " " + cpfPaciente;
     }
 
     @GetMapping()
-    public List<ConsultaUrgencia> getUrgencias(){
+    public List<ConsultaUrgencia> getAllConsultaUrgencias(){
         return consultaUrgenciaRepository.selectAllConsultaUrgencias();
     }
 
     @GetMapping("/{cod_registro}/{cpfMedico}/{cpfPaciente}")
-    public ConsultaUrgencia getConsultaUrgencia(@PathVariable int cod_registro, @PathVariable String cpfMedico, @PathVariable String cpfPaciente){
+    public ConsultaUrgencia getConsultaUrgencia(@PathVariable int cod_registro, @PathVariable String cpfMedico, 
+                                                @PathVariable String cpfPaciente){
         return consultaUrgenciaRepository.selectConsultaUrgencia(cod_registro, cpfMedico, cpfPaciente);
     }
 
     @PutMapping("/{cod_registro}/{cpfMedico}/{cpfPaciente}")
-    public String updateConsultaUrgencia(@PathVariable int cod_registro, @PathVariable String cpfMedico, @PathVariable String cpfPaciente, @RequestBody ConsultaUrgencia consultaUrgencia){
-        consultaUrgenciaRepository.updateConsultaUrgencia(consultaUrgencia);
-        return "ConsultaUrgencia updated! " + cod_registro;
+    public String updateConsultaUrgencia(@PathVariable int cod_registro, @PathVariable String cpfMedico, 
+                                         @PathVariable String cpfPaciente, @RequestBody ConsultaUrgencia consultaUrgencia){
+        consultaUrgenciaRepository.updateConsultaUrgencia(cod_registro, cpfMedico, cpfPaciente, consultaUrgencia);
+        return "ConsultaUrgencia updated: " + cod_registro + " " + cpfMedico + " " + cpfPaciente;
     }
 }

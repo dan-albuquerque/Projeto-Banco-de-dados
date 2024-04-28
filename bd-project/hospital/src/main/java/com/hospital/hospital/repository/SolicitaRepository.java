@@ -24,6 +24,12 @@ public class SolicitaRepository {
         return jdbcTemplate.query("SELECT * FROM solicita", solicitaMapper);
     }
 
+    public Solicita selectSolicita(String medicoCpf, String pacienteInternadoCpf, int exameComplementarCodigo) {
+        return jdbcTemplate.queryForObject(
+                "SELECT * FROM solicita WHERE fk_examina_medico_cpf = ? AND fk_examina_paciente_internado_cpf = ? AND fk_exame_complementar_codigo = ?",
+                solicitaMapper, medicoCpf, pacienteInternadoCpf, exameComplementarCodigo);
+    }
+
     private RowMapper<Solicita> solicitaMapper = (rs, rowNum) -> {
         Solicita solicita = new Solicita();
         solicita.setMedicoCpf(rs.getString("fk_examina_medico_cpf"));
