@@ -41,9 +41,9 @@ public class ExameComplementarRepository {
         jdbcTemplate.update("DELETE FROM exame_complementar WHERE codigo = ?", codigo);
     }
 
-    public void updateExameComplementar(ExameComplementar exameComplementar) {
+    public void updateExameComplementar(ExameComplementar exameComplementar, int codigo) {
         jdbcTemplate.update("UPDATE exame_complementar SET data_realizacao = ?, resultados = ?, tipo = ? WHERE codigo = ?",
-            exameComplementar.getData_realizacao(), exameComplementar.getResultados(), 
-            exameComplementar.getTipo(), exameComplementar.getCodigo());
+            exameComplementar.getData_realizacao(), exameComplementar.getResultados(),
+            exameComplementar.getTipo(), codigo);
     }
 }

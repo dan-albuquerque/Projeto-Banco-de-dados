@@ -21,10 +21,17 @@ public class SolicitaController {
         return "Solicita created! ";
     }
 
-    @DeleteMapping
-    public String deleteSolicita(@RequestBody Solicita solicita) {
-        solicitaRepository.deleteSolicita(solicita.getMedicoCpf(), solicita.getPacienteInternadoCpf(), solicita.getExameComplementarCodigo());
-        return "Solicita deleted: " + solicita.getMedicoCpf() + " " + solicita.getPacienteInternadoCpf() + " " + solicita.getExameComplementarCodigo();
+    @DeleteMapping("/{examinaMedicoCpf}/{examinaPacienteInternadoCpf}/{exameComplementarCodigo}")
+    public String deleteSolicita(@PathVariable String examinaMedicoCpf, 
+                                @PathVariable String examinaPacienteInternadoCpf, 
+                                @PathVariable int exameComplementarCodigo) {
+
+        solicitaRepository.deleteSolicita(examinaMedicoCpf, examinaPacienteInternadoCpf, exameComplementarCodigo);
+
+        return "Solicita deleted: " + 
+                examinaMedicoCpf + " " + 
+                examinaPacienteInternadoCpf + " " + 
+                exameComplementarCodigo;
     }
 
     @GetMapping
@@ -32,6 +39,14 @@ public class SolicitaController {
         return solicitaRepository.selectSolicitas();
     }
 
+    @GetMapping("/{examinaMedicoCpf}/{examinaPacienteInternadoCpf}/{exameComplementarCodigo}")
+    public Solicita getSolicitaById(@PathVariable String examinaMedicoCpf, 
+                                    @PathVariable String examinaPacienteInternadoCpf, 
+                                    @PathVariable int exameComplementarCodigo) {
+        return solicitaRepository.selectSolicita(examinaMedicoCpf, examinaPacienteInternadoCpf, exameComplementarCodigo);
+    }
+
+    // falar com gabi pra saber se faz sentido alterar essa entidade
     @PutMapping
     public String updateSolicita(@PathVariable String examinaMedicoCpf, 
                                 @PathVariable String examinaPacienteInternadoCpf, 
