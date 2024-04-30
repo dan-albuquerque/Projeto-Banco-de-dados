@@ -5,7 +5,7 @@ import UpperNav from '@/components/UpperNav';
 import InternTableView from '@/components/InternTableView';
 import DoctorsTableView from '@/components/DoctorsTableView';
 import PatientTableView from '@/components/PatientTableView';
-
+import DownerNav from '@/components/DownerNav';
 export async function getServerSideProps(context) {
   const urls = {
       interns: `http://localhost:8080/intern`,
@@ -84,9 +84,11 @@ export default function Data({ interns, doctors, patients}) {
       <UpperNav swapPatient={handleSwapPatient} swapIntern={handleSwapIntern} swapDoctor={handleSwapDoctor} />
       <div className="border border-gray-300 mt-8 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '70vh' }}>
         <div className="flex flex-col gap-4">
+        aaaaa
           {renderTable()}
         </div>
       </div>
+      <DownerNav />
     </Layout>
   );
 }
