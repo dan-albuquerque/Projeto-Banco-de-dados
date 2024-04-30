@@ -25,7 +25,7 @@ export default function UpperNav({ swapPatient, swapIntern, swapDoctor }) {
     }
 
     return (
-        <div className="h-16 flex justify-between items-center mt-5">
+        <div className="h-16 flex justify-between items-center mt-6">
             <div className="ml-12 flex gap-4">
                 <h1 className="text-2xl font-medium text-customBlue">Visualizar</h1>
                 <h1 className="text-2xl font-medium text-normalBlue">Inserir</h1>

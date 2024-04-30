@@ -82,9 +82,8 @@ export default function Data({ interns, doctors, patients}) {
   return (
     <Layout className="max-w-4xl mx-auto">
       <UpperNav swapPatient={handleSwapPatient} swapIntern={handleSwapIntern} swapDoctor={handleSwapDoctor} />
-      <div className="border border-gray-300 mt-8 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '70vh' }}>
+      <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '75vh' }}>
         <div className="flex flex-col gap-4">
-        aaaaa
           {renderTable()}
         </div>
       </div>

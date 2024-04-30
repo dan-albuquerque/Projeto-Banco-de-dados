@@ -3,7 +3,7 @@ import React from "react";
 export default function InternTableView({ interns }) {
     return (
         <div className="container mx-auto mt-8">
-            <table className="w-5/6 table-auto border-collapse border border-gray-300">
+            <table className="w-5/6 table-auto border-collapse border border-gray-300 ml-3">
                 <thead>
                     <tr>
                         <th className="border-b-2 border-gray-300 border-r px-4 py-2 text-left">Nome</th>
