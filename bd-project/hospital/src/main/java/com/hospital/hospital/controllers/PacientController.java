@@ -1,7 +1,5 @@
 package com.hospital.hospital.controllers;
 
-import org.springframework.web.bind.annotation.RestController;
-
 import com.hospital.hospital.models.pacientes.Paciente;
 
 import com.hospital.hospital.repository.PacientRepository;
@@ -32,8 +30,9 @@ public class PacientController {
     }
 
     @GetMapping
-    public List<Paciente> getAllPacients() {
-        return pacientRepository.selectPacients();
+    public List<Paciente> getAllPacients(@RequestParam(required = false) String sort ) {
+        boolean sortAlphabetically = "alphabetical".equals(sort);
+        return pacientRepository.selectPacients(sortAlphabetically);
     }
 
     @PutMapping("/{cpf}")

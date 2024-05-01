@@ -20,8 +20,14 @@ public class PacientRepository {
         System.out.println(paciente);
     }
 
-    public List<Paciente> selectPacients() {
-        return jdbcTemplate.query("SELECT * FROM paciente", pacienteMapper);
+    public List<Paciente> selectPacients(boolean sort) {
+        String sql;
+        if (sort) {
+            sql = "SELECT * FROM Paciente ORDER BY nome ASC";
+        } else {
+            sql = "SELECT * FROM Paciente";
+        }
+        return jdbcTemplate.query(sql, pacienteMapper);
     }
 
     private RowMapper<Paciente> pacienteMapper = (rs, rowNum) ->

@@ -2,6 +2,7 @@ package com.hospital.hospital.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.hospital.hospital.repository.MedicoRepository;
 import com.hospital.hospital.models.elenco.Medico;
@@ -26,8 +27,9 @@ public class MedicoController {
     }
 
     @GetMapping
-    public List<Medico> getMedicos() {
-        return medicoRepository.selectMedicos();
+    public List<Medico> getMedicos(@RequestParam(required = false) String sort) {
+        boolean sortAlphabetically = "alphabetical".equals(sort);
+        return medicoRepository.selectMedicos(sortAlphabetically);
     }
 
     @GetMapping("/{cpf}")

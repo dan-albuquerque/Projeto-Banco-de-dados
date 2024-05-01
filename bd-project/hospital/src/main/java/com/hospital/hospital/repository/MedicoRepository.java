@@ -3,6 +3,7 @@ package com.hospital.hospital.repository;
 import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.hospital.hospital.models.elenco.Medico;
 import org.springframework.jdbc.core.RowMapper;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Repository
 public class MedicoRepository {
+    
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -20,8 +22,14 @@ public class MedicoRepository {
     }
     
 
-    public List<Medico> selectMedicos() {
-        return jdbcTemplate.query("SELECT * FROM medico", medicoMapper);
+    public List<Medico> selectMedicos(boolean sort) {
+        String sql;
+        if (sort) {
+            sql = "SELECT * FROM Medico ORDER BY nome ASC";
+        } else {
+            sql = "SELECT * FROM Medico";
+        }
+        return jdbcTemplate.query(sql, medicoMapper);
     }
 
     private RowMapper<Medico> medicoMapper = (rs, rowNum) ->
