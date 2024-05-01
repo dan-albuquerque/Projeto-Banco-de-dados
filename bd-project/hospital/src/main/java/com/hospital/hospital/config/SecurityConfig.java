@@ -1,73 +1,62 @@
 package com.hospital.hospital.config;
 
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import com.hospital.hospital.repository.MedicoRepository;
-import com.hospital.hospital.models.elenco.Medico;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import static org.springframework.security.config.Customizer.withDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.hospital.hospital.security.SecurityFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    @Autowired
+    SecurityFilter securityFilter;
 
-    private final MedicoRepository medicoRepository;
-
-    public SecurityConfig(MedicoRepository medicoRepository) {
-        this.medicoRepository = medicoRepository;
-    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
+        return http
+            .cors(withDefaults())
             .csrf(csrf -> csrf.disable())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("js/**", "css/**", "images/**").permitAll()
-                .requestMatchers("/hello", "/consulta", "/user").authenticated()
+                .requestMatchers("/hello", "/consulta", "/user", "/registro").authenticated()
                 .anyRequest().permitAll())
-            .formLogin(form -> form
-                .loginPage("/login") // Caminho para a página de login
-                .loginProcessingUrl("/login") // URL que vai processar o login
-                .defaultSuccessUrl("/hello", true) // Página para redirecionar após login com sucesso
-                .permitAll())
-            .logout(logout -> logout.permitAll());
-        return http.build();
+            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
     }
 
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:3000");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        return username -> {
-            Medico medico = medicoRepository.selectMedico(username);
-            if (medico != null) {
-                return new org.springframework.security.core.userdetails.User(
-                    medico.getCpf(),
-                    medico.getSenha(),
-                    true, true, true, true,
-                    AuthorityUtils.createAuthorityList("USER"));
-            } else {
-                throw new UsernameNotFoundException("Usuário não encontrado");
-            }
-        };
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-    
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
+        return new BCryptPasswordEncoder(); 
     }
 }
