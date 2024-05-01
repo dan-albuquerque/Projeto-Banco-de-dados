@@ -73,7 +73,7 @@ export default function Data({ interns, doctors, patients}) {
     if (isIntern) {
         return <InternTableView interns={interns} />;
     } else if (isDoctor) {
-        return <DoctorsTableView data={doctors} />;  // Assuming similar component can be used or create separate ones
+        return <DoctorsTableView doctors={doctors} />;  // Assuming similar component can be used or create separate ones
     } else if (isPatient) {
         return <PatientTableView patients={patients} />;
     }
