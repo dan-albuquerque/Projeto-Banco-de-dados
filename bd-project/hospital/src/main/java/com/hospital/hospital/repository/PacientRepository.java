@@ -1,4 +1,5 @@
 package com.hospital.hospital.repository;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,21 +18,20 @@ public class PacientRepository {
     
     public void insertPacient(Paciente paciente){
         jdbcTemplate.update("insert into paciente(cpf,nome,telefone_residencial,cidade,bairro,rua,numero,telefone_pessoal) values(?, ?, ?, ?, ?, ?, ?,?)", paciente.getCpf(), paciente.getNome(), paciente.gettelefone_residencial(), paciente.getCidade(), paciente.getBairro(), paciente.getRua(), paciente.getNumero(), paciente.gettelefone_pessoal());
-        System.out.println(paciente);
     }
 
-    public List<Paciente> selectPacients(boolean sort) {
+    public List<Paciente> selectPacients(boolean sort, boolean reverse) {
         String sql;
         if (sort) {
-            sql = "SELECT * FROM Paciente ORDER BY nome ASC";
+            String order = reverse ? "DESC" : "ASC";
+            sql = "SELECT * FROM Paciente ORDER BY nome " + order;
         } else {
             sql = "SELECT * FROM Paciente";
         }
         return jdbcTemplate.query(sql, pacienteMapper);
     }
 
-    private RowMapper<Paciente> pacienteMapper = (rs, rowNum) ->
-    {
+    private RowMapper<Paciente> pacienteMapper = (rs, rowNum) -> {
         Paciente paciente = new Paciente();
         paciente.setNome(rs.getString("nome"));
         paciente.setCpf(rs.getString("cpf"));
@@ -42,30 +42,28 @@ public class PacientRepository {
         paciente.setNumero(rs.getInt("numero"));
         paciente.settelefone_pessoal(rs.getString("telefone_pessoal"));
 
-
         return paciente;
     };
 
     public void deletePacient(String cpf) {
-          jdbcTemplate.update("delete from paciente where cpf = ?", cpf);
-     }
+        jdbcTemplate.update("delete from paciente where cpf = ?", cpf);
+    }
 
     public void updatePacient(String cpf, Paciente paciente) {
         jdbcTemplate.update(
-            "update paciente set nome = ?, telefone_residencial = ?, cidade = ?, bairro = ?, rua = ?, numero = ?, telefone_pessoal = ? where cpf = ?",
-            paciente.getNome(),
-            paciente.gettelefone_residencial(),
-            paciente.getCidade(),
-            paciente.getBairro(),
-            paciente.getRua(),
-            paciente.getNumero(),
-            paciente.gettelefone_pessoal(),
-            cpf 
-        );
+                "update paciente set nome = ?, telefone_residencial = ?, cidade = ?, bairro = ?, rua = ?, numero = ?, telefone_pessoal = ? where cpf = ?",
+                paciente.getNome(),
+                paciente.gettelefone_residencial(),
+                paciente.getCidade(),
+                paciente.getBairro(),
+                paciente.getRua(),
+                paciente.getNumero(),
+                paciente.gettelefone_pessoal(),
+                cpf);
     }
 
-    public Paciente selectPacient(String cpf){
+    public Paciente selectPacient(String cpf) {
         return jdbcTemplate.queryForObject("select * from paciente where cpf = ?", pacienteMapper, cpf);
     }
-    
+
 }

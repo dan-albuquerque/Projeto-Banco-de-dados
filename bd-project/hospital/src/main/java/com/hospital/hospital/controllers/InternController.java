@@ -1,6 +1,4 @@
 package com.hospital.hospital.controllers;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.hospital.hospital.models.elenco.Interno;
 import com.hospital.hospital.repository.InternRepository;
 import java.util.List;
@@ -20,8 +18,9 @@ public class InternController {
     }
 
     @GetMapping
-    public List<Interno> getAllInterns() {
-        return internRepository.selectInterns();
+    public List<Interno> getAllInterns(@RequestParam(required = false) String sort) {
+        boolean sortAlphabetically = "alphabetical".equals(sort);
+        return internRepository.selectInterns(sortAlphabetically);
     }
 
     @PutMapping("/{cpf}")

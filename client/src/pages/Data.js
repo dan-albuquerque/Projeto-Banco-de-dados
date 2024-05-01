@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import "../app/globals.css";
 import Layout from "../app/layout";
 import UpperNav from '@/components/UpperNav';
@@ -9,51 +9,75 @@ import DownerNav from '@/components/DownerNav';
 
 export async function getServerSideProps(context) {
   const urls = {
-      interns: `http://localhost:8080/intern`,
-      doctors: `http://localhost:8080/medico`,
-      patients: `http://localhost:8080/pacient`,
-      sortedPatients: `http://localhost:8080/pacient?sort=alphabetical`
+    interns: `http://localhost:8080/intern`,
+    doctors: `http://localhost:8080/medico`,
+    patients: `http://localhost:8080/pacient`,
+    sortedPatients: `http://localhost:8080/pacient?sort=alphabetical`,
+    sortedPatientsReverse: `http://localhost:8080/pacient?sort=alphabetical&reverse=true`
   };
 
   try {
-      const [internsRes, doctorsRes, patientsRes, sortedPatientsRes] = await Promise.all([
-          fetch(urls.interns),
-          fetch(urls.doctors),
-          fetch(urls.patients),
-          fetch(urls.sortedPatients)
+    const [internsRes, doctorsRes, patientsRes, sortedPatientsRes, sortedPatientsReverseRes] = await Promise.all([
+      fetch(urls.interns),
+      fetch(urls.doctors),
+      fetch(urls.patients),
+      fetch(urls.sortedPatients),
+      fetch(urls.sortedPatientsReverse)
+    ]);
 
-      ]);
+    const [interns, doctors, patients, sortedPatients, sortedPatientsReverse] = await Promise.all([
+      internsRes.json(),
+      doctorsRes.json(),
+      patientsRes.json(),
+      sortedPatientsRes.json(),
+      sortedPatientsReverseRes.json()
+    ]);
 
-      const [interns, doctors, patients,  sortedPatients] = await Promise.all([
-          internsRes.json(),
-          doctorsRes.json(),
-          patientsRes.json(),
-          sortedPatientsRes.json()
-      ]);
-
-      if (!interns || !doctors || !patients || !sortedPatients) {  
-        return { notFound: true };
-      }
-
-      return {
-          props: {
-              interns,
-              doctors,
-              patients,
-              sortedPatients
-          },
-      };
-  } catch (error) {
-      console.error("Failed to fetch data:", error);
+    if (!interns || !doctors || !patients || !sortedPatients || !sortedPatientsReverse) {
       return { notFound: true };
+    }
+
+    return {
+      props: {
+        interns,
+        doctors,
+        patients,
+        sortedPatients,
+        sortedPatientsReverse
+      },
+    };
+  } catch (error) {
+    console.error("Failed to fetch data:", error);
+    return { notFound: true };
   }
 }
 
-export default function Data({ interns, doctors, patients, sortedPatients}) {
+export default function Data({ interns, doctors, patients, sortedPatients, sortedPatientsReverse }) {
   const [isIntern, setIsIntern] = useState(true);
   const [isDoctor, setIsDoctor] = useState(false);
   const [isPatient, setIsPatient] = useState(false);
   const [isSortedPatients, setIsSortedPatients] = useState(false);
+  const [isSortedPatientsReverse, setIsSortedPatientsReverse] = useState(false);
+
+  const handleSortAsc = () => {
+    console.log("Sorted Patients");
+    if (isSortedPatients) {
+      setIsSortedPatients(false);
+    } else {
+      setIsSortedPatients(true);
+    }
+    console.log(isSortedPatients);
+  };
+
+  const handleSortDesc = () => {
+    console.log("Sorted Patients Reverse");
+    if (isSortedPatientsReverse) {
+      setIsSortedPatientsReverse(false);
+    } else {
+      setIsSortedPatientsReverse(true);
+    }
+    console.log(isSortedPatientsReverse);
+  };
 
   const handleSwapDoctor = () => {
     console.log("Doctor");
@@ -76,40 +100,32 @@ export default function Data({ interns, doctors, patients, sortedPatients}) {
     setIsPatient(false);
   };
 
-  const handleSortedPatients = () => {
-    console.log("Sorted Patients");
-    if (isSortedPatients) {
-      setIsSortedPatients(false);
-    } else {
-      setIsSortedPatients(true);
-    }
-    console.log(isSortedPatients);
-  };
-
-    
-
   const renderTable = () => {
     if (isIntern) {
-        return <InternTableView interns={interns} />;
+      return <InternTableView interns={interns} />;
     } else if (isDoctor) {
-        return <DoctorsTableView doctors={doctors} />;  // Assuming similar component can be used or create separate ones      
-    } else if (isPatient)  {
+      return <DoctorsTableView doctors={doctors} />;
+    } else if (isPatient) {
+      if (isSortedPatientsReverse) {
+        console.log(isSortedPatientsReverse);
+        return <PatientTableView patients={sortedPatientsReverse} />;
+      } else if (isSortedPatients) {
         console.log(isSortedPatients);
-        if (isSortedPatients) {
-          return <PatientTableView patients={sortedPatients} />;
-        }
-        return <PatientTableView patients={patients} />;
+        return <PatientTableView patients={sortedPatients} />;
+      }
+      return <PatientTableView patients={patients} />;
     }
-};
+  };
 
   return (
     <Layout className="max-w-4xl mx-auto">
       <UpperNav swapPatient={handleSwapPatient} swapIntern={handleSwapIntern} swapDoctor={handleSwapDoctor} />
       <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '75vh' }}>
-        <button className="bg-customBlue text-white font-bold py-2 px-4 rounded-full" onClick={handleSortedPatients}>Sort Patients</button>
-        <div className="flex flex-col gap-4">
-          {renderTable()}
+        <div className="mb-4" style={{ marginLeft: '10px' }}>
+          <button className="mr-2" style={{ backgroundColor: 'black', color: 'white', borderRadius: '5px', marginRight: '10px', marginTop: '10px' }} onClick={handleSortAsc}>Sort A-Z</button>
+          <button style={{ backgroundColor: 'black', color: 'white', borderRadius: '5px', marginTop: '10px' }} onClick={handleSortDesc}>Sort Z-A</button>
         </div>
+        {renderTable()}
       </div>
       <DownerNav />
     </Layout>

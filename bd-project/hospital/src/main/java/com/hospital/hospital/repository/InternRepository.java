@@ -17,8 +17,14 @@ public class InternRepository {
         jdbcTemplate.update("insert into interno(cpf,nome,senha,matricula) values(?, ?, ?, ?)", interno.getCpf(), interno.getNome(), interno.getSenha(), interno.getMatricula());
     }
 
-    public List<Interno> selectInterns() {
-        return jdbcTemplate.query("SELECT * FROM interno", internoMapper);
+    public List<Interno> selectInterns(boolean sort) {
+        String sql;
+        if (sort) {
+            sql = "SELECT * FROM interno ORDER BY nome asc";
+        } else {
+            sql = "SELECT * FROM interno";
+        }
+        return jdbcTemplate.query(sql, internoMapper);
     }
 
     private RowMapper<Interno> internoMapper = (rs, rowNum) ->
