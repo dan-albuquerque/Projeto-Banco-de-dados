@@ -9,11 +9,11 @@ import DownerNav from '@/components/DownerNav';
 
 export async function getServerSideProps(context) {
   const urls = {
-    interns: `http://localhost:8080/intern`,
-    doctors: `http://localhost:8080/medico`,
-    patients: `http://localhost:8080/pacient`,
-    sortedPatients: `http://localhost:8080/pacient?sort=alphabetical`,
-    sortedPatientsReverse: `http://localhost:8080/pacient?sort=alphabetical&reverse=true`
+    interns: 'http://localhost:8080/intern',
+    doctors: 'http://localhost:8080/medico',
+    patients: 'http://localhost:8080/pacient',
+    sortedPatients: 'http://localhost:8080/pacient?sort=alphabetical',
+    sortedPatientsReverse: 'http://localhost:8080/pacient?sort=alphabetical&reverse=true'
   };
 
   try {
@@ -119,7 +119,7 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
 
   return (
   <Layout className="max-w-4xl mx-auto">
-    <UpperNav swapPatient={handleSwapPatient} swapIntern={handleSwapIntern} swapDoctor={handleSwapDoctor} />
+    <UpperNav swapPatient={handleSwapPatient} swapIntern={handleSwapIntern} swapDoctor={handleSwapDoctor} searchByLatest={handleSortDesc} searchByAZ={handleSortAsc} searchByZA={handleSortDesc} />
     <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '75vh' }}>
       <div className="mb-4 ml-10">
         <button className="mr-2 bg-black text-white rounded-lg mr-10 mt-10" onClick={handleSortAsc}>Sort A-Z</button>
