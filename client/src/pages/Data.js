@@ -16,29 +16,38 @@ export async function getServerSideProps(context) {
     patients: 'http://localhost:8080/pacient',
     sortedPatients: 'http://localhost:8080/pacient?sort=alphabetical',
     sortedPatientsReverse: 'http://localhost:8080/pacient?sort=alphabetical&reverse=true',
-    sortedPatientsCpf: 'http://localhost:8080/pacient?sort=numerical'
+    sortedPatientsCpf: 'http://localhost:8080/pacient?sort=numerical',
+    sortedInterns: 'http://localhost:8080/intern?sort=alphabetical',
+    sortedInternsReverse: 'http://localhost:8080/intern?sort=alphabetical&reverse=true',
+    sortedInternsCpf: 'http://localhost:8080/intern?sort=numerical'
   };
 
   try {
-    const [internsRes, doctorsRes, patientsRes, sortedPatientsRes, sortedPatientsReverseRes, sortedPatientsCpfRes] = await Promise.all([
+    const [internsRes, doctorsRes, patientsRes, sortedPatientsRes, sortedPatientsReverseRes, sortedPatientsCpfRes, sortedInternsRes, sortedInternsReverseRes, sortedInternsCPfRes] = await Promise.all([
       fetch(urls.interns),
       fetch(urls.doctors),
       fetch(urls.patients),
       fetch(urls.sortedPatients),
       fetch(urls.sortedPatientsReverse),
-      fetch(urls.sortedPatientsCpf)
+      fetch(urls.sortedPatientsCpf),
+      fetch(urls.sortedInterns),
+      fetch(urls.sortedInternsReverse),
+      fetch(urls.sortedInternsCpf)
     ]);
 
-    const [interns, doctors, patients, sortedPatients, sortedPatientsReverse, sortedPatientsCpf] = await Promise.all([
+    const [interns, doctors, patients, sortedPatients, sortedPatientsReverse, sortedPatientsCpf, sortedInterns, sortedInternsReverse, sortedInternsCpf] = await Promise.all([
       internsRes.json(),
       doctorsRes.json(),
       patientsRes.json(),
       sortedPatientsRes.json(),
       sortedPatientsReverseRes.json(),
-      sortedPatientsCpfRes.json()
+      sortedPatientsCpfRes.json(),
+      sortedInternsRes.json(),
+      sortedInternsReverseRes.json(),
+      sortedInternsCPfRes.json()
     ]);
 
-    if (!interns || !doctors || !patients || !sortedPatients || !sortedPatientsReverse || !sortedPatientsCpf) {
+    if (!interns || !doctors || !patients || !sortedPatients || !sortedPatientsReverse || !sortedPatientsCpf || !sortedInterns || !sortedInternsReverse || !sortedInternsCpf) {
       return { notFound: true };
     }
 
@@ -49,7 +58,10 @@ export async function getServerSideProps(context) {
         patients,
         sortedPatients,
         sortedPatientsReverse,
-        sortedPatientsCpf
+        sortedPatientsCpf,
+        sortedInterns,
+        sortedInternsReverse,
+        sortedInternsCpf
       },
     };
   } catch (error) {
@@ -58,76 +70,97 @@ export async function getServerSideProps(context) {
   }
 }
 
-export const postNewPacient = async (pacient) => {
-  try {
-    const response = await fetch('http://localhost:8080/pacient', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(pacient)
-    });
-
-    if (!response.ok) {
-      console.error("Failed to insert new pacient:", response.statusText);
-      return false;
-    }
-
-    return true;
-  } catch (error) {
-    console.error("Failed to insert new pacient:", error);
-    return false;
-  }
-
-};
-
-
-
-export default function Data({ interns, doctors, patients, sortedPatients, sortedPatientsReverse, sortedPatientsCpf }) {
+export default function Data({ interns, doctors, patients, sortedPatients, sortedPatientsReverse, sortedPatientsCpf, sortedInterns, sortedInternsReverse, sortedInternsCpf}) {
   const [isIntern, setIsIntern] = useState(true);
   const [isDoctor, setIsDoctor] = useState(false);
   const [isPatient, setIsPatient] = useState(false);
   const [isSortedPatients, setIsSortedPatients] = useState(false);
   const [isSortedPatientsReverse, setIsSortedPatientsReverse] = useState(false);
   const [isSortedPatientsCpf, setIsSortedPatientsCpf] = useState(false);
+  const [isSortedInterns, setIsSortedInterns] = useState(false);
+  const [isSortedDoctors, setIsSortedDoctors] = useState(false);
+  const [isSortedInternsReverse, setIsSortedInternsReverse] = useState(false);
+  const [isSortedDoctorsReverse, setIsSortedDoctorsReverse] = useState(false);
+  const [isSortedInternsCpf, setIsSortedInternsCpf] = useState(false);
+  const [isSortedDoctorsCpf, setIsSortedDoctorsCpf] = useState(false);
   const [isView, setIsView] = useState(true);
   const [isInsert, setIsInsert] = useState(false);
 
   const handleSortAsc = () => {
-    console.log("Sorted Patients");
-    if (isSortedPatients) {
+    if (isIntern) {
+      console.log("Intern Asc");
+      setIsSortedInterns(!isSortedInterns);
+      setIsSortedInternsReverse(false);
+      setIsSortedInternsCpf(false);
+      setIsSortedDoctors(false);
       setIsSortedPatients(false);
-    } else {
-      setIsSortedPatients(true);
-      setIsSortedPatientsReverse(false);
+    } else if (isDoctor) {
+      console.log("Doctor Asc");
+      setIsSortedInterns(false);
+      setIsSortedDoctors(!isSortedDoctors);
+      setIsSortedDoctorsReverse(false);
+      setIsSortedDoctorsCpf(false);
+      setIsSortedPatients(false);
+    } else if (isPatient) {
+      console.log("Patient Asc");
+      setIsSortedInterns(false);
+      setIsSortedDoctors(false);
+      setIsSortedPatients(!isSortedPatients);
       setIsSortedPatientsCpf(false);
+      setIsSortedPatientsReverse(false);
     }
-    console.log(isSortedPatients);
   };
 
   const handleSortDesc = () => {
-    console.log("Sorted Patients Reverse");
-    if (isSortedPatientsReverse) {
+    if (isIntern) {
+      console.log("Intern Desc");
+      setIsSortedInternsReverse(!isSortedInternsReverse);
+      setIsSortedInterns(false);
+      setIsSortedInternsCpf(false);
+      setIsSortedDoctors(false);
+      setIsSortedDoctorsReverse(false);
       setIsSortedPatientsReverse(false);
-    } else {
-      setIsSortedPatientsReverse(true);
+    } else if (isDoctor) {
+      console.log("Doctor Desc");
+      setIsSortedInternsReverse(false);
+      setIsSortedDoctorsReverse(!isSortedDoctorsReverse);
+      setIsSortedDoctors(false);
+      setIsSortedDoctorsCpf(false);
+      setIsSortedPatientsReverse(false);
+    } else if (isPatient) {
+      console.log("Patient Desc");
+      setIsSortedInternsReverse(false);
+      setIsSortedDoctorsReverse(false);
+      setIsSortedPatientsReverse(!isSortedPatientsReverse);
       setIsSortedPatients(false);
       setIsSortedPatientsCpf(false);
     }
-    console.log(isSortedPatientsReverse);
   };
 
   const handleSortCpf = () => {
-    console.log("Sorted Patients Cpf");
-    if (isSortedPatientsCpf) {
+    if (isIntern) {
+      console.log("Intern Cpf");
+      setIsSortedInternsCpf(!isSortedInternsCpf);
+      setIsSortedInterns(false);
+      setIsSortedInternsReverse(false);
+      setIsSortedDoctorsCpf(false);
       setIsSortedPatientsCpf(false);
-    } else {
-      setIsSortedPatientsCpf(true);
+    } else if (isDoctor) {
+      console.log("Doctor Cpf");
+      setIsSortedInternsCpf(false);
+      setIsSortedDoctorsCpf(!isSortedDoctorsCpf);
+      setIsSortedDoctors(false);
+      setIsSortedDoctorsReverse(false);
+      setIsSortedPatientsCpf(false);
+    } else if (isPatient) {
+      console.log("Patient Cpf");
+      setIsSortedInternsCpf(false);
+      setIsSortedDoctorsCpf(false);
+      setIsSortedPatientsCpf(!isSortedPatientsCpf);
       setIsSortedPatients(false);
       setIsSortedPatientsReverse(false);
     }
-    console.log(isSortedPatientsCpf);
-  }
+  };
 
   const handleSwapDoctor = () => {
     console.log("Doctor");
@@ -154,57 +187,67 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
     console.log("View");
     setIsView(true);
     setIsInsert(false);
-  }
+  };
 
   const handleInsert = () => {
     console.log("Insert");
     setIsView(false);
     setIsInsert(true);
-  }
+  };
 
   const renderTable = () => {
     if (isView) {
-        if (isIntern) {
-          return <InternTableView interns={interns} />;
-        } else if (isDoctor) {
-          return <DoctorsTableView doctors={doctors} />;
-        } else if (isPatient) {
-          if (isSortedPatientsReverse) {
-            console.log(isSortedPatientsReverse);
-            return <PatientTableView patients={sortedPatientsReverse} />;
-          } else if (isSortedPatients) {
-            console.log(isSortedPatients);
-            return <PatientTableView patients={sortedPatients} />;
-          }
-          else if (isSortedPatientsCpf) {
-            console.log(isSortedPatientsCpf);
-            return <PatientTableView patients={sortedPatientsCpf} />;
-          }
-          return <PatientTableView patients={patients} />;
+      if (isIntern) {
+        if (isSortedInternsReverse) {
+          console.log(isSortedInternsReverse);
+          return <InternTableView interns={sortedInternsReverse} />;
+        } else if (isSortedInterns) {
+          console.log(isSortedInterns);
+          return <InternTableView interns={sortedInterns} />;
+        } else if (isSortedInternsCpf) {
+          console.log(isSortedInternsCpf);
+          return <InternTableView interns={sortedInternsCpf} />;
         }
-  }else if (isInsert) {
-    return <InsertNewPacient />; 
-  }
+        return <InternTableView interns={interns} />;
+      } else if (isDoctor) {
+        return <DoctorsTableView doctors={doctors} />;
+      } else if (isPatient) {
+        if (isSortedPatientsReverse) {
+          console.log(isSortedPatientsReverse);
+          return <PatientTableView patients={sortedPatientsReverse} />;
+        } else if (isSortedPatients) {
+          console.log(isSortedPatients);
+          return <PatientTableView patients={sortedPatients} />;
+        }
+        else if (isSortedPatientsCpf) {
+          console.log(isSortedPatientsCpf);
+          return <PatientTableView patients={sortedPatientsCpf} />;
+        }
+        return <PatientTableView patients={patients} />;
+      }
+    } else if (isInsert) {
+      return <InsertNewPacient />;
+    }
   };
 
   return (
-  <Layout className="max-w-4xl mx-auto">
-    
-    <UpperNav 
-        swapPatient={handleSwapPatient}
-        swapIntern={handleSwapIntern} 
-        swapDoctor={handleSwapDoctor} 
-        searchByCpf={handleSortCpf} 
-        searchByAZ={handleSortAsc} 
-        searchByZA={handleSortDesc} 
-        view = {handleView} 
-        insert = {handleInsert}
-    />
+    <Layout className="max-w-4xl mx-auto">
 
-    <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '75vh' }}>
-      {renderTable()}
-    </div>
-    <DownerNav />
-  </Layout>
+      <UpperNav
+        swapPatient={handleSwapPatient}
+        swapIntern={handleSwapIntern}
+        swapDoctor={handleSwapDoctor}
+        searchByCpf={handleSortCpf}
+        searchByAZ={handleSortAsc}
+        searchByZA={handleSortDesc}
+        view={handleView}
+        insert={handleInsert}
+      />
+
+      <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '75vh' }}>
+        {renderTable()}
+      </div>
+      <DownerNav />
+    </Layout>
   );
 }

@@ -17,13 +17,17 @@ public class InternRepository {
         jdbcTemplate.update("insert into interno(cpf,nome,senha,matricula) values(?, ?, ?, ?)", interno.getCpf(), interno.getNome(), interno.getSenha(), interno.getMatricula());
     }
 
-    public List<Interno> selectInterns(boolean sort) {
+    public List<Interno> selectInterns(boolean sortAlphabetically, boolean reverseOrder, boolean sortNumerically) {
         String sql;
-        if (sort) {
-            sql = "SELECT * FROM interno ORDER BY nome asc";
-        } else {
+        if (sortAlphabetically) {
+            String order = reverseOrder ? "DESC" : "ASC";
+            sql = "SELECT * FROM interno ORDER BY nome " + order;
+        } else if(sortNumerically) {
+            sql = "SELECT * FROM interno ORDER BY cpf DESC";
+        } else{
             sql = "SELECT * FROM interno";
         }
+        System.out.println("comando sql: " + sql);
         return jdbcTemplate.query(sql, internoMapper);
     }
 

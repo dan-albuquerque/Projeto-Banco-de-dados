@@ -24,29 +24,29 @@ public class PacientController {
     }
 
     @DeleteMapping("/{cpf}")
-    public String deletePacient(@PathVariable String cpf){
+    public String deletePacient(@PathVariable String cpf) {
         pacientRepository.deletePacient(cpf);
         return "Pacient deleted: " + cpf;
-        }
+    }
 
-        @GetMapping
-        public List<Paciente> getAllPacients(@RequestParam(required = false) String sort, 
-                                            @RequestParam(required = false) boolean reverse){   
+    @GetMapping
+    public List<Paciente> getAllPacients(@RequestParam(required = false) String sort,
+                                        @RequestParam(required = false) boolean reverse) {
         boolean sortAlphabetically = "alphabetical".equals(sort);
         boolean sortNumerically = "numerical".equals(sort);
         System.out.println("sortAlphabetically: " + sortAlphabetically + " reverseOrder: " + reverse +
-                            " sortNumerically: " + sortNumerically);
+                " sortNumerically: " + sortNumerically);
         return pacientRepository.selectPacients(sortAlphabetically, reverse, sortNumerically);
-        }
+    }
 
-        @PutMapping("/{cpf}")
-        public String updatePacient(@PathVariable String cpf, @RequestBody Paciente paciente) {
-        pacientRepository.updatePacient(cpf, paciente);  // Note: Using path variable 'cpf' directly.
+    @PutMapping("/{cpf}")
+    public String updatePacient(@PathVariable String cpf, @RequestBody Paciente paciente) {
+        pacientRepository.updatePacient(cpf, paciente); // Note: Using path variable 'cpf' directly.
         return "Pacient updated: " + paciente.getNome();
     }
 
     @GetMapping("/{cpf}")
-    public Paciente getPacient(@PathVariable String cpf){
+    public Paciente getPacient(@PathVariable String cpf) {
         return pacientRepository.selectPacient(cpf);
     }
 }

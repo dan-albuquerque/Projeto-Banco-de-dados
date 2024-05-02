@@ -30,7 +30,7 @@ public class PacientRepository {
         } else {
             sql = "SELECT * FROM Paciente";
         }
-        System.out.println("sql: " + sql);
+        System.out.println("comando sql: " + sql);
         return jdbcTemplate.query(sql, pacienteMapper);
     }
 
