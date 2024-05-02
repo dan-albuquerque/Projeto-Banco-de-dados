@@ -4,7 +4,7 @@ import '../app/globals.css';
 export default function DownerNav() {
     return (
         <div className="h-16 flex justify-center items-center mt-5 shadow-above ">
-            <div className="ml-12 flex gap-16">
+            <div className=" flex gap-16">
                 <div className="flex flex-col items-center justify-center">
                     <img src="/img/database.png" className="w-8 h-8" alt="database icon" />
                     <p className='text-l text-black font-light cursor-pointer transform hover:scale-125'>Dados</p>

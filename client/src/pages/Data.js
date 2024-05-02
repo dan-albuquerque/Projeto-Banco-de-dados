@@ -9,11 +9,11 @@ import DownerNav from '@/components/DownerNav';
 
 export async function getServerSideProps(context) {
   const urls = {
-    interns: `http://localhost:8080/intern`,
-    doctors: `http://localhost:8080/medico`,
-    patients: `http://localhost:8080/pacient`,
-    sortedPatients: `http://localhost:8080/pacient?sort=alphabetical`,
-    sortedPatientsReverse: `http://localhost:8080/pacient?sort=alphabetical&reverse=true`
+    interns: 'http://localhost:8080/intern',
+    doctors: 'http://localhost:8080/medico',
+    patients: 'http://localhost:8080/pacient',
+    sortedPatients: 'http://localhost:8080/pacient?sort=alphabetical',
+    sortedPatientsReverse: 'http://localhost:8080/pacient?sort=alphabetical&reverse=true'
   };
 
   try {
@@ -65,6 +65,7 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
       setIsSortedPatients(false);
     } else {
       setIsSortedPatients(true);
+      setIsSortedPatientsReverse(false);
     }
     console.log(isSortedPatients);
   };
@@ -75,6 +76,7 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
       setIsSortedPatientsReverse(false);
     } else {
       setIsSortedPatientsReverse(true);
+      setIsSortedPatients(false);
     }
     console.log(isSortedPatientsReverse);
   };
@@ -118,16 +120,12 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
   };
 
   return (
-    <Layout className="max-w-4xl mx-auto">
-      <UpperNav swapPatient={handleSwapPatient} swapIntern={handleSwapIntern} swapDoctor={handleSwapDoctor} />
-      <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '75vh' }}>
-        <div className="mb-4" style={{ marginLeft: '10px' }}>
-          <button className="mr-2" style={{ backgroundColor: 'black', color: 'white', borderRadius: '5px', marginRight: '10px', marginTop: '10px' }} onClick={handleSortAsc}>Sort A-Z</button>
-          <button style={{ backgroundColor: 'black', color: 'white', borderRadius: '5px', marginTop: '10px' }} onClick={handleSortDesc}>Sort Z-A</button>
-        </div>
-        {renderTable()}
-      </div>
-      <DownerNav />
-    </Layout>
+  <Layout className="max-w-4xl mx-auto">
+    <UpperNav swapPatient={handleSwapPatient} swapIntern={handleSwapIntern} swapDoctor={handleSwapDoctor} searchByLatest={handleSortDesc} searchByAZ={handleSortAsc} searchByZA={handleSortDesc} />
+    <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '75vh' }}>
+      {renderTable()}
+    </div>
+    <DownerNav />
+  </Layout>
   );
 }
