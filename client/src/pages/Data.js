@@ -65,6 +65,7 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
       setIsSortedPatients(false);
     } else {
       setIsSortedPatients(true);
+      setIsSortedPatientsReverse(false);
     }
     console.log(isSortedPatients);
   };
@@ -75,6 +76,7 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
       setIsSortedPatientsReverse(false);
     } else {
       setIsSortedPatientsReverse(true);
+      setIsSortedPatients(false);
     }
     console.log(isSortedPatientsReverse);
   };
@@ -121,11 +123,6 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
   <Layout className="max-w-4xl mx-auto">
     <UpperNav swapPatient={handleSwapPatient} swapIntern={handleSwapIntern} swapDoctor={handleSwapDoctor} searchByLatest={handleSortDesc} searchByAZ={handleSortAsc} searchByZA={handleSortDesc} />
     <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '75vh' }}>
-      <div className="mb-4 ml-10">
-        <button className="mr-2 bg-black text-white rounded-lg mr-10 mt-10" onClick={handleSortAsc}>Sort A-Z</button>
-        <button className="bg-black text-white rounded-lg mr-10 mt-10" onClick={handleSortDesc}>Sort Z-A</button>
-        <button className="bg-black text-white rounded-lg mr-10 mt-10" onClick={handleSortDesc}>Sort By Latest</button>
-      </div>
       {renderTable()}
     </div>
     <DownerNav />
