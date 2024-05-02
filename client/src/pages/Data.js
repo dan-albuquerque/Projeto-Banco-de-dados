@@ -19,35 +19,49 @@ export async function getServerSideProps(context) {
     sortedPatientsCpf: 'http://localhost:8080/pacient?sort=numerical',
     sortedInterns: 'http://localhost:8080/intern?sort=alphabetical',
     sortedInternsReverse: 'http://localhost:8080/intern?sort=alphabetical&reverse=true',
-    sortedInternsCpf: 'http://localhost:8080/intern?sort=numerical'
+    sortedInternsCpf: 'http://localhost:8080/intern?sort=numerical',
+    sortedDoctors: 'http://localhost:8080/medico?sort=alphabetical',
+    sortedDoctorsReverse: 'http://localhost:8080/medico?sort=alphabetical&reverse=true',
+    sortedDoctorsCpf: 'http://localhost:8080/medico?sort=numerical'
   };
 
   try {
-    const [internsRes, doctorsRes, patientsRes, sortedPatientsRes, sortedPatientsReverseRes, sortedPatientsCpfRes, sortedInternsRes, sortedInternsReverseRes, sortedInternsCPfRes] = await Promise.all([
-      fetch(urls.interns),
-      fetch(urls.doctors),
-      fetch(urls.patients),
-      fetch(urls.sortedPatients),
-      fetch(urls.sortedPatientsReverse),
-      fetch(urls.sortedPatientsCpf),
-      fetch(urls.sortedInterns),
-      fetch(urls.sortedInternsReverse),
-      fetch(urls.sortedInternsCpf)
-    ]);
+    const [internsRes, doctorsRes, patientsRes, sortedPatientsRes, sortedPatientsReverseRes,
+      sortedPatientsCpfRes, sortedInternsRes, sortedInternsReverseRes, sortedInternsCPfRes,
+      sortedDoctorsRes, sortedDoctorsReverseRes, sortedDoctorsCpfRes] = await Promise.all([
+        fetch(urls.interns),
+        fetch(urls.doctors),
+        fetch(urls.patients),
+        fetch(urls.sortedPatients),
+        fetch(urls.sortedPatientsReverse),
+        fetch(urls.sortedPatientsCpf),
+        fetch(urls.sortedInterns),
+        fetch(urls.sortedInternsReverse),
+        fetch(urls.sortedInternsCpf),
+        fetch(urls.sortedDoctors),
+        fetch(urls.sortedDoctorsReverse),
+        fetch(urls.sortedDoctorsCpf)
+      ]);
 
-    const [interns, doctors, patients, sortedPatients, sortedPatientsReverse, sortedPatientsCpf, sortedInterns, sortedInternsReverse, sortedInternsCpf] = await Promise.all([
-      internsRes.json(),
-      doctorsRes.json(),
-      patientsRes.json(),
-      sortedPatientsRes.json(),
-      sortedPatientsReverseRes.json(),
-      sortedPatientsCpfRes.json(),
-      sortedInternsRes.json(),
-      sortedInternsReverseRes.json(),
-      sortedInternsCPfRes.json()
-    ]);
+    const [interns, doctors, patients, sortedPatients, sortedPatientsReverse, sortedPatientsCpf,
+      sortedInterns, sortedInternsReverse, sortedInternsCpf, sortedDoctors, sortedDoctorsReverse,
+      sortedDoctorsCpf] = await Promise.all([
+        internsRes.json(),
+        doctorsRes.json(),
+        patientsRes.json(),
+        sortedPatientsRes.json(),
+        sortedPatientsReverseRes.json(),
+        sortedPatientsCpfRes.json(),
+        sortedInternsRes.json(),
+        sortedInternsReverseRes.json(),
+        sortedInternsCPfRes.json(),
+        sortedDoctorsRes.json(),
+        sortedDoctorsReverseRes.json(),
+        sortedDoctorsCpfRes.json()
+      ]);
 
-    if (!interns || !doctors || !patients || !sortedPatients || !sortedPatientsReverse || !sortedPatientsCpf || !sortedInterns || !sortedInternsReverse || !sortedInternsCpf) {
+    if (!interns || !doctors || !patients || !sortedPatients || !sortedPatientsReverse || !sortedPatientsCpf
+      || !sortedInterns || !sortedInternsReverse || !sortedInternsCpf || !sortedDoctors || !sortedDoctorsReverse || !sortedDoctorsCpf) {
       return { notFound: true };
     }
 
@@ -61,7 +75,10 @@ export async function getServerSideProps(context) {
         sortedPatientsCpf,
         sortedInterns,
         sortedInternsReverse,
-        sortedInternsCpf
+        sortedInternsCpf,
+        sortedDoctors,
+        sortedDoctorsReverse,
+        sortedDoctorsCpf
       },
     };
   } catch (error) {
@@ -70,7 +87,9 @@ export async function getServerSideProps(context) {
   }
 }
 
-export default function Data({ interns, doctors, patients, sortedPatients, sortedPatientsReverse, sortedPatientsCpf, sortedInterns, sortedInternsReverse, sortedInternsCpf}) {
+export default function Data({ interns, doctors, patients, sortedPatients, sortedPatientsReverse,
+  sortedPatientsCpf, sortedInterns, sortedInternsReverse, sortedInternsCpf,
+  sortedDoctors, sortedDoctorsReverse, sortedDoctorsCpf }) {
   const [isIntern, setIsIntern] = useState(true);
   const [isDoctor, setIsDoctor] = useState(false);
   const [isPatient, setIsPatient] = useState(false);
@@ -96,11 +115,11 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
       setIsSortedPatients(false);
     } else if (isDoctor) {
       console.log("Doctor Asc");
-      setIsSortedInterns(false);
       setIsSortedDoctors(!isSortedDoctors);
       setIsSortedDoctorsReverse(false);
       setIsSortedDoctorsCpf(false);
       setIsSortedPatients(false);
+      setIsSortedInterns(false);
     } else if (isPatient) {
       console.log("Patient Asc");
       setIsSortedInterns(false);
@@ -210,6 +229,16 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
         }
         return <InternTableView interns={interns} />;
       } else if (isDoctor) {
+        if (isSortedDoctorsReverse) {
+          console.log(isSortedDoctorsReverse);
+          return <DoctorsTableView doctors={sortedDoctorsReverse} />;
+        } else if (isSortedDoctors) {
+          console.log(isSortedDoctors);
+          return <DoctorsTableView doctors={sortedDoctors} />;
+        } else if (isSortedDoctorsCpf) {
+          console.log(isSortedDoctorsCpf);
+          return <DoctorsTableView doctors={sortedDoctorsCpf} />;
+        }
         return <DoctorsTableView doctors={doctors} />;
       } else if (isPatient) {
         if (isSortedPatientsReverse) {
@@ -218,8 +247,7 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
         } else if (isSortedPatients) {
           console.log(isSortedPatients);
           return <PatientTableView patients={sortedPatients} />;
-        }
-        else if (isSortedPatientsCpf) {
+        } else if (isSortedPatientsCpf) {
           console.log(isSortedPatientsCpf);
           return <PatientTableView patients={sortedPatientsCpf} />;
         }

@@ -27,9 +27,13 @@ public class MedicoController {
     }
 
     @GetMapping
-    public List<Medico> getMedicos(@RequestParam(required = false) String sort) {
+    public List<Medico> getMedicos(@RequestParam(required = false) String sort,
+                                @RequestParam(required = false) boolean reverse) {
         boolean sortAlphabetically = "alphabetical".equals(sort);
-        return medicoRepository.selectMedicos(sortAlphabetically);
+        boolean sortNumerically = "numerical".equals(sort);
+        System.out.println("sortAlphabetically: " + sortAlphabetically + " reverseOrder: " + reverse +
+                " sortNumerically: " + sortNumerically);
+        return medicoRepository.selectMedicos(sortAlphabetically, reverse, sortNumerically);
     }
 
     @GetMapping("/{cpf}")
