@@ -31,10 +31,10 @@ export default function UpperNav({ swapPatient, swapIntern, swapDoctor, searchBy
                 <h1 className="text-2xl font-medium text-normalBlue">Inserir</h1>
             </div>
             <ul className="flex gap-4 items-center justify-cent</li>er">
-                <li className="text-xl font-medium text-black cursor-pointer">Sort by:</li>
-                <li className="text-xl font-light text-normalBlue cursor-pointer" onClick = {searchByLatest}>• Latest</li>
-                <li className="text-xl font-light text-normalBlue cursor-pointer" onClick = {searchByAZ}>• A-Z</li>
-                <li className="text-xl font-light text-normalBlue cursor-pointer" onClick = {searchByZA}>• Z-A</li>
+                <li className="text-xl font-medium text-black cursor-pointer">Ordenar:</li>
+                <li className="text-xl text-normalBlue font-light cursor-pointer transform hover:scale-125" onClick = {searchByLatest}>• Mais antigos</li>
+                <li className="text-xl font-light text-normalBlue cursor-pointer transform hover:scale-125" onClick = {searchByAZ}>• A-Z</li>
+                <li className="text-xl font-light text-normalBlue cursor-pointer transform hover:scale-125" onClick = {searchByZA}>• Z-A</li>
             </ul>
             <SearchBar />
             <div className="mr-12 flex gap-4"> 
