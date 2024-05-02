@@ -31,10 +31,12 @@ public class PacientController {
 
         @GetMapping
         public List<Paciente> getAllPacients(@RequestParam(required = false) String sort, 
-                        @RequestParam(required = false) boolean reverse){
+                                            @RequestParam(required = false) boolean reverse){   
         boolean sortAlphabetically = "alphabetical".equals(sort);
-        System.out.println("sortAlphabetically: " + sortAlphabetically + " reverseOrder: " + reverse);
-        return pacientRepository.selectPacients(sortAlphabetically, reverse);
+        boolean sortNumerically = "numerical".equals(sort);
+        System.out.println("sortAlphabetically: " + sortAlphabetically + " reverseOrder: " + reverse +
+                            " sortNumerically: " + sortNumerically);
+        return pacientRepository.selectPacients(sortAlphabetically, reverse, sortNumerically);
         }
 
         @PutMapping("/{cpf}")
@@ -47,7 +49,4 @@ public class PacientController {
     public Paciente getPacient(@PathVariable String cpf){
         return pacientRepository.selectPacient(cpf);
     }
-    
-
-
 }

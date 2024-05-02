@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import "../app/globals.css";
 import SearchBar from './SearchBar';
-export default function UpperNav({ swapPatient, swapIntern, swapDoctor, searchByLatest, searchByAZ, searchByZA, insert, view}) {
+export default function UpperNav({ swapPatient, swapIntern, swapDoctor, searchByCpf, searchByAZ, searchByZA, insert, view}) {
     const [isIntern, setIsIntern] = useState(true);
     const [isDoctor, setIsDoctor] = useState(false);
     const [isPatient, setIsPatient] = useState(false);
@@ -55,7 +55,7 @@ export default function UpperNav({ swapPatient, swapIntern, swapDoctor, searchBy
             </div>
             <ul className="flex gap-4 items-center justify-center">
                 <li className="text-xl font-medium text-black cursor-pointer">Ordenar:</li>
-                <li className="text-xl text-normalBlue font-light cursor-pointer transform hover:scale-125" onClick = {searchByLatest}>• Mais antigos</li>
+                <li className="text-xl text-normalBlue font-light cursor-pointer transform hover:scale-125" onClick = {searchByCpf}>• CPF</li>
                 <li className="text-xl font-light text-normalBlue cursor-pointer transform hover:scale-125" onClick = {searchByAZ}>• A-Z</li>
                 <li className="text-xl font-light text-normalBlue cursor-pointer transform hover:scale-125" onClick = {searchByZA}>• Z-A</li>
             </ul>
