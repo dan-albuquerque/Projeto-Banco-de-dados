@@ -118,16 +118,17 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
   };
 
   return (
-    <Layout className="max-w-4xl mx-auto">
-      <UpperNav swapPatient={handleSwapPatient} swapIntern={handleSwapIntern} swapDoctor={handleSwapDoctor} />
-      <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '75vh' }}>
-        <div className="mb-4" style={{ marginLeft: '10px' }}>
-          <button className="mr-2" style={{ backgroundColor: 'black', color: 'white', borderRadius: '5px', marginRight: '10px', marginTop: '10px' }} onClick={handleSortAsc}>Sort A-Z</button>
-          <button style={{ backgroundColor: 'black', color: 'white', borderRadius: '5px', marginTop: '10px' }} onClick={handleSortDesc}>Sort Z-A</button>
-        </div>
-        {renderTable()}
+  <Layout className="max-w-4xl mx-auto">
+    <UpperNav swapPatient={handleSwapPatient} swapIntern={handleSwapIntern} swapDoctor={handleSwapDoctor} />
+    <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '75vh' }}>
+      <div className="mb-4 ml-10">
+        <button className="mr-2 bg-black text-white rounded-lg mr-10 mt-10" onClick={handleSortAsc}>Sort A-Z</button>
+        <button className="bg-black text-white rounded-lg mr-10 mt-10" onClick={handleSortDesc}>Sort Z-A</button>
+        <button className="bg-black text-white rounded-lg mr-10 mt-10" onClick={handleSortDesc}>Sort By Latest</button>
       </div>
-      <DownerNav />
-    </Layout>
+      {renderTable()}
+    </div>
+    <DownerNav />
+  </Layout>
   );
 }
