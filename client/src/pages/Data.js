@@ -216,7 +216,7 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
   };
 
   const renderTable = () => {
-    if (!isView) return <InsertNewIntern />;
+    if (!isView) return <InsertNewPacient />;
     else if (isInsert) return <InsertNewPacient />;
 
     if (isIntern) {
@@ -256,26 +256,26 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
       }
       return <PatientTableView patients={patients} />;
     }
-  };
+};
 
-  return (
-    <Layout className="max-w-4xl mx-auto">
+return (
+  <Layout className="max-w-4xl mx-auto">
 
-      <UpperNav
-        swapPatient={handleSwapPatient}
-        swapIntern={handleSwapIntern}
-        swapDoctor={handleSwapDoctor}
-        searchByCpf={handleSortCpf}
-        searchByAZ={handleSortAsc}
-        searchByZA={handleSortDesc}
-        view={handleView}
-        insert={handleInsert}
-      />
+    <UpperNav
+      swapPatient={handleSwapPatient}
+      swapIntern={handleSwapIntern}
+      swapDoctor={handleSwapDoctor}
+      searchByCpf={handleSortCpf}
+      searchByAZ={handleSortAsc}
+      searchByZA={handleSortDesc}
+      view={handleView}
+      insert={handleInsert}
+    />
 
-      <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '75vh' }}>
-        {renderTable()}
-      </div>
-      <DownerNav />
-    </Layout>
-  );
+    <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '75vh' }}>
+      {renderTable()}
+    </div>
+    <DownerNav />
+  </Layout>
+);
 }
