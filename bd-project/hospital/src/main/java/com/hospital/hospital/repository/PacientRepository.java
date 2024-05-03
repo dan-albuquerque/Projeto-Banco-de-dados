@@ -20,14 +20,17 @@ public class PacientRepository {
         jdbcTemplate.update("insert into paciente(cpf,nome,telefone_residencial,cidade,bairro,rua,numero,telefone_pessoal) values(?, ?, ?, ?, ?, ?, ?,?)", paciente.getCpf(), paciente.getNome(), paciente.gettelefone_residencial(), paciente.getCidade(), paciente.getBairro(), paciente.getRua(), paciente.getNumero(), paciente.gettelefone_pessoal());
     }
 
-    public List<Paciente> selectPacients(boolean sort, boolean reverse) {
+    public List<Paciente> selectPacients(boolean sortAlphabetically, boolean reverseOrder, boolean sortNumerically) {
         String sql;
-        if (sort) {
-            String order = reverse ? "DESC" : "ASC";
+        if (sortAlphabetically) {
+            String order = reverseOrder ? "DESC" : "ASC";
             sql = "SELECT * FROM Paciente ORDER BY nome " + order;
+        } else if (sortNumerically) {
+            sql = "SELECT * FROM paciente ORDER BY cpf DESC";
         } else {
             sql = "SELECT * FROM Paciente";
         }
+        System.out.println("comando sql: " + sql);
         return jdbcTemplate.query(sql, pacienteMapper);
     }
 

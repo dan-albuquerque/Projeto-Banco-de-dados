@@ -22,13 +22,17 @@ public class MedicoRepository {
     }
     
 
-    public List<Medico> selectMedicos(boolean sort) {
+    public List<Medico> selectMedicos(boolean sortAlphabetically, boolean reverseOrder, boolean sortNumerically) {
         String sql;
-        if (sort) {
-            sql = "SELECT * FROM Medico ORDER BY nome ASC";
-        } else {
+        if (sortAlphabetically) {
+            String order = reverseOrder ? "DESC" : "ASC";
+            sql = "SELECT * FROM Medico ORDER BY nome " + order;
+        } else if(sortNumerically){
+            sql = "SELECT * FROM Medico ORDER BY cpf DESC";
+        }else{
             sql = "SELECT * FROM Medico";
         }
+        System.out.println("comando sql: " + sql);
         return jdbcTemplate.query(sql, medicoMapper);
     }
 

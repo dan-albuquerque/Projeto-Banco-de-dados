@@ -18,9 +18,13 @@ public class InternController {
     }
 
     @GetMapping
-    public List<Interno> getAllInterns(@RequestParam(required = false) String sort) {
+    public List<Interno> getAllInterns(@RequestParam(required = false) String sort,
+                                    @RequestParam(required = false) boolean reverse) {
         boolean sortAlphabetically = "alphabetical".equals(sort);
-        return internRepository.selectInterns(sortAlphabetically);
+        boolean sortNumerically = "numerical".equals(sort);
+        System.out.println("sortAlphabetically: " + sortAlphabetically + " reverseOrder: " + reverse +
+                " sortNumerically: " + sortNumerically);
+        return internRepository.selectInterns(sortAlphabetically, reverse, sortNumerically);
     }
 
     @PutMapping("/{cpf}")
