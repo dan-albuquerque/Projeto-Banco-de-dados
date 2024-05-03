@@ -11,7 +11,7 @@ export default function DownerNav() {
   }
 
   return (
-    <div className="h-16 flex justify-center items-center mt-5 shadow-above ">
+    <div className="h-16 flex justify-center items-center mb-8 shadow-above fixed bottom-0 w-full ">
       <div className=" flex gap-16">
         <div className="flex flex-col items-center justify-center">
           <img src="/img/database.png" className="w-8 h-8" alt="database icon" />

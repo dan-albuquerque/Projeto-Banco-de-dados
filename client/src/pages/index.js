@@ -1,7 +1,7 @@
+import Layout from "@/app/layout";
+
 export default function Home() {
     return (
-        <div>
-        <h1>Home</h1>
-        </div>
+<Layout>  hey      </Layout>
     );
 }
