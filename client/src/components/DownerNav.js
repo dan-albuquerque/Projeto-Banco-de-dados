@@ -5,7 +5,7 @@ import '../app/globals.css';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 
-export default function DownerNav() {
+export default function DownerNav({doctors}) {
   const router = useRouter();
   const handleLogout = () => {
     localStorage.removeItem('jwtToken');
@@ -21,8 +21,12 @@ export default function DownerNav() {
           <p className='text-l text-black font-light cursor-pointer transform hover:scale-125'>Dados</p>
         </div>
         <div className="flex flex-col items-center justify-center">
+          <button onClick={() => router.push('/ViewConsultas')} className="w-8 h-8 flex items-center justify-center">
           <img src="/img/medico.png" className="w-8 h-8" alt="medico icon" />
+          </button>
+          <button onClick={() => router.push('/ViewConsultas')} className="w-8 h-8 flex items-center justify-center">
           <p className='text-l text-black font-light cursor-pointer transform hover:scale-125'>Consulta</p>
+          </button>
         </div>
         <div className="flex flex-col items-center justify-center">
           <img src="/img/perfil.png" className="w-8 h-8" alt="perfil icon" />

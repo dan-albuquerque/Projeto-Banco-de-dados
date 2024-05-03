@@ -285,7 +285,6 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
         }
     }
   };
-
   return (
     <Layout className="max-w-4xl mx-auto">
 
