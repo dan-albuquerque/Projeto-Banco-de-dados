@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import "../app/globals.css";
+import cookie from 'cookie';
 
 export default function InsertNewPacient() {
     
@@ -34,6 +35,7 @@ export default function InsertNewPacient() {
             alert('Erro ao inserir paciente.');
         }
     };
+
     return (
         <div className="flex flex-col items-center justify-center h-full">
             <h1 className="text-4xl font-light text-customBlue">Inserir Paciente</h1>
@@ -52,13 +54,17 @@ export default function InsertNewPacient() {
     );
 }
 
-export const postNewPacient = async (pacient) => {
-    try {
+export const postNewPacient = async (pacient) => {  
+  try {
+      const jwtToken = localStorage.getItem('jwtToken');
+      
       const response = await fetch('http://localhost:8080/pacient', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`
         },
+
         body: JSON.stringify(pacient)
       });
   

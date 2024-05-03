@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import cookie from 'cookie';
 
 export default function InsertNewIntern() {
     const [intern, setIntern] = useState(
@@ -10,12 +11,14 @@ export default function InsertNewIntern() {
         }
     );
 
+
     const handleChange = (e) => {
         setIntern({
             ...intern,
             [e.target.name]: e.target.value
         });
     }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,35 +30,45 @@ export default function InsertNewIntern() {
             alert('Erro ao inserir interno.');
         }
     }
-    
-    
+   
+   
     return (
-        <div className="container mx-auto mt-8 flex items-center justify-center">
-            <form onSubmit ={handleSubmit} className="w-5/6 flex flex-col items-center justify-center">
-                <h1 className="text-2xl font-bold mb-4">Adicionar novo Interno</h1>
-                <input type="text" name ="nome" onChange ={handleChange} placeholder="Nome" className="w-1/2 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 mb-4" />
-                <input type="text" name ="cpf" onChange ={handleChange} placeholder="CPF" className="w-1/2 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 mb-4" />
-                <input type="text" name ="matricula" onChange ={handleChange} placeholder="Matricula" className="w-1/2 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 mb-4" />
-                <input type="password" name="senha" onChange ={handleChange} placeholder="Senha" className="w-1/2 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 mb-4" />
-                <button className="w-1/2 bg-blue-500 text-white rounded-lg px-4 py-2">Adicionar</button>
-            </form>
-        </div>
+        <div className="flex flex-col items-center justify-center h-full">
+        <h1 className="text-4xl font-light text-customBlue">Inserir Interno</h1>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6 w-full items-center justify-center">
+            <input type="text" name="nome" onChange={handleChange} placeholder="Nome" className="w-1/5 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm" />
+            <input type="text" name="cpf" onChange={handleChange} placeholder="CPF" className="w-1/5 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm" />
+            <input type="text" name="matricula" onChange={handleChange} placeholder="Matricula" className="w-1/5 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm" />
+            <input type="password" name="senha" onChange={handleChange} placeholder="Senha" className="w-1/5  border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm" />
+            <button className="bg-customBlue text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 w-1/5">Adicionar</button>
+    </form>
+</div>
     );
 }
 export const postNewIntern = async (intern) => {
-    try {
-        const response = await fetch('http://localhost:8080/intern', {
+    const jwtToken = localStorage.getItem('jwtToken');
+
+        try {
+          const response = await fetch('http://localhost:8080/intern', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${jwtToken}`
             },
             body: JSON.stringify(intern)
-        });
-        const data = await response.json();
-        console.log('Data:', data);
-        return true;
-    } catch (error) {
-        console.error('Error:', error);
-        return false;
-    }
+          });
+     
+          if (!response.ok) {
+            console.error("Failed to insert new intern:", response.statusText);
+            console.log(response);
+            return false;
+          }
+     
+          return true;
+        } catch (error) {
+          console.error("Failed to insert new intern:", error);
+          console.log({intern})
+          return false;
+        }
+     
 }
