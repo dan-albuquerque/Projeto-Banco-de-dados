@@ -7,7 +7,7 @@ export default function Layout({ children }) {
   return (
     <div style={{ minHeight: '100vh'}} className={poppins.className}>
       {children}
-      <DownerNav />
+      
 
     </div>
   );
