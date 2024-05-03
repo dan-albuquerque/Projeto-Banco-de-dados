@@ -13,7 +13,7 @@ public class RegistroRepository {
     private JdbcTemplate jdbcTemplate;
 
     public void insertRegistro(Registro registro){
-        jdbcTemplate.update("insert into registro(codigo, conduta) values(?, ?)", registro.getCodigo(), registro.getConduta());
+        jdbcTemplate.update("insert into registro(conduta) values(?)", registro.getConduta());
     }
 
     public void deleteRegistro(int codigo){

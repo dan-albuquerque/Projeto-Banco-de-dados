@@ -41,13 +41,14 @@ create table paciente_urgencia(
 );
 
 create table registro(
-	codigo integer primary key,
+	codigo integer auto_increment primary key,
 	conduta varchar(50)
 );
 
 create table hipotese(
 	fk_registro_codigo integer not null,
 	id integer not null,
+	descricao varchar(500) not null,
 	primary key (fk_registro_codigo, id),
 	foreign key (fk_registro_codigo) references registro(codigo)
 );
@@ -84,14 +85,12 @@ create table comorbidade(
 	foreign key (fk_registro_urgencia_codigo) references registro_urgencia(fk_registro_codigo)
 );
 
-# adicionada senha
 create table medico(
 	cpf varchar(11) primary key,
 	rqe integer not null,
 	nome varchar(100) not null,
 	especialidade varchar(100) not null,
-	
-	senha varchar (200) not null
+	senha varchar (200) not null,
 	crm varchar(10) not null,
 	fk_medico_cpf_gerente varchar(11),
 	foreign key (fk_medico_cpf_gerente) references medico(cpf)
@@ -106,7 +105,7 @@ create table examina(
 );
 
 create table exame_complementar(
-	codigo integer primary key,
+	codigo integer auto_increment primary key,
 	resultados varchar(500) not null,
 	data_realizacao date not null,
 	tipo varchar(100) not null
@@ -149,13 +148,10 @@ INSERT INTO interno (cpf, nome, senha, matricula) VALUES
 ('23456789012', 'Maria Souza', 'senha456', 1002),
 ('34567890123', 'Carlos Pereira', 'senha789', 1003);
 
-alter table medico 
-add column senha varchar(200) not null;
-
-INSERT INTO registro (codigo, conduta) VALUES
-(1, 'Prescrever medicação'),
-(2, 'Encaminhar para especialista'),
-(3, 'Realizar exames adicionais');
+INSERT INTO registro (conduta) VALUES
+('Prescrever medicação'),
+('Encaminhar para especialista'),
+('Realizar exames adicionais');
 
 INSERT INTO registro_urgencia (fk_registro_codigo, historico_doenca, exame_fisico) VALUES
 (1, 'Histórico de diabetes', 'Exame físico normal'),
@@ -173,6 +169,6 @@ INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES
 ('34567890123', 1);
 
 INSERT INTO consulta_urgencia (fk_registro_urgencia_codigo, fk_medico_cpf, fk_paciente_urgencia_cpf, data_realizacao) VALUES
-(1, '98765432101', '12345678901', '2024-04-27'),
-(2, '87654321012', '12345678901', '2024-04-28'),
-(3, '76543210923', '12345678901', '2024-04-29');
+(1, '12345678910', '12345678901', '2024-04-27'),
+(2, '12345678910', '12345678901', '2024-04-28'),
+(3, '12345678910', '12345678901', '2024-04-29');

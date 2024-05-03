@@ -18,8 +18,8 @@ public class ExameComplementarRepository {
     }
 
     public void insertExameComplementar(ExameComplementar exameComplementar) {
-        jdbcTemplate.update("INSERT INTO exame_complementar (codigo, data_realizacao, resultados, tipo) VALUES (?, ?, ?, ?)",
-            exameComplementar.getCodigo(), exameComplementar.getData_realizacao(), exameComplementar.getResultados(), 
+        jdbcTemplate.update("INSERT INTO exame_complementar (data_realizacao, resultados, tipo) VALUES (?, ?, ?)",
+            exameComplementar.getData_realizacao(), exameComplementar.getResultados(), 
             exameComplementar.getTipo());
     }
 
