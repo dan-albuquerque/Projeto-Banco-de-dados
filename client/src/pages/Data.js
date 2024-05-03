@@ -7,6 +7,7 @@ import DoctorsTableView from '@/components/DoctorsTableView';
 import PatientTableView from '@/components/PatientTableView';
 import DownerNav from '@/components/DownerNav';
 import InsertNewPacient from '@/components/InsertNewPacient';
+import InsertNewIntern from '@/components/InsertNewIntern';
 
 export async function getServerSideProps(context) {
 

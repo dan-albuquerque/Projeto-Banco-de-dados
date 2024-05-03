@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import "../app/globals.css";
 
 export default function InsertNewPacient() {
+    
+    // Defining the state of the pacient object   
     const [pacient, setPacient] = useState({
         cpf: "",
         nome: "",
@@ -12,16 +14,18 @@ export default function InsertNewPacient() {
         rua: "",
         numero: ""
     });
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setPacient(prevState => ({
+
+    // Function to handle the changes in the input fields
+    const handleChange = (e) => { // e is the event object, an ocurrence of an event that is handled by the browser
+        const { name, value } = e.target; // Destructuring the name and value from the target of the event
+        setPacient(prevState => ({ // Updating the state of the pacient object
             ...prevState,
             [name]: value
         }));
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Preventing the default behavior of the form
         console.log("Data to be sent to the API:", pacient);
         const success = await postNewPacient(pacient);
         if (success) {
@@ -47,6 +51,7 @@ export default function InsertNewPacient() {
         </div>
     );
 }
+
 export const postNewPacient = async (pacient) => {
     try {
       const response = await fetch('http://localhost:8080/pacient', {

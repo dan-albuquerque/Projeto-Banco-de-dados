@@ -5,7 +5,7 @@ const poppins = Poppins({ subsets: ["latin"], weight: ['100','200','300','400','
 
 export default function Layout({ children }) {
   return (
-    <div style={{ minHeight: '100vh', minWidth: '100vh' }} className={poppins.className}>
+    <div style={{ minHeight: '100vh'}} className={poppins.className}>
       {children}
     </div>
   );
