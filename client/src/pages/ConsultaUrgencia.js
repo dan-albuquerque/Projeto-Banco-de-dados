@@ -9,6 +9,7 @@ export default function ConsultaUrgencia() {
   const [historico, setHistorico] = useState('');
   const [exameFisico, setExameFisico] = useState('');
   const [dataConsulta, setDataConsulta] = useState('');
+  const medicoCpf = localStorage.getItem('cpf');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,7 +18,7 @@ export default function ConsultaUrgencia() {
     console.log('Histórico:', historico);
     console.log('Exame físico:', exameFisico);
     console.log('Data da consulta:', dataConsulta);
-    fetch('http://localhost:8080/consulta_internado', {
+    fetch('http://localhost:8080/consulta_urgencia', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

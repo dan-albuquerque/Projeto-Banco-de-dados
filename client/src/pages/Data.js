@@ -7,9 +7,31 @@ import DoctorsTableView from '@/components/DoctorsTableView';
 import PatientTableView from '@/components/PatientTableView';
 import DownerNav from '@/components/DownerNav';
 import InsertNewPacient from '@/components/InsertNewPacient';
-import InsertNewIntern from '@/components/InsertNewIntern';
+import cookie from 'cookie';
 
 export async function getServerSideProps(context) {
+  const { req, res } = context;
+  const parsedCookies = cookie.parse(req ? req.headers.cookie || "" : "");
+
+  const jwtToken = parsedCookies.jwtToken;
+
+  const fetchWithAuth = (url) => fetch(url, {
+    headers: {
+      'Authorization': `Bearer ${jwtToken}`
+    }
+  })
+  .then((response) => {
+    if (!response.ok) {
+      res.writeHead(302, { Location: '/login' });
+      res.end();
+      return { props: {} };
+    } 
+    return response;
+  })
+  .catch((error) => {
+    console.error('Failed to fetch data:', error);
+    return { props: {} };
+  });
 
   const urls = {
     interns: 'http://localhost:8080/intern',
@@ -30,18 +52,18 @@ export async function getServerSideProps(context) {
     const [internsRes, doctorsRes, patientsRes, sortedPatientsRes, sortedPatientsReverseRes,
       sortedPatientsCpfRes, sortedInternsRes, sortedInternsReverseRes, sortedInternsCPfRes,
       sortedDoctorsRes, sortedDoctorsReverseRes, sortedDoctorsCpfRes] = await Promise.all([
-        fetch(urls.interns),
-        fetch(urls.doctors),
-        fetch(urls.patients),
-        fetch(urls.sortedPatients),
-        fetch(urls.sortedPatientsReverse),
-        fetch(urls.sortedPatientsCpf),
-        fetch(urls.sortedInterns),
-        fetch(urls.sortedInternsReverse),
-        fetch(urls.sortedInternsCpf),
-        fetch(urls.sortedDoctors),
-        fetch(urls.sortedDoctorsReverse),
-        fetch(urls.sortedDoctorsCpf)
+        fetchWithAuth(urls.interns),
+        fetchWithAuth(urls.doctors),
+        fetchWithAuth(urls.patients),
+        fetchWithAuth(urls.sortedPatients),
+        fetchWithAuth(urls.sortedPatientsReverse),
+        fetchWithAuth(urls.sortedPatientsCpf),
+        fetchWithAuth(urls.sortedInterns),
+        fetchWithAuth(urls.sortedInternsReverse),
+        fetchWithAuth(urls.sortedInternsCpf),
+        fetchWithAuth(urls.sortedDoctors),
+        fetchWithAuth(urls.sortedDoctorsReverse),
+        fetchWithAuth(urls.sortedDoctorsCpf)
       ]);
 
     const [interns, doctors, patients, sortedPatients, sortedPatientsReverse, sortedPatientsCpf,
@@ -256,26 +278,26 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
       }
       return <PatientTableView patients={patients} />;
     }
-};
+  };
 
-return (
-  <Layout className="max-w-4xl mx-auto">
+  return (
+    <Layout className="max-w-4xl mx-auto">
 
-    <UpperNav
-      swapPatient={handleSwapPatient}
-      swapIntern={handleSwapIntern}
-      swapDoctor={handleSwapDoctor}
-      searchByCpf={handleSortCpf}
-      searchByAZ={handleSortAsc}
-      searchByZA={handleSortDesc}
-      view={handleView}
-      insert={handleInsert}
-    />
+      <UpperNav
+        swapPatient={handleSwapPatient}
+        swapIntern={handleSwapIntern}
+        swapDoctor={handleSwapDoctor}
+        searchByCpf={handleSortCpf}
+        searchByAZ={handleSortAsc}
+        searchByZA={handleSortDesc}
+        view={handleView}
+        insert={handleInsert}
+      />
 
-    <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '75vh' }}>
-      {renderTable()}
-    </div>
-    <DownerNav />
-  </Layout>
-);
+      <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '75vh' }}>
+        {renderTable()}
+      </div>
+      <DownerNav />
+    </Layout>
+  );
 }
