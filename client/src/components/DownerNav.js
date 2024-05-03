@@ -1,9 +1,12 @@
+"use client";
+
 import React from 'react';
 import '../app/globals.css';
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 
 export default function DownerNav() {
+  const router = useRouter();
   const handleLogout = () => {
     localStorage.removeItem('jwtToken');
     Cookies.remove('jwtToken');
