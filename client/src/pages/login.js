@@ -31,8 +31,14 @@ export default function Login() {
         })
         .then((data) => {
           let jwtToken = data.token;
+          localStorage.setItem('cpf', cpf);
           localStorage.setItem('jwtToken', jwtToken);
           Cookies.set('jwtToken', jwtToken, {
+            expires: 7,
+            secure: true,
+            sameSite: 'Strict'
+          });
+          Cookies.set('cpf', cpf, {
             expires: 7,
             secure: true,
             sameSite: 'Strict'

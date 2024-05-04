@@ -1,6 +1,8 @@
 package com.hospital.hospital.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.hospital.hospital.repository.RegistroRepository;
@@ -20,10 +22,11 @@ public class RegistroController {
     private RegistroRepository registroRepository;
 
     @PostMapping
-    public String createRegistro(@RequestBody Registro registro) {
-        registroRepository.insertRegistro(registro);
-        return "Registro criado: " + registro.getConduta();
-    }
+    public ResponseEntity<Registro> createRegistro(@RequestBody Registro registro) {
+        int id = registroRepository.insertRegistro(registro);
+        registro.setCodigo(id);
+        return ResponseEntity.ok(registro);
+}
 
     @DeleteMapping("/{codigo}")
     public String deleteRegistro(@PathVariable int codigo){
