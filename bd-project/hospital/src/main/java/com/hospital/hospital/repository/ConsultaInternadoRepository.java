@@ -28,7 +28,7 @@ public class ConsultaInternadoRepository {
         private RowMapper<ConsultaInternado> consultaInternadoMapper = (rs, rowNum) -> {
             ConsultaInternado consultaInternado = new ConsultaInternado(
                 rs.getDate("data_realizacao"),
-                rs.getInt("fk_registro_urgencia_codigo"),
+                rs.getInt("fk_registro_internado_codigo"),
                 rs.getString("fk_medico_cpf"),
                 rs.getString("fk_paciente_internado_cpf")
             );

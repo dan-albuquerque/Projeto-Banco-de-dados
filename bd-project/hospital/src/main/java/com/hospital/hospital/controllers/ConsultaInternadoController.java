@@ -33,7 +33,7 @@ public class ConsultaInternadoController {
         return "ConsultaInternado deleted! ";
     }
 
-    @GetMapping
+    @GetMapping()
     public List<ConsultaInternado> getAllConsultaInternados() {
         return consultaInternadoRepository.selectConsultaInternados();
     }
