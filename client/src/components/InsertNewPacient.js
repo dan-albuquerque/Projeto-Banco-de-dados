@@ -41,14 +41,29 @@ export default function InsertNewPacient() {
     });
 
     const [paciente_internado, setpaciente_internado] = useState({
-        fk_paciente_cpf: "",
-        sala: ""
+        fk_paciente_cpf: null,
+        sala: null,
+    });
+
+    const[paciente_urgencia, setpaciente_urgencia] = useState({
+        fk_paciente_cpf: null,
+        nivel_triagem: null,
     });
 
     const handleChange = (e) => {
       const { name, value } = e.target; 
       if (Interned) {
           setpaciente_internado(prevState => ({
+              ...prevState,
+              [name]: value
+          }));
+          setPacient(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+
+      } else if (Urgency) {
+          setpaciente_urgencia(prevState => ({
               ...prevState,
               [name]: value
           }));
@@ -64,14 +79,23 @@ export default function InsertNewPacient() {
       }
     };
 
-  useEffect(() => {
-    if (pacient.cpf) {
+    useEffect(() => {
+      if (pacient.cpf) {
         setpaciente_internado(prevState => ({
-            ...prevState,
-            fk_paciente_cpf: pacient.cpf
+          ...prevState,
+          fk_paciente_cpf: pacient.cpf
         }));
-    }
-  }, [pacient.cpf]);
+      }
+    }, [pacient.cpf]);  // This effect updates the interned patient's foreign key
+    
+    useEffect(() => {
+      if (pacient.cpf) {
+        setpaciente_urgencia(prevState => ({
+          ...prevState,
+          fk_paciente_cpf: pacient.cpf
+        }));
+      }
+    }, [pacient.cpf]); // This effect updates the urgency patient's foreign key
 
     const handleSubmit = async (e) => {
       e.preventDefault(); 
@@ -79,10 +103,16 @@ export default function InsertNewPacient() {
       let success = false;
   
       if (Interned) {
-          console.log(`Data to be sent to the API: ${paciente_internado}`);
+          console.log(`Data to be sent to the API:  ${JSON.stringify(paciente_urgencia)}`);
           await postNewPacient(pacientData);
           success = await postNewInternedPacient( paciente_internado );
-      } else {
+      }
+      else if (Urgency) {
+        console.log(`Data to be sent to the API: ${JSON.stringify(paciente_urgencia)}`);
+          await postNewPacient(pacientData);
+          success = await postNewUrgencyPacient( paciente_urgencia );
+      }
+      else {
           success = await postNewPacient(pacientData);
       }
       if (success) {
@@ -108,7 +138,7 @@ export default function InsertNewPacient() {
     const renderExtraFields = () => {
     if (Urgency) {
         return (
-            <input type="text" name="nivel_triagem" value={pacient.nivel_triagem || ''} onChange={handleChange} placeholder="Nivel de Triagem" className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs" style={{ width: "400px" }} />
+            <input type="text" name="nivel_triagem" value={paciente_urgencia.nivel_triagem || ''} onChange={handleChange} placeholder="Nivel de Triagem" className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs" style={{ width: "400px" }} />
         );
     }
     if (Interned) {
@@ -146,7 +176,7 @@ export default function InsertNewPacient() {
                 <input type="text" name = "rua" value={pacient.rua} onChange={handleChange} placeholder="Rua" className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs" style={{ width: "400px" }} />
                 <input type="number" name = "numero" value={pacient.numero} onChange={handleChange} placeholder="Número" className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs" style={{ width: "400px" }} />
                 {renderExtraFields()}
-                <button className="bg-customBlue text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 text-xs focus:ring-blue-600">Inserir</button>   
+                <button className="bg-customBlue text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 text-xs focus:ring-blue-600">Adicionar</button>   
             </form>
         </div>
       </>
@@ -209,4 +239,30 @@ export const postNewPacient = async (pacient) => {
       }
     }
 
-  
+    export const postNewUrgencyPacient = async (paciente_urgencia) => {
+        try {
+            const jwtToken = localStorage.getItem('jwtToken');
+            
+            const response = await fetch('http://localhost:8080/pacienturgencia', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`
+              },
+      
+              body: JSON.stringify(paciente_urgencia)
+            });
+        
+            if (!response.ok) {
+              console.error("Failed to insert new pacient:", response.statusText);
+              console.log(response);
+              return false;
+            }
+        
+            return true;
+          } catch (error) {
+            console.error("Failed to insert new pacient:", error);
+            console.log(paciente_urgencia)
+            return false;
+          }
+        }

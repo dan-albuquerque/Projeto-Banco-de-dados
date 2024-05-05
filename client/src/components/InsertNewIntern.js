@@ -42,13 +42,13 @@ export default function InsertNewIntern() {
     return (
         <div className="flex flex-col items-center justify-center h-full">
             
-        <h1 className="text-4xl font-light text-customBlue">Inserir Interno</h1>
+        <h1 className="text-3xl font-light text-customBlue">Inserir Interno</h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6 w-full items-center justify-center">
-            <input type="text" name="nome" onChange={handleChange} placeholder="Nome" className="w-1/5 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm" />
-            <input type="text" name="cpf" onChange={handleChange} placeholder="CPF" className="w-1/5 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm" />
-            <input type="text" name="matricula" onChange={handleChange} placeholder="Matricula" className="w-1/5 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm" />
-            <input type="password" name="senha" onChange={handleChange} placeholder="Senha" className="w-1/5  border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm" />
-            <button className="bg-customBlue text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 w-1/5">Adicionar</button>
+            <input type="text" name="nome" onChange={handleChange} placeholder="Nome" className="w-1/5 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs" />
+            <input type="text" name="cpf" onChange={handleChange} placeholder="CPF" className="w-1/5 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs" />
+            <input type="text" name="matricula" onChange={handleChange} placeholder="Matricula" className="w-1/5 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs" />
+            <input type="password" name="senha" onChange={handleChange} placeholder="Senha" className="w-1/5  border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs" />
+            <button className="bg-customBlue text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 w-1/5 text-xs">Adicionar</button>
     </form>
 </div>
     );
