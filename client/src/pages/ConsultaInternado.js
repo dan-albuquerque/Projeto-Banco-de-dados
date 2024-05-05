@@ -22,7 +22,7 @@ export default function ConsultInternado() {
     console.log('CPF do paciente:', pacienteCpf);
     console.log('Conduta:', conduta);
     console.log('Histórico de exames:', historico);
-    console.log('Evolução:', exameFisico);
+    console.log('Evolução:', evolucao);
     console.log('Data da consulta:', dataConsulta);
     const registroData = {
       conduta: conduta
@@ -36,56 +36,56 @@ export default function ConsultInternado() {
       },
       body: JSON.stringify(registroData)
     })
-      .then(response => response.ok ? response.json() : Promise.reject('Falha ao criar consulta de urgência!' + response.statusText))
+      .then(response => response.ok ? response.json() : Promise.reject('Falha ao criar consulta de internado!' + response.statusText))
       .then((data) => {
         console.log('Registro:', data)
         codigo = data.codigo;
         console.log('Código:', codigo);
         const registroInternadoData = {
           fk_registro_codigo: codigo,
-          historico_doenca: historico,
-          exame_fisico: exameFisico
+          historico_exames: historico,
+          evolucao: evolucao
         };
 
-        console.log('Registro de urgência:', registroUrgenciaData);
+        console.log('Registro de internado:', registroInternadoData);
 
-        return fetch('http://localhost:8080/registro_urgencia', {
+        return fetch('http://localhost:8080/registro_internado', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${jwtToken}`
           },
-          body: JSON.stringify(registroUrgenciaData)
+          body: JSON.stringify(registroInternadoData)
         });
       })
-      .then(response => response.ok ? response.text() : Promise.reject('Falha ao criar consulta de urgência!' + response.statusText))
+      .then(response => response.ok ? response.text() : Promise.reject('Falha ao criar consulta de internado!' + response.statusText))
       .then(() => {
-        const consultaUrgenciaData = {
-          fk_registro_urgencia_codigo: codigo,
+        const consultaInternadoData = {
+          fk_registro_internado_codigo: codigo,
           data_realizacao: dataConsulta,
           fk_medico_cpf: medicoCpf,
-          fk_paciente_urgencia_cpf: pacienteCpf
+          fk_paciente_internado_cpf: pacienteCpf
         };
 
-        return fetch('http://localhost:8080/consulta_urgencia', {
+        return fetch('http://localhost:8080/consulta_internado', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${jwtToken}`
           },
-          body: JSON.stringify(consultaUrgenciaData)
+          body: JSON.stringify(consultaInternadoData)
         });
       })
-      .then(response => response.ok ? response.text() : Promise.reject('Falha ao criar consulta de urgência! ' + response.statusText))
+      .then(response => response.ok ? response.text() : Promise.reject('Falha ao criar consulta de internado! ' + response.statusText))
       .then(() => {
-        toast.success('Consulta de urgência criada com sucesso!');
+        toast.success('Consulta de internado criada com sucesso!');
         setPacienteCpf('');
         setConduta('');
         setHistorico('');
-        setExameFisico('');
+        setEvolucao('');
       })
       .catch((error) => {
-        toast.error(error);
+        toast.error(error.toString());
       });
   }
 
@@ -95,7 +95,7 @@ export default function ConsultInternado() {
       <Layout>
         <form id="registroForm" onSubmit={handleSubmit} className="max-w-4xl mx-auto p-8">
           <h1 className="text-2xl font-weight text-center mb-10 text-blue-500">
-            Consulta de Urgência
+            Consulta de Internado
           </h1>
           <div className="grid grid-cols-1 gap-4 mb-6">
             <div>
@@ -103,12 +103,12 @@ export default function ConsultInternado() {
               <textarea id="conduta" value={conduta} onChange={(e) => setConduta(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-4 resize-none" />
             </div>
             <div>
-              <label htmlFor="historico" className="block text-sm font-medium text-gray-700">Histórico da doença:</label>
+              <label htmlFor="historico" className="block text-sm font-medium text-gray-700">Histórico de exames:</label>
               <textarea id="historico" value={historico} onChange={(e) => setHistorico(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-4 resize-none" />
             </div>
             <div>
-              <label htmlFor="exameFisico" className="block text-sm font-medium text-gray-700">Exame físico:</label>
-              <textarea id="exameFisico" value={exameFisico} onChange={(e) => setExameFisico(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-4 resize-none" />
+              <label htmlFor="evolucao" className="block text-sm font-medium text-gray-700">Evolução:</label>
+              <textarea id="evolucao" value={evolucao} onChange={(e) => setEvolucao(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-4 resize-none" />
             </div>
             <div>
               <label htmlFor="pacienteCpf" className="block text-sm font-medium text-gray-700">CPF do paciente:</label>

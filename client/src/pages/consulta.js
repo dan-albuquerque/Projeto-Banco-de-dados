@@ -20,7 +20,7 @@ export default function ConsultaPage() {
             className="py-3 text-xl bg-black hover:bg-gray-900 text-white rounded-lg shadow-md transition duration-200">
             Criar Consulta de Urgência
           </button>
-          <button onClick={() => router.push('/criar-consulta-internado')}
+          <button onClick={() => router.push('/ConsultaInternado')}
             className="py-3 text-xl bg-black hover:bg-gray-900 text-white rounded-lg shadow-md transition duration-200">
             Criar Consulta de Paciente Internado
           </button>
