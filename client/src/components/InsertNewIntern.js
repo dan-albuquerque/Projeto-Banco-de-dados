@@ -48,7 +48,7 @@ export default function InsertNewIntern() {
             <input type="text" name="cpf" onChange={handleChange} placeholder="CPF" className="w-1/5 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs" />
             <input type="text" name="matricula" onChange={handleChange} placeholder="Matricula" className="w-1/5 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs" />
             <input type="password" name="senha" onChange={handleChange} placeholder="Senha" className="w-1/5  border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs" />
-            <button className="bg-customBlue text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 w-1/5 text-xs">Adicionar</button>
+            <button className="bg-customBlue text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 w-1/5 text-xs transition-transform duration-200 hover:scale-105">Adicionar</button>
     </form>
 </div>
     );

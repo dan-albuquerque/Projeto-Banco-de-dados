@@ -176,7 +176,7 @@ export default function InsertNewPacient() {
                 <input type="text" name = "rua" value={pacient.rua} onChange={handleChange} placeholder="Rua" className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs" style={{ width: "400px" }} />
                 <input type="number" name = "numero" value={pacient.numero} onChange={handleChange} placeholder="Número" className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs" style={{ width: "400px" }} />
                 {renderExtraFields()}
-                <button className="bg-customBlue text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 text-xs focus:ring-blue-600">Adicionar</button>   
+                <button className="bg-customBlue text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 text-xs focus:ring-blue-600 transition-transform duration-200 hover:scale-105">Adicionar</button>   
             </form>
         </div>
       </>

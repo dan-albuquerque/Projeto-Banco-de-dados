@@ -15,7 +15,7 @@ export function Layout({ children }) {
 
 export function CentralizedLayout({ children }) {
   return (
-    <div className={`${poppins.className} min-h-screen flex items-center justify-center`}>
+    <div className={`${poppins.className} min-h-screen flex flex-col items-center justify-center`}>
       {children}
     </div>
     

@@ -95,7 +95,7 @@ export default function ConsultInternado() {
       <CentralizedLayout>
         <form id="registroForm" onSubmit={handleSubmit} className="w-1/2 mx-auto p-8 mb-16 shadow-xl rounded-lg">
           <div className='flex justify-between items-center mb-10'>
-            <h1 className="text-3xl font-weight self-start text-blue-500">
+            <h1 className="text-3xl font-weight self-start text-normalBlue">
               Consulta de Internado
             </h1>
             <div className="flex items-center gap-3">
