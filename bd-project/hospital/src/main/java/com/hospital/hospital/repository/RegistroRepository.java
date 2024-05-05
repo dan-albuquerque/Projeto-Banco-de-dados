@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.hospital.hospital.models.informacao.Registro;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
@@ -42,8 +40,7 @@ public class RegistroRepository {
     }
 
     public Registro selectRegistro(int codigo) {
-        return jdbcTemplate.queryForObject("select * from registro where codigo = ?", new Object[] { codigo },
-                registroMapper);
+        return jdbcTemplate.queryForObject("select * from registro where codigo = ?", registroMapper, codigo);
     }
 
     private RowMapper<Registro> registroMapper = (rs, rowNum) -> {

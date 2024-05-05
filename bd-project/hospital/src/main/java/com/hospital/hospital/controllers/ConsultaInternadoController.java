@@ -36,4 +36,14 @@ public class ConsultaInternadoController {
             @PathVariable String cpfPaciente) {
         return consultaInternadoRepository.selectConsultaInternado(cod_registro, cpfMedico, cpfPaciente);
     }
+
+    @GetMapping("/paciente/{cpfPaciente}")
+    public List<ConsultaInternado> getConsultaInternadoByPaciente(@PathVariable String cpfPaciente) {
+        return consultaInternadoRepository.selectConsultaInternadoByPaciente(cpfPaciente);
+    }
+
+    @GetMapping("/medico/{cpfMedico}")
+    public List<ConsultaInternado> getConsultaInternadoByMedico(@PathVariable String cpfMedico) {
+        return consultaInternadoRepository.selectConsultaInternadoByMedico(cpfMedico);
+    }
 }

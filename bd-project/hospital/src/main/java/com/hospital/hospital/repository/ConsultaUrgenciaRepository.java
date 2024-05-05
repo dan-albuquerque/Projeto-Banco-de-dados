@@ -54,14 +54,11 @@ public class ConsultaUrgenciaRepository {
                             fk_paciente_urgencia_cpf);
     }
 
-    //so pode alterar a data?
-    public void updateConsultaUrgencia(int fk_registro_urgencia_codigo, String fk_medico_cpf, 
-                                       String fk_paciente_urgencia_cpf, 
-                                       ConsultaUrgencia consultaUrgencia) {
-        jdbcTemplate.update("UPDATE consulta_urgencia SET data_realizacao = ? WHERE fk_medico_cpf = ? AND fk_paciente_urgencia_cpf = ? AND fk_registro_urgencia_codigo = ?",
-                            consultaUrgencia.getDataRealizacao(), 
-                            fk_medico_cpf, 
-                            fk_paciente_urgencia_cpf, 
-                            fk_registro_urgencia_codigo);
-    }  
+    public List<ConsultaUrgencia> selectConsultaUrgenciaByPaciente(String cpf) {
+        return jdbcTemplate.query("SELECT * FROM consulta_urgencia WHERE fk_paciente_urgencia_cpf = ?", consultaUrgenciaMapper, cpf);
+    }
+
+    public  List<ConsultaUrgencia> selectConsultaUrgenciaByMedico(String cpf) {
+        return jdbcTemplate.query("SELECT * FROM consulta_urgencia WHERE fk_medico_cpf = ?", consultaUrgenciaMapper, cpf);
+    }
 }

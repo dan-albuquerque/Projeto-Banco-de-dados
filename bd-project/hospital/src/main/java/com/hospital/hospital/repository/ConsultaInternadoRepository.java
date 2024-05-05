@@ -55,4 +55,12 @@ public class ConsultaInternadoRepository {
                 fk_medico_cpf,
                 fk_paciente_internado_cpf);
     }
+
+    public List<ConsultaInternado> selectConsultaInternadoByPaciente(String cpf) {
+        return jdbcTemplate.query("SELECT * FROM consulta_internado WHERE fk_paciente_internado_cpf = ?", consultaInternadoMapper, cpf);
+    }
+
+    public  List<ConsultaInternado> selectConsultaInternadoByMedico(String cpf) {
+        return jdbcTemplate.query("SELECT * FROM consulta_internado WHERE fk_medico_cpf = ?", consultaInternadoMapper, cpf);
+    }
 }
