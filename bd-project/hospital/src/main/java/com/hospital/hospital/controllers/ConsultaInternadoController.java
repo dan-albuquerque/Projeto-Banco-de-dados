@@ -1,23 +1,15 @@
 package com.hospital.hospital.controllers;
 
-import org.springframework.web.bind.annotation.RestController;
-
 import com.hospital.hospital.models.consultas.ConsultaInternado;
-
 import com.hospital.hospital.repository.ConsultaInternadoRepository;
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
-
 @RestController
-@RequestMapping("/consultainternado")
+@RequestMapping("/consulta_internado")
 public class ConsultaInternadoController {
-    
+
     @Autowired
     private ConsultaInternadoRepository consultaInternadoRepository;
 
@@ -27,25 +19,21 @@ public class ConsultaInternadoController {
         return "ConsultaInternado created: ";
     }
 
-    @DeleteMapping
-    public String deleteConsultaInternado(@RequestBody ConsultaInternado consultaInternado){
-        consultaInternadoRepository.deleteConsultaInternado(consultaInternado);
+    @DeleteMapping("/{codigo}/{cpfMedico}/{cpfPaciente}")
+    public String deleteConsultaInternado(@PathVariable int codigo, @PathVariable String cpfMedico,
+            @PathVariable String cpfPaciente) {
+        consultaInternadoRepository.deleteConsultaInternado(codigo, cpfMedico, cpfPaciente);
         return "ConsultaInternado deleted! ";
     }
 
-    @GetMapping()
+    @GetMapping
     public List<ConsultaInternado> getAllConsultaInternados() {
-        return consultaInternadoRepository.selectConsultaInternados();
+        return consultaInternadoRepository.selectAllConsultaInternado();
     }
 
-    @PutMapping
-    public String updateConsultaInternado(@RequestBody ConsultaInternado consultaInternado){
-        consultaInternadoRepository.updateConsultaInternado(consultaInternado);
-        return "ConsultaInternado updated: ";
-    }
-
-    @GetMapping("/{fk_medico_cpf}/{fk_paciente_internado_cpf}/{data_realizacao}")
-    public ConsultaInternado getConsultaInternado(@PathVariable String fk_medico_cpf, @PathVariable String fk_paciente_internado_cpf, @PathVariable Date data_realizacao){
-        return consultaInternadoRepository.selectConsultaInternado(fk_medico_cpf, fk_paciente_internado_cpf, data_realizacao);
+    @GetMapping("/{cod_registro}/{cpfMedico}/{cpfPaciente}")
+    public ConsultaInternado getConsultaInternado(@PathVariable int cod_registro, @PathVariable String cpfMedico,
+            @PathVariable String cpfPaciente) {
+        return consultaInternadoRepository.selectConsultaInternado(cod_registro, cpfMedico, cpfPaciente);
     }
 }
