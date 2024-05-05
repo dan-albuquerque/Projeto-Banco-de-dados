@@ -17,13 +17,19 @@ public class InternController {
         return "Intern created: " + interno.getNome();
     }
 
-    @GetMapping
+    @GetMapping()
     public List<Interno> getAllInterns(@RequestParam(required = false) String sort,
-                                    @RequestParam(required = false) boolean reverse) {
+                                    @RequestParam(required = false) boolean reverse,
+                                    @RequestParam(required = false) String searchName){
         boolean sortAlphabetically = "alphabetical".equals(sort);
         boolean sortNumerically = "numerical".equals(sort);
+        boolean isSearch = "search".equals(sort);
+        if (searchName != null && !searchName.isEmpty()) {
+            System.out.println("searchName: " + searchName + " isSearch: " + isSearch);
+            return internRepository.searchInterns(isSearch, searchName);
+        }
         System.out.println("sortAlphabetically: " + sortAlphabetically + " reverseOrder: " + reverse +
-                " sortNumerically: " + sortNumerically);
+                " sortNumerically: " + sortNumerically + " isSearch: " + isSearch + " searchName: " + searchName);
         return internRepository.selectInterns(sortAlphabetically, reverse, sortNumerically);
     }
 

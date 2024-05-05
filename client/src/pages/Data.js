@@ -21,18 +21,18 @@ export async function getServerSideProps(context) {
       'Authorization': `Bearer ${jwtToken}`
     }
   })
-  .then((response) => {
-    if (!response.ok) {
-      res.writeHead(302, { Location: '/login' });
-      res.end();
+    .then((response) => {
+      if (!response.ok) {
+        res.writeHead(302, { Location: '/login' });
+        res.end();
+        return { props: {} };
+      }
+      return response;
+    })
+    .catch((error) => {
+      console.error('Failed to fetch data:', error);
       return { props: {} };
-    } 
-    return response;
-  })
-  .catch((error) => {
-    console.error('Failed to fetch data:', error);
-    return { props: {} };
-  });
+    });
 
   const urls = {
     interns: 'http://localhost:8080/intern',
@@ -128,6 +128,12 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
   const [isSortedDoctorsCpf, setIsSortedDoctorsCpf] = useState(false);
   const [isView, setIsView] = useState(true);
   const [isInsert, setIsInsert] = useState(false);
+  const [upperNavSearch, setUpperNavSearch] = useState(null);
+
+  const handleUpperNavSearch = (data) => {
+    setUpperNavSearch(data);
+    // Use upperNavData here
+  };
 
   const handleSortAsc = () => {
     if (isIntern) {
@@ -239,7 +245,18 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
   };
 
   const renderTable = () => {
-    if (isView){
+
+    if (upperNavSearch) {
+      if (isIntern) {
+        return <InternTableView interns={upperNavSearch} />;
+      } else if (isDoctor) {
+        return <DoctorsTableView doctors={upperNavSearch} />;
+      } else if (isPatient) {
+        return <PatientTableView patients={upperNavSearch} />;
+      }
+    }
+
+    if (isView) {
       if (isIntern) {
         if (isSortedInternsReverse) {
           console.log(isSortedInternsReverse);
@@ -278,13 +295,14 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
         return <PatientTableView patients={patients} />;
       }
     } else if (isInsert) {
-        if (isIntern) {
-          return <InsertNewIntern />;
-        } else if (isPatient) {
-          return <InsertNewPacient />;
-        }
+      if (isIntern) {
+        return <InsertNewIntern />;
+      } else if (isPatient) {
+        return <InsertNewPacient />;
+      }
     }
   };
+
   return (
     <Layout className="max-w-4xl mx-auto">
 
@@ -297,6 +315,7 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
         searchByZA={handleSortDesc}
         view={handleView}
         insert={handleInsert}
+        onData={handleUpperNavSearch}
       />
 
       <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '75vh' }}>

@@ -24,7 +24,7 @@ public class InternRepository {
             sql = "SELECT * FROM interno ORDER BY nome " + order;
         } else if(sortNumerically) {
             sql = "SELECT * FROM interno ORDER BY cpf DESC";
-        } else{
+        }  else{
             sql = "SELECT * FROM interno";
         }
         System.out.println("comando sql: " + sql);
@@ -59,4 +59,8 @@ public class InternRepository {
         return jdbcTemplate.queryForObject("select * from interno where cpf = ?", internoMapper, cpf);
     }
 
+    public List<Interno> searchInterns(boolean isSearch, String searchName) {
+        String sql = "SELECT * FROM interno WHERE nome LIKE ?";
+        return jdbcTemplate.query(sql, internoMapper, "%" + searchName + "%");
+    }
 }

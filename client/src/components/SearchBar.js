@@ -1,6 +1,48 @@
-import React from  'react';
+import React, {useState} from  'react';
 
-export default function SearchBar({searchQuery, setSearchQuery}) {
+export async function getInterns(searchQuery) {
+    const url = `http://localhost:8080/intern?searchName=${searchQuery}`;
+    console.log(searchQuery, url);
+    try {
+        const jwtToken = localStorage.getItem('jwtToken');
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${jwtToken}`
+            }
+        });
+        const interns = await response.json();
+
+        console.log(interns);
+        return interns;
+    } catch (error) {
+        console.log("deu ruim!");
+        console.error("Failed to fetch data:", error);
+        return null;
+    }
+}
+
+export default function SearchBar({onSearch}) {
+
+    const [searchQuery, setSearchQuery] = useState('');
+    const [interns, setInterns] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleSearch = async () => {
+        setIsLoading(true);
+        const searchedInterns = await getInterns(searchQuery);
+        if (searchedInterns) {
+            console.log("chegou no handleSearch", searchedInterns);
+            setInterns(searchedInterns);
+        }
+        setIsLoading(false);
+        const data = searchedInterns;
+        onSearch(data);
+    };
+
+
     return (
         <div className='w-1/3 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 flex justify-between' > {/* Wrap JSX elements inside a parent element */}
             <input className='w-full bg-transparent focus:outline-none'
@@ -9,7 +51,8 @@ export default function SearchBar({searchQuery, setSearchQuery}) {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <img src="/img/search.png" alt="search" className="w-6 h-6 ml-2" /> {/* Remove the closing slash */}
+            <img src="/img/search.png" alt="search" onClick={handleSearch} className="w-6 h-6 ml-2 cursor-pointer" /> {/* Remove the closing slash */}
+
         </div>
     );
 }
