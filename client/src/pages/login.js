@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
-import Layout from '../app/layout';
+import {Layout} from '../app/layout';
 import "../app/globals.css";
 import Cookies from 'js-cookie';
 

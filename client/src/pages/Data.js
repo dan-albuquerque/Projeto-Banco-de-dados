@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "../app/globals.css";
-import Layout from "../app/layout";
+import {Layout} from "../app/layout";
 import UpperNav from '@/components/UpperNav';
 import InternTableView from '@/components/InternTableView';
 import DoctorsTableView from '@/components/DoctorsTableView';

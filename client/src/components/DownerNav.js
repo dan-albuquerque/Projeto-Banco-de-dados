@@ -14,7 +14,7 @@ export default function DownerNav({doctors}) {
   }
 
   return (
-    <div className="h-16 flex justify-center items-center mb-8 shadow-above fixed bottom-0 w-full ">
+    <div className="h-16 flex justify-center items-center mb-4 shadow-above fixed bottom-0 w-full ">
       <div className=" flex gap-16">
         <div className="flex flex-col items-center justify-center">
           <button onClick={() => router.push('/Data')} className="w-8 h-8 flex items-center justify-center">

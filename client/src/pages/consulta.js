@@ -2,35 +2,38 @@ import React from 'react';
 import '../app/globals.css';
 import { useRouter } from 'next/navigation';
 import DownerNav from '@/components/DownerNav';
-import Layout from '../app/layout';
+import {CentralizedLayout} from '../app/layout';
 
 export default function ConsultaPage() {
   const router = useRouter();
 
   return (
-    <Layout>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-10">
-        <h1 className="text-3xl font-bold text-gray-800 mb-12">Painel de Controle do Médico</h1>
-        <div className="grid grid-cols-2 gap-6 w-full max-w-4xl px-6">
+    <CentralizedLayout>
+        <div className="flex items-center gap-5">
           <button onClick={() => router.push('/ViewConsultas')}
-            className="py-3 text-xl bg-black hover:bg-gray-900 text-white rounded-lg shadow-md transition duration-200">
-            Visualizar Consultas
+            className="flex flex-col gap-4 text-center items-center py-3 px-3 text-xl w-80 bg-customGrey text-black rounded-lg shadow-md transition duration-200">
+            <img src="/img/Consulta.png" alt="medico icon" style = {{width: '90px', height:'84px'}}/>
+            <p className='text-4xl'>Visualizar</p>
+            <p className='text-lg font-light'>A consulta de todos os pacientes do hospital</p>
           </button>
           <button onClick={() => router.push('/ConsultaUrgencia')}
-            className="py-3 text-xl bg-black hover:bg-gray-900 text-white rounded-lg shadow-md transition duration-200">
-            Criar Consulta de Urgência
+            className="flex flex-col gap-4 text-center items-center py-3 px-3 text-xl w-80 bg-customGrey text-black rounded-lg shadow-md transition duration-200">
+            <img src="/img/Urgencia.png" alt="medico icon" />
+            <p className='text-4xl'>Criar</p>
+            <p className='text-lg font-light'>Uma consulta para um paciente urgente</p>
           </button>
           <button onClick={() => router.push('/ConsultaInternado')}
-            className="py-3 text-xl bg-black hover:bg-gray-900 text-white rounded-lg shadow-md transition duration-200">
-            Criar Consulta de Paciente Internado
+            className="flex flex-col gap-4 items-center py-3 px-3 text-xl text-center w-80 bg-customGrey text-black rounded-lg shadow-md transition duration-200">
+            <img src="/img/Internado.png" alt="medico icon" />
+            <p className='text-4xl'>Criar</p>
+            <p className='text-lg font-light'>Uma consulta para um paciente internado</p>
           </button>
           <button onClick={() => router.push('/visualizar-consultas-anteriores')}
-            className="py-3 text-xl bg-black hover:bg-gray-900 text-white rounded-lg shadow-md transition duration-200">
-            Visualizar Consultas Anteriores de um Paciente
+            className="flex flex-col gap-4 items-center py-3 px-3 text-xl bg-customGrey text-black rounded-lg shadow-md transition duration-200">
+            <p>Visualizar Consultas Anteriores de um Paciente</p>
           </button>
         </div>
-      </div>
       <DownerNav></DownerNav>
-    </Layout>
+    </CentralizedLayout>
   );
 }
