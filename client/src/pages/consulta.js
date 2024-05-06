@@ -9,7 +9,7 @@ export default function ConsultaPage() {
 
   return (
     <CentralizedLayout className = "mb-16">
-      <div className='w-2/3 mb-10 flex justify-between items-center'>
+      <div className='w-2/3 flex justify-between items-center mb-16'>
         <h1 className='text-4xl font-light text-normalBlue'>Inicie sua operação</h1>
         <div className='flex items-center gap-3 '>
           <img src="/img/GreenProgress.png" alt="medico icon" />
@@ -18,7 +18,7 @@ export default function ConsultaPage() {
         </div>
 
       </div>
-        <div className="flex items-center w-2/3 gap-5">
+        <div className="flex items-center w-2/3 gap-5 mb-16">
           <button onClick={() => router.push('/ViewConsultas')}
             className="flex flex-col gap-4 text-center items-center py-3 px-3 text-xl w-1/4 bg-customGrey text-black rounded-lg shadow-md transition-transform duration-200 hover:scale-105">
             <img src="/img/Consulta.png" alt="medico icon" style = {{width: '90px', height:'84px'}}/>
