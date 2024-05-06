@@ -22,7 +22,7 @@ export default function ConsultaInternadoTableView({ ConsultasInternado }) {
                             <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left">{Consulta.data_realizacao}</td>
                             <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left">{Consulta.fk_paciente_internado_cpf}</td>
                             <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left">{Consulta.fk_medico_cpf}</td>
-                            <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left">{Consulta.fk_registro_urgencia_codigo}</td>
+                            <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left">{Consulta.fk_registro_internado_codigo}</td>
                             <td className="flex gap-2 items-start justify-start border-b border-gray-300 border-r px-5 py-2 ">
                                 <img src="/img/MoreInfo.png" className="w-6 h-6 mt-1" alt="perfil icon" />
                                 <img src="/img/Update.png" className="w-6 h-6 mt-1" alt="perfil icon" />

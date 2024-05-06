@@ -129,7 +129,7 @@ export default function ConsultInternado() {
             </button>
           </div>
         </form>
-
+          
         <DownerNav></DownerNav>
       </CentralizedLayout>
     </>

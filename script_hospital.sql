@@ -144,31 +144,36 @@ create table consulta_internado(
 );
 
 INSERT INTO interno (cpf, nome, senha, matricula) VALUES
-('12345678901', 'João Silva', 'senha123', 1001),
-('23456789012', 'Maria Souza', 'senha456', 1002),
-('34567890123', 'Carlos Pereira', 'senha789', 1003);
+('12345678904', 'João Silva', 'senha123', 1001),
+('23456789015', 'Maria Souza', 'senha456', 1002),
+('34567890126', 'Carlos Pereira', 'senha789', 1003);
 
 INSERT INTO registro (conduta) VALUES
 ('Prescrever medicação'),
 ('Encaminhar para especialista'),
 ('Realizar exames adicionais');
 
-INSERT INTO registro_urgencia (fk_registro_codigo, historico_doenca, exame_fisico) VALUES
-(1, 'Histórico de diabetes', 'Exame físico normal'),
-(2, 'Dor abdominal recorrente', 'Sinais vitais estáveis'),
-(3, 'Cefaleia frequente', 'Pressão arterial elevada');
+INSERT INTO registro_internado (fk_registro_codigo, evolucao, historico_exames) VALUES
+(58, 'Histórico de diabetes', 'Exame físico normal'),
+(59, 'Dor abdominal recorrente', 'Sinais vitais estáveis'),
+(60, 'Cefaleia frequente', 'Pressão arterial elevada');
 
 INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES
-('12345678901', 'João Silva', '3132123456', '31987654321', 'Belo Horizonte', 'Centro', 'Rua Floresta', 100),
-('23456789012', 'Maria Oliveira', '2123456789', '21987654321', 'Rio de Janeiro', 'Copacabana', 'Av Atlântica', 321),
-('34567890123', 'Carlos Souza', '1134567890', '11987654321', 'São Paulo', 'Jardins', 'Alameda Santos', 213);
+('12345678907', 'João Silva', '3132123456', '31987654321', 'Belo Horizonte', 'Centro', 'Rua Floresta', 100),
+('23456789018', 'Maria Oliveira', '2123456789', '21987654321', 'Rio de Janeiro', 'Copacabana', 'Av Atlântica', 321),
+('34567890129', 'Carlos Souza', '1134567890', '11987654321', 'São Paulo', 'Jardins', 'Alameda Santos', 213);
 
-INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES
-('12345678901', 3),
-('23456789012', 2),
-('34567890123', 1);
+INSERT INTO paciente_internado (fk_paciente_cpf, sala) VALUES
+('12345678907', 3),
+('23456789018', 2),
+('34567890129', 1);
 
 INSERT INTO consulta_urgencia (fk_registro_urgencia_codigo, fk_medico_cpf, fk_paciente_urgencia_cpf, data_realizacao) VALUES
 (1, '12345678910', '12345678901', '2024-04-27'),
 (2, '12345678910', '12345678901', '2024-04-28'),
 (3, '12345678910', '12345678901', '2024-04-29');
+
+insert into consulta_internado (fk_registro_internado_codigo, fk_medico_cpf, fk_paciente_internado_cpf, data_realizacao) values
+(58, '12345678910', '12345678907', '2024-04-27'),
+(59, '12345678910', '12345678907', '2024-04-28'),
+(60, '12345678910', '12345678907', '2024-04-29');
