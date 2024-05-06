@@ -8,8 +8,9 @@ export default function UpperNav({ swapPatient, swapIntern, swapDoctor, searchBy
     const [isView, setIsView] = useState(true);
     const [isInsert, setIsInsert] = useState(false);
     const [searchData, setSearchData] = useState(null);
+    const [userType, setUserType] = useState('intern')
 
-    const handleSearchData = (data) => {
+    const handleSearchData = (data) => {    
         setSearchData(data);
         onData(data);
     };
@@ -18,18 +19,21 @@ export default function UpperNav({ swapPatient, swapIntern, swapDoctor, searchBy
         setIsIntern(true);
         setIsDoctor(false);
         setIsPatient(false);
+        setUserType('intern');
     }
 
     const handleChooseDoctor = () => {
         setIsIntern(false);
         setIsDoctor(true);
         setIsPatient(false);
+        setUserType('doctor');
     }
 
     const handleChoosePatient = () => {
         setIsIntern(false);
         setIsDoctor(false);
         setIsPatient(true);
+        setUserType('patient');
     }
 
     const swapToView = () => {
@@ -67,6 +71,7 @@ export default function UpperNav({ swapPatient, swapIntern, swapDoctor, searchBy
             </ul>
             <SearchBar
                 onSearch={handleSearchData}
+                userType={userType}
             />
             <div className="mr-12 flex gap-4"> 
                 <p className='text-xl text-normalBlue font-light cursor-pointer transform hover:scale-125' onClick={() => {swapPatient(); handleChoosePatient();}} style = {{ color: isPatient ? '#063866' : '#0671D3' }}>Paciente</p>

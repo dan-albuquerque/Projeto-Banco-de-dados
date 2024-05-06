@@ -129,10 +129,11 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
   const [isView, setIsView] = useState(true);
   const [isInsert, setIsInsert] = useState(false);
   const [upperNavSearch, setUpperNavSearch] = useState(null);
+  const [isSearch, setIsSearch] = useState(false);
 
   const handleUpperNavSearch = (data) => {
+    setIsSearch(true);
     setUpperNavSearch(data);
-    // Use upperNavData here
   };
 
   const handleSortAsc = () => {
@@ -216,6 +217,7 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
     setIsIntern(false);
     setIsDoctor(true);
     setIsPatient(false);
+    setIsSearch(false);
   };
 
   const handleSwapPatient = () => {
@@ -223,6 +225,7 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
     setIsIntern(false);
     setIsDoctor(false);
     setIsPatient(true);
+    setIsSearch(false);
   };
 
   const handleSwapIntern = () => {
@@ -230,6 +233,7 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
     setIsIntern(true);
     setIsDoctor(false);
     setIsPatient(false);
+    setIsSearch(false);
   };
 
   const handleView = () => {
@@ -246,7 +250,7 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
 
   const renderTable = () => {
 
-    if (upperNavSearch) {
+    if (isSearch) {
       if (isIntern) {
         return <InternTableView interns={upperNavSearch} />;
       } else if (isDoctor) {
@@ -254,7 +258,7 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
       } else if (isPatient) {
         return <PatientTableView patients={upperNavSearch} />;
       }
-    }
+    }else{
 
     if (isView) {
       if (isIntern) {
@@ -301,6 +305,7 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
         return <InsertNewPacient />;
       }
     }
+  }
   };
 
   return (
