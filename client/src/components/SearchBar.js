@@ -24,24 +24,79 @@ export async function getInterns(searchQuery) {
     }
 }
 
-export default function SearchBar({onSearch}) {
+export async function getPatients(searchQuery) {
+    const url = `http://localhost:8080/pacient?searchName=${searchQuery}`;
+    console.log(searchQuery, url);
+    try {
+        const jwtToken = localStorage.getItem('jwtToken');
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${jwtToken}`
+            }
+        });
+        const patients = await response.json();
+
+        console.log(patients);
+        return patients;
+    } catch (error) {
+        console.error("Failed to fetch data:", error);
+        return null;
+    }
+}
+
+export async function getDoctors(searchQuery) {
+    const url = `http://localhost:8080/medico?searchName=${searchQuery}`;
+    console.log(searchQuery, url);
+    try {
+        const jwtToken = localStorage.getItem('jwtToken');
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${jwtToken}`
+            }
+        });
+        const doctors = await response.json();
+
+        console.log(doctors);
+        return doctors;
+    } catch (error) {
+        console.error("Failed to fetch data:", error);
+        return null;
+    }
+}
+
+export default function SearchBar({onSearch, userType}) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [interns, setInterns] = useState([]);
+    const [doctors, setDoctors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
+    
     const handleSearch = async () => {
         setIsLoading(true);
-        const searchedInterns = await getInterns(searchQuery);
-        if (searchedInterns) {
+        let data = null;
+        if (userType === 'intern') {
+            const searchedInterns = await getInterns(searchQuery);
             console.log("chegou no handleSearch", searchedInterns);
             setInterns(searchedInterns);
+            data = searchedInterns;
+        }else if (userType === 'doctor') {
+            const searchedDoctors = await getDoctors(searchQuery);
+            setDoctors(searchedDoctors);
+            data = searchedDoctors;
+        } else {
+            const searchedPatients = await getPatients(searchQuery);
+            data = searchedPatients;
         }
         setIsLoading(false);
-        const data = searchedInterns;
         onSearch(data);
     };
-
 
     return (
         <div className='w-1/3 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 flex justify-between' > {/* Wrap JSX elements inside a parent element */}

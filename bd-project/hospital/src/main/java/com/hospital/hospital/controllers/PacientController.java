@@ -31,9 +31,15 @@ public class PacientController {
 
     @GetMapping
     public List<Paciente> getAllPacients(@RequestParam(required = false) String sort,
-                                        @RequestParam(required = false) boolean reverse) {
+                                        @RequestParam(required = false) boolean reverse,
+                                        @RequestParam(required = false) String searchName){
         boolean sortAlphabetically = "alphabetical".equals(sort);
         boolean sortNumerically = "numerical".equals(sort);
+        boolean isSearch = "search".equals(sort);
+        if (searchName != null && !searchName.isEmpty()) {
+            System.out.println("searchName: " + searchName + " isSearch: " + isSearch);
+            return pacientRepository.searchPacients(isSearch, searchName);
+        }
         System.out.println("sortAlphabetically: " + sortAlphabetically + " reverseOrder: " + reverse +
                 " sortNumerically: " + sortNumerically);
         return pacientRepository.selectPacients(sortAlphabetically, reverse, sortNumerically);

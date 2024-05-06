@@ -28,9 +28,15 @@ public class MedicoController {
 
     @GetMapping
     public List<Medico> getMedicos(@RequestParam(required = false) String sort,
-                                @RequestParam(required = false) boolean reverse) {
+                                @RequestParam(required = false) boolean reverse,
+                                @RequestParam(required = false) String searchName){
         boolean sortAlphabetically = "alphabetical".equals(sort);
         boolean sortNumerically = "numerical".equals(sort);
+        boolean isSearch = "search".equals(sort);
+        if (searchName != null && !searchName.isEmpty()) {
+            System.out.println("searchName: " + searchName + " isSearch: " + isSearch);
+            return medicoRepository.searchMedicos(isSearch, searchName);
+        }
         System.out.println("sortAlphabetically: " + sortAlphabetically + " reverseOrder: " + reverse +
                 " sortNumerically: " + sortNumerically);
         return medicoRepository.selectMedicos(sortAlphabetically, reverse, sortNumerically);

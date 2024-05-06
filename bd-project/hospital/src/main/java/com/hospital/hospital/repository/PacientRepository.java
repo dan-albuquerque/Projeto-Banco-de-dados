@@ -34,6 +34,12 @@ public class PacientRepository {
         return jdbcTemplate.query(sql, pacienteMapper);
     }
 
+    public List<Paciente> searchPacients(boolean isSearch, String searchName) {
+        String sql = "SELECT * FROM Paciente WHERE nome LIKE ?";
+        System.out.println("comando sql: " + sql);
+        return jdbcTemplate.query(sql, pacienteMapper, "%" + searchName + "%");
+    }
+
     private RowMapper<Paciente> pacienteMapper = (rs, rowNum) -> {
         Paciente paciente = new Paciente();
         paciente.setNome(rs.getString("nome"));
