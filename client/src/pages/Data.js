@@ -323,7 +323,7 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
         onData={handleUpperNavSearch}
       />
 
-      <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '70vh' }}>
+      <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '74vh' }}>
         {renderTable()}
       </div>
       <DownerNav />
