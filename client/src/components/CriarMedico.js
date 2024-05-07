@@ -2,8 +2,36 @@ import React, { useState } from 'react';
 import "../app/globals.css";
 import { useEffect } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
+import Cookies from 'js-cookie';
 
 export default function CriarMedico() {
+
+    const [isGerente, setisGerente] = useState(false);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const cpf = Cookies.get('cpf');
+      if (cpf) {
+        try {
+          const response = await fetch(`http://localhost:8080/medico/${cpf}`);
+          if (response.ok) {
+            const data = await response.json();
+            if (data.fk_medico_cpf_gerente === null) {
+                console.log("the user is a manager")
+              setisGerente(true);
+            }else{
+                console.log("the user is not a manager")
+            
+            }
+          }
+        } catch (error) {
+          console.error('Erro ao buscar informações do médico:', error);
+        }
+      }
+    };
+    fetchUserData();
+  }, []);
+
   const [medico, setMedico] = useState({
     cpf: "",
     nome: "",
@@ -52,8 +80,9 @@ export default function CriarMedico() {
   return (
     <>
       <Toaster />
+      {isGerente ? (
       <div className="flex flex-col items-center justify-center h-full">
-        <h1 className="text-3xl font-light text-customBlue">Inserir Médico</h1>
+        <h1 className="text-3xl font-light text-customBlue">Inserir Médico</h1 >
         <form className="flex flex-col gap-4 mt-6" onSubmit={handleSubmit}>
           <input type="text" name="cpf" value={medico.cpf} onChange={handleChange} placeholder="CPF" className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs" style={{ width: "400px" }} />
           <input type="text" name="nome" value={medico.nome} onChange={handleChange} placeholder="Nome" className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs" style={{ width: "400px" }} />
@@ -65,6 +94,17 @@ export default function CriarMedico() {
           <button className="bg-customBlue text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 text-xs focus:ring-blue-600 transition-transform duration-200 hover:scale-105">Adicionar</button>
         </form>
       </div>
+        )
+        :
+        (
+          <div className="flex flex-col items-center justify-center h-full gap-4">
+            <img src="/img/doctorFail.svg" className="w-1/2 h-1/2" alt="forbidden icon" />
+            <div className="flex flex-col items-center justify-center gap-2" >
+              <h1 className="text-3xl font-medium text-black">Olá medico!</h1>
+              <p className="text-medium font-light text-customBlue">Parece que você não pode inserir outros médicos. procure um médico-chefe.</p>
+            </div>
+          </div>
+        )}
     </>
   );
 }

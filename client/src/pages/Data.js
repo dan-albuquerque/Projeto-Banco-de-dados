@@ -9,6 +9,7 @@ import DownerNav from '@/components/DownerNav';
 import InsertNewPacient from '@/components/InsertNewPacient';
 import cookie from 'cookie';
 import InsertNewIntern from '@/components/InsertNewIntern';
+import CriarMedico from '@/components/CriarMedico';
 
 export async function getServerSideProps(context) {
   const { req, res } = context;
@@ -303,6 +304,8 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
         return <InsertNewIntern />;
       } else if (isPatient) {
         return <InsertNewPacient />;
+      }else if (isDoctor){
+        return <CriarMedico />;
       }
     }
   }
