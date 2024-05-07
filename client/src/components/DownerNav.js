@@ -5,7 +5,7 @@ import '../app/globals.css';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 
-export default function DownerNav({doctors}) {
+export default function DownerNav({ doctors }) {
   const router = useRouter();
 
   const handleLogout = () => {
@@ -19,23 +19,27 @@ export default function DownerNav({doctors}) {
       <div className=" flex gap-16">
         <div className="flex flex-col items-center justify-center">
           <button onClick={() => router.push('/Data')} className="w-8 h-8 flex items-center justify-center">
-          <img src="/img/database.png" className="w-8 h-8" alt="database icon" />
+            <img src="/img/database.png" className="w-8 h-8" alt="database icon" />
           </button>
           <button onClick={() => router.push('/Data')} className="w-8 h-8 flex items-center justify-center">
-          <p className='text-l text-black font-light cursor-pointer transform hover:scale-125'>Dados</p>
+            <p className='text-l text-black font-light cursor-pointer transform hover:scale-125'>Dados</p>
           </button>
         </div>
         <div className="flex flex-col items-center justify-center">
           <button onClick={() => router.push('/consulta')} className="w-8 h-8 flex items-center justify-center">
-          <img src="/img/medico.png" className="w-8 h-8" alt="medico icon" />
+            <img src="/img/medico.png" className="w-8 h-8" alt="medico icon" />
           </button>
           <button onClick={() => router.push('/consulta')} className="w-8 h-8 flex items-center justify-center">
-          <p className='text-l text-black font-light cursor-pointer transform hover:scale-125'>Consulta</p>
+            <p className='text-l text-black font-light cursor-pointer transform hover:scale-125'>Consulta</p>
           </button>
         </div>
         <div className="flex flex-col items-center justify-center">
-          <img src="/img/perfil.png" className="w-8 h-8" alt="perfil icon" />
-          <p className='text-l text-black font-light cursor-pointer transform hover:scale-125'>Perfil</p>
+          <button onClick={() => router.push('/Perfil')} className="w-8 h-8 flex items-center justify-center">
+            <img src="/img/perfil.png" className="w-8 h-8" alt="perfil icon" />
+          </button>
+          <button onClick={() => router.push('/Perfil')} className="w-8 h-8 flex items-center justify-center">
+            <p className='text-l text-black font-light cursor-pointer transform hover:scale-125'>Perfil</p>
+          </button>
         </div>
         <div className="flex flex-col items-center justify-center">
           <button onClick={handleLogout} className="w-8 h-8 flex items-center justify-center">
