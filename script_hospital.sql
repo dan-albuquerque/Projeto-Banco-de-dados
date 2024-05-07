@@ -177,3 +177,5 @@ insert into consulta_internado (fk_registro_internado_codigo, fk_medico_cpf, fk_
 (58, '12345678910', '12345678907', '2024-04-27'),
 (59, '12345678910', '12345678907', '2024-04-28'),
 (60, '12345678910', '12345678907', '2024-04-29');
+
+select m.nome as "Nome do Doutor", i.nome as "Nome do interno" from medico m, interno i;
