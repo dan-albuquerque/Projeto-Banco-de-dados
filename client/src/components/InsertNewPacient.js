@@ -11,6 +11,8 @@ import {
     SelectValue,
   } from "./ui/select.jsx"
 
+  
+
 export default function InsertNewPacient() {
 
     const [Urgency, setUrgency] = useState(false);

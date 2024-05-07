@@ -4,6 +4,19 @@ import { useRouter } from 'next/navigation';
 import DownerNav from '@/components/DownerNav';
 import {CentralizedLayout} from '../app/layout';
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
+
 export default function ConsultaPage() {
   const router = useRouter();
 

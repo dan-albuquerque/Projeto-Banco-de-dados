@@ -1,4 +1,24 @@
 import React from 'react';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+  } from "@/components/ui/sheet"
 
 export default function DoctorsTableView({ doctors }) {
     return (
@@ -24,9 +44,37 @@ export default function DoctorsTableView({ doctors }) {
                             <td className="border-b border-gray-300 border-r px-5 py-2 text-left text-sm">{doctor.crm}</td>
                             <td className="border-b border-gray-300 border-r px-5 py-2 text-left text-sm">{doctor.fk_medico_cpf_gerente}</td>
                             <td className="flex gap-2 items-start justify-start border-b border-gray-300 border-r px-5 py-2 ">
-                                <img src="/img/MoreInfo.png" className="w-6 h-6 mt-1" alt="perfil icon" />
-                                <img src="/img/Update.png" className="w-6 h-6 mt-1" alt="perfil icon" />
-                                <img src="/img/Delete.png" className="w-6 h-6 mt-1" alt="perfil icon" />
+                            <img src="/img/MoreInfo.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" />
+                                
+                                <Sheet>
+                                        <SheetTrigger> <img src="/img/Update.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" /> </SheetTrigger>
+                                        <SheetContent>
+                                            <SheetHeader>
+                                            <SheetTitle>Are you absolutely sure?</SheetTitle>
+                                            <SheetDescription>
+                                                This action cannot be undone. This will permanently delete your account
+                                                and remove your data from our servers.
+                                            </SheetDescription>
+                                            </SheetHeader>
+                                        </SheetContent>
+                                    </Sheet>
+    
+                                    <AlertDialog>
+                                        <AlertDialogTrigger><img src="/img/Delete.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    This action cannot be undone. This will permanently delete your account
+                                                    and remove your data from our servers.
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                <AlertDialogAction>Continue</AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
                             </td>
                         </tr>
                     ))}
