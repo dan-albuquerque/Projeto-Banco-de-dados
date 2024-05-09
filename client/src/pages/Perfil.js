@@ -64,11 +64,11 @@ export default function Perfil() {
            </div> 
         </div>
         <div className='flex items-start w-1/2 flex-col gap-20'>
-          <div className='gap-1'>
+          <div className='gap-3'>
             <h1 className= 'text-7xl'>{medico.nome}</h1>
             <p className='italic text-4xl text-gray-600'>{medico.especialidade}</p>
           </div>
-          <div className='flex flex-col gap-3'>
+          <div className='flex flex-col gap-8'>
             <div className='flex gap-4 text-3xl'>
               <p><b>CRM:</b> {medico.crm}</p>
               <p><b>RQE:</b> {medico.rqe}</p>
@@ -85,7 +85,6 @@ export default function Perfil() {
               <button className='bg-black text-white text-xl rounded-md p-3 shadow-md transition-transform duration-200 hover:scale-105 flex gap-4 items-center justify-center'><p>Sair</p><img className= "w-7 h-7"src = "img/logout2.svg"></img></button>
             </div>
         </div>
-        
       </div>
       <DownerNav />
     </CentralizedLayout>

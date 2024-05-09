@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 
 import {
     AlertDialog,
@@ -22,8 +22,66 @@ import {
   } from "@/components/ui/sheet"
 
 export default function InternTableView({ interns }) {
-    return (
+    const [intern, setIntern] = useState(
+        {
+            nome: null,
+            cpf: null,
+            matricula: null,
+            senha: null
+        }
+    );
 
+    const[cpf, setCpf] = useState(null);
+
+    const handleChange = (e) => {
+        setIntern({
+            ...intern,
+            [e.target.name]: e.target.value
+        });
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log("Data to be sent to the API:", intern);
+        const success = await EditIntern(intern, cpf); // Pass cpf to EditIntern function
+        if (success) {
+            alert('Interno inserido com sucesso!');
+        } else {
+            alert('Erro ao inserir interno.');
+        }
+    }
+
+    const handleEditClick = (cpfdata) => {
+        setCpf(cpfdata); // Set the cpf state to the intern's cpf
+        console.log("Editing intern with CPF: ", cpfdata );
+    }
+
+    const EditIntern = async (intern, cpf) => {
+        const jwtToken = localStorage.getItem('jwtToken');
+        console.log("Attempting to access URL: http://localhost:8080/intern/" + cpf);
+        try {
+            const response = await fetch(`http://localhost:8080/intern/${cpf}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwtToken}`
+                },
+                body: JSON.stringify(intern),
+            });
+            if (response.ok) {
+                console.log("Intern updated successfully.");
+                return true;
+            } else {
+                console.log("Failed to update intern. Status: " + response.status);
+                return false;
+            }
+        } catch (error) {
+            console.error("Error updating intern: ", error);
+            return false;
+        }
+    }
+    
+    return (        
         <div className="container mx-auto mt-8 flex items-center justify-center">
             <table className="w-5/6 table-auto border-collapse border border-gray-300 ml-3">
                 <thead>
@@ -46,13 +104,21 @@ export default function InternTableView({ interns }) {
                                 <img src="/img/MoreInfo.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" />
                                 
                             <Sheet>
-                                    <SheetTrigger> <img src="/img/Update.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" /> </SheetTrigger>
+                                    <SheetTrigger onClick={() => handleEditClick(intern.cpf)}>
+                                        <img src="/img/Update.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" />
+                                         </SheetTrigger>
                                     <SheetContent>
                                         <SheetHeader>
-                                        <SheetTitle>Are you absolutely sure?</SheetTitle>
+                                        <SheetTitle>Edite um Interno</SheetTitle>
                                         <SheetDescription>
-                                            This action cannot be undone. This will permanently delete your account
-                                            and remove your data from our servers.
+                                            Preencha os campos abaixo!
+                                            <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6 w-full items-center justify-center">
+                                                    <input type="text" name="nome" onChange={handleChange} placeholder="Nome" className="w-full h-10 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
+                                                    <input type="text" name="cpf" onChange={handleChange} placeholder="CPF" className="w-full h-10 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
+                                                    <input type="text" name="matricula" onChange={handleChange} placeholder="Matricula" className="w-full h-10 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
+                                                    <input type="password" name="senha" onChange={handleChange} placeholder="Senha" className="w-full h-10  border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
+                                                    <button className="bg-customBlue text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full h-10 text-medium transition-transform duration-200 hover:scale-105">Concluir</button>
+                                            </form>
                                         </SheetDescription>
                                         </SheetHeader>
                                     </SheetContent>
@@ -83,3 +149,5 @@ export default function InternTableView({ interns }) {
         </div>
     );
 }
+
+

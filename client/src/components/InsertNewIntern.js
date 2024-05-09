@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import cookie from 'cookie';
 import {Switch} from './ui/switch.jsx';
+import {Toaster, toast} from 'react-hot-toast';
 import {
     Select,
     SelectContent,
@@ -32,16 +33,17 @@ export default function InsertNewIntern() {
         console.log("Data to be sent to the API:", intern);
         const success = await postNewIntern(intern);
         if (success) {
-            alert('Interno inserido com sucesso!');
+            toast.success('Interno inserido com sucesso!');
         } else {
-            alert('Erro ao inserir interno.');
+            toast.error('Erro ao inserir interno.');
         }
     }
    
    
     return (
-        <div className="flex flex-col items-center justify-center h-full">
-            
+      <>
+      <Toaster />
+        <div className="flex flex-col items-center justify-center h-full">   
         <h1 className="text-3xl font-light text-customBlue">Inserir Interno</h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6 w-full items-center justify-center">
             <input type="text" name="nome" onChange={handleChange} placeholder="Nome" className="w-1/5 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs" />
@@ -51,6 +53,7 @@ export default function InsertNewIntern() {
             <button className="bg-customBlue text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 w-1/5 text-xs transition-transform duration-200 hover:scale-105">Adicionar</button>
     </form>
 </div>
+</>
     );
 }
 export const postNewIntern = async (intern) => {
