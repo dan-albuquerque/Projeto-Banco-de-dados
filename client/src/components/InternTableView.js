@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-
+import {Toaster, toast} from 'react-hot-toast';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -45,9 +45,9 @@ export default function InternTableView({ interns }) {
         console.log("Data to be sent to the API:", intern);
         const success = await EditIntern(intern, cpf); // Pass cpf to EditIntern function
         if (success) {
-            alert('Interno inserido com sucesso!');
+            toast.success('Interno editado com sucesso!');
         } else {
-            alert('Erro ao inserir interno.');
+            toast.error('Erro ao editar interno.');
         }
     }
 
@@ -81,12 +81,14 @@ export default function InternTableView({ interns }) {
         }
     }
     
-    return (        
+    return (    
+        <>    
+        <Toaster />
         <div className="container mx-auto mt-8 flex items-center justify-center">
             <table className="w-5/6 table-auto border-collapse border border-gray-300 ml-3">
                 <thead>
                     <tr>
-                        <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-sm text-left">Nome</th>
+                        <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-xs text-left">Nome</th>
                         <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-sm text-left">CPF</th>
                         <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-sm text-left">Matricula</th>
                         <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-sm text-left">Senha</th>
@@ -147,6 +149,7 @@ export default function InternTableView({ interns }) {
                 </tbody>
             </table>
         </div>
+        </>
     );
 }
 
