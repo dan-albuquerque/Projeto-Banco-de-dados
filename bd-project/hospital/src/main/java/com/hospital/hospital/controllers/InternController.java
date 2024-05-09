@@ -49,7 +49,4 @@ public class InternController {
         internRepository.deleteIntern(cpf);
         return "Intern deleted: " + cpf;
     }
-
-   
-
 }

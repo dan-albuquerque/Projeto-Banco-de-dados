@@ -79,8 +79,38 @@ export default function InternTableView({ interns }) {
             console.error("Error updating intern: ", error);
             return false;
         }
-    }
-    
+    };
+
+    const handleDeleteIntern = async (cpf) => {
+        const isDeleted = await deleteIntern(cpf);
+
+        isDeleted ? toast.success('Interno deletado com sucesso!') : toast.error('Erro ao deletar interno.');
+    };
+
+    const deleteIntern = async (cpf) => {
+        const jwtToken = localStorage.getItem('jwtToken');
+        console.log("Attempting to access URL: http://localhost:8080/intern/" + cpf);
+
+        try {
+            const response = await fetch(`http://localhost:8080/intern/${cpf}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwtToken}`
+                },
+            });
+            if (response.ok) {
+                console.log("Intern deleted successfully.");
+                return true;
+            } else {
+                console.log("Failed to delete intern. Status: " + response.status);
+                return false;
+            }
+        } catch (error) {
+            console.error("Error deleting intern: ", error);
+            return false;
+        }   
+    };
     return (    
         <>    
         <Toaster />
@@ -130,19 +160,17 @@ export default function InternTableView({ interns }) {
                                     <AlertDialogTrigger><img src="/img/Delete.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
                                     <AlertDialogContent>
                                         <AlertDialogHeader>
-                                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                            <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
                                             <AlertDialogDescription>
-                                                This action cannot be undone. This will permanently delete your account
-                                                and remove your data from our servers.
+                                            Essa ação não pode ser desfeita. As informações deste paciente serão deletadas permanentemente do banco de dados.
                                             </AlertDialogDescription>
                                         </AlertDialogHeader>
                                         <AlertDialogFooter>
                                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                            <AlertDialogAction>Continue</AlertDialogAction>
+                                            <AlertDialogAction onClick={() => handleDeleteIntern(intern.cpf)}>Continue</AlertDialogAction>
                                         </AlertDialogFooter>
                                     </AlertDialogContent>
                                 </AlertDialog>
-
                             </td>
                         </tr>
                     ))}
