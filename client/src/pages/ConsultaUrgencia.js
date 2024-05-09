@@ -4,8 +4,10 @@ import {CentralizedLayout} from "../app/layout";
 import DownerNav from '@/components/DownerNav';
 import Cookies from 'js-cookie';
 import { Toaster, toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 export default function ConsultaUrgencia() {
+  const navigate = useRouter();
   const [pacienteCpf, setPacienteCpf] = useState('');
   const [conduta, setConduta] = useState('');
   const [historico, setHistorico] = useState('');
@@ -83,6 +85,13 @@ export default function ConsultaUrgencia() {
         setConduta('');
         setHistorico('');
         setExameFisico('');
+        Cookies.set('id_registro', codigo, {
+          expires: 7,
+          secure: true,
+          sameSite: 'Strict'
+        }
+        )
+        navigate.push('/RegistroUrgencia');
       })
       .catch((error) => {
         toast.error(error);
