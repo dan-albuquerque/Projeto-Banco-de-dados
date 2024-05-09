@@ -95,7 +95,6 @@ export default function InternTableView({ interns }) {
             const response = await fetch(`http://localhost:8080/intern/${cpf}`, {
                 method: 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${jwtToken}`
                 },
             });
