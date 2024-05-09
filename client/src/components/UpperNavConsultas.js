@@ -23,13 +23,13 @@ export default function UpperNavConsultas({swapUrgent, swapHospitalized }) {
             </div>
                 <ul className="flex gap-4 items-center justify-center">
                     <li className="text-xl font-medium text-black cursor-pointer">Ordenar:</li>
-                    <li className="text-xl text-normalBlue font-light cursor-pointer transform hover:scale-125">• Data </li>
-                    <li className="text-xl text-normalBlue font-light cursor-pointer transform hover:scale-125">• CPF Paciente</li>
-                    <li className="text-xl text-normalBlue font-light cursor-pointer transform hover:scale-125">• CPF Médico</li>
+                    <li className="text-xl text-normalBlue font-light cursor-pointer transition-transform duration-200 hover:scale-125">• Data </li>
+                    <li className="text-xl text-normalBlue font-light cursor-pointer transition-transform duration-200 hover:scale-125">• CPF Paciente</li>
+                    <li className="text-xl text-normalBlue font-light cursor-pointer transition-transform duration-200 hover:scale-125">• CPF Médico</li>
                 </ul>
             <div className="mr-12 flex gap-4"> 
-                <p className='text-xl text-normalBlue font-light cursor-pointer transform hover:scale-125' onClick={() => {swapUrgent(); handleChooseUrgent();}} style = {{ color: isUrgent ? '#063866' : '#0671D3' }}>Urgencia</p>
-                <p className='text-xl text-customBlue font-light cursor-pointer transform hover:scale-125' onClick={() => {swapHospitalized(); handleChooseHospitalized();}} style = {{color: isHospitalized? '#063866' : '#0671D3' }}>Internados</p>
+                <p className='text-xl text-normalBlue font-light cursor-pointer transition-transform duration-200 hover:scale-125' onClick={() => {swapUrgent(); handleChooseUrgent();}} style = {{ color: isUrgent ? '#063866' : '#0671D3' }}>Urgencia</p>
+                <p className='text-xl text-customBlue font-light cursor-pointer transition-transform duration-200 hover:scale-125' onClick={() => {swapHospitalized(); handleChooseHospitalized();}} style = {{color: isHospitalized? '#063866' : '#0671D3' }}>Internados</p>
             </div>
         </div>
     );

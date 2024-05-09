@@ -53,30 +53,30 @@ export default function UpperNav({ swapPatient, swapIntern, swapDoctor, searchBy
             <div className="ml-12 flex gap-4 items-center justify-center">
                 {isView ? (
                     <>
-                    <h1 className="text-3xl font-medium text-customBlue cursor-pointer " onClick = {() => {view(); swapToView()}}>Visualizar</h1>
-                    <h1 className="text-2xl font-medium text-normalBlue cursor-pointer " onClick = {() => {insert(); swapToInsert()}}>Inserir</h1>
+                    <h1 className="text-3xl font-medium text-customBlue cursor-pointer transition-transform duration-200 hover:scale-125" onClick = {() => {view(); swapToView()}}>Visualizar</h1>
+                    <h1 className="text-2xl font-medium text-normalBlue cursor-pointer transition-transform duration-200 hover:scale-125" onClick = {() => {insert(); swapToInsert()}}>Inserir</h1>
                     </>
                 ):(
                     <>
-                    <h1 className="text-3xl font-medium text-customBlue cursor-pointer " onClick = {() => {insert(); swapToInsert()}}>Inserir</h1>
-                    <h1 className="text-2xl font-medium text-normalBlue cursor-pointer " onClick = {() => {view(); swapToView()}}>Visualizar</h1>
+                    <h1 className="text-3xl font-medium text-customBlue cursor-pointer transition-transform duration-200 hover:scale-125" onClick = {() => {insert(); swapToInsert()}}>Inserir</h1>
+                    <h1 className="text-2xl font-medium text-normalBlue cursor-pointer transition-transform duration-200 hover:scale-125" onClick = {() => {view(); swapToView()}}>Visualizar</h1>
                     </>
                 )}
             </div>
             <ul className="flex gap-4 items-center justify-center">
                 <li className="text-xl font-medium text-black cursor-pointer">Ordenar:</li>
-                <li className="text-xl text-normalBlue font-light cursor-pointer transform hover:scale-125" onClick = {searchByCpf}>• CPF</li>
-                <li className="text-xl font-light text-normalBlue cursor-pointer transform hover:scale-125" onClick = {searchByAZ}>• A-Z</li>
-                <li className="text-xl font-light text-normalBlue cursor-pointer transform hover:scale-125" onClick = {searchByZA}>• Z-A</li>
+                <li className="text-xl text-normalBlue font-light cursor-pointer transition-transform duration-200 hover:scale-125" onClick = {searchByCpf}>• CPF</li>
+                <li className="text-xl font-light text-normalBlue cursor-pointer transition-transform duration-200 hover:scale-125" onClick = {searchByAZ}>• A-Z</li>
+                <li className="text-xl font-light text-normalBlue cursor-pointer transition-transform duration-200 hover:scale-125" onClick = {searchByZA}>• Z-A</li>
             </ul>
             <SearchBar
                 onSearch={handleSearchData}
                 userType={userType}
             />
             <div className="mr-12 flex gap-4"> 
-                <p className='text-xl text-normalBlue font-light cursor-pointer transform hover:scale-125' onClick={() => {swapPatient(); handleChoosePatient();}} style = {{ color: isPatient ? '#063866' : '#0671D3' }}>Paciente</p>
-                <p className='text-xl text-customBlue font-light cursor-pointer transform hover:scale-125' onClick={() => {swapIntern(); handleChooseIntern();}} style = {{color: isIntern? '#063866' : '#0671D3' }}>Interno</p>
-                <p className='text-xl text-normalBlue font-light cursor-pointer transform hover:scale-125' onClick={() => {swapDoctor(); handleChooseDoctor();}} style = {{color: isDoctor? '#063866' : '#0671D3'}}>Médico</p>
+                <p className='text-xl text-normalBlue font-light cursor-pointer transition-transform duration-200 hover:scale-125' onClick={() => {swapPatient(); handleChoosePatient();}} style = {{ color: isPatient ? '#063866' : '#0671D3' }}>Paciente</p>
+                <p className='text-xl text-customBlue font-light cursor-pointer transition-transform duration-200 hover:scale-125' onClick={() => {swapIntern(); handleChooseIntern();}} style = {{color: isIntern? '#063866' : '#0671D3' }}>Interno</p>
+                <p className='text-xl text-normalBlue font-light cursor-pointer transition-transform duration-200 hover:scale-125' onClick={() => {swapDoctor(); handleChooseDoctor();}} style = {{color: isDoctor? '#063866' : '#0671D3'}}>Médico</p>
             </div>
         </div>
     );
