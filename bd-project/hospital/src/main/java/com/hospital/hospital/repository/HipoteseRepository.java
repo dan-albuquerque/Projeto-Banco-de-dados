@@ -13,7 +13,7 @@ public class HipoteseRepository {
     private JdbcTemplate jdbcTemplate;
 
     public void insertHipotese(Hipotese hipotese){
-        jdbcTemplate.update("insert into hipotese(fk_registro_codigo, id) values(?, ?)", hipotese.getRegistroCodigo(), hipotese.getId());
+        jdbcTemplate.update("insert into hipotese(fk_registro_codigo, id, descricao) values(?, ?, ?)", hipotese.getRegistroCodigo(), hipotese.getId(), hipotese.getDescricao());
     }
 
     public List<Hipotese> selectHipoteses() {
@@ -28,16 +28,16 @@ public class HipoteseRepository {
         return hipotese;
     };
 
-    public void updateHipotese(Hipotese hipotese){
-        jdbcTemplate.update("update hipotese set fk_registro_codigo = ? where id = ?", hipotese.getRegistroCodigo(), hipotese.getId());
+    public void updateHipotese(int id, int fk_registro_codigo, Hipotese hipotese){
+        jdbcTemplate.update("update hipotese set descricao = ? where id = ? and fk_registro_codigo = ?", hipotese.getDescricao(), id, fk_registro_codigo);
     }
 
-    public void deleteHipotese(Hipotese hipotese){
-        jdbcTemplate.update("delete from hipotese where id = ?", hipotese.getId());
+    public void deleteHipotese(int id, int fk_registro_codigo){
+        jdbcTemplate.update("delete from hipotese where id = ? and fk_registro_codigo = ?", id, fk_registro_codigo);
     }
 
-    public Hipotese selectHipotese(int id){
-        return jdbcTemplate.queryForObject("select * from hipotese where id = ?", hipoteseMapper, id);
+    public Hipotese selectHipotese(int id, int fk_registro_codigo){
+        return jdbcTemplate.queryForObject("select * from hipotese where id = ? and fk_registro_codigo = ?", hipoteseMapper, id, fk_registro_codigo);
     }
 
     public List<Hipotese> selectHipotesesByRegistro(int fk_registro_codigo){

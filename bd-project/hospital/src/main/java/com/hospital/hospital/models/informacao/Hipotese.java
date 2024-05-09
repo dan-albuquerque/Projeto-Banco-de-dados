@@ -3,10 +3,12 @@ package com.hospital.hospital.models.informacao;
 public class Hipotese {
     public int id;
     public int fk_registro_codigo;
+    public String descricao;
 
-    public Hipotese(int id, int fk_registro_codigo){
+    public Hipotese(int id, int fk_registro_codigo, String descricao){
         this.id = id;
         this.fk_registro_codigo = fk_registro_codigo;
+        this.descricao = descricao;
     }
 
     public Hipotese(){
@@ -26,6 +28,14 @@ public class Hipotese {
 
     public void setRegistroCodigo(int fk_registro_codigo){
         this.fk_registro_codigo = fk_registro_codigo;
+    }
+
+    public String getDescricao(){
+        return descricao;
+    }
+
+    public void setDescricao(String descricao){
+        this.descricao = descricao;
     }
     
 }
