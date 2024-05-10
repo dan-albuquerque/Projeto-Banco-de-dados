@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {Toaster, toast} from 'react-hot-toast';
+import React, { useState } from "react";
+import { Toaster, toast } from 'react-hot-toast';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -19,9 +19,17 @@ import {
     SheetHeader,
     SheetTitle,
     SheetTrigger,
-  } from "@/components/ui/sheet"
+} from "@/components/ui/sheet"
+
+import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+} from "@/components/ui/hover-card"
+
 
 export default function InternTableView({ interns }) {
+    const [hoverContent, setHoverContent] = useState(null);
 
     const [intern, setIntern] = useState(
         {
@@ -32,14 +40,14 @@ export default function InternTableView({ interns }) {
         }
     );
 
-    const[cpf, setCpf] = useState(null);
+    const [cpf, setCpf] = useState(null);
 
     const handleChange = (e) => {
         setIntern({
             ...intern,
             [e.target.name]: e.target.value
         });
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -50,12 +58,12 @@ export default function InternTableView({ interns }) {
         } else {
             toast.error('Erro ao editar interno.');
         }
-    }
+    };
 
     const handleEditClick = (cpfdata) => {
         setCpf(cpfdata); // Set the cpf state to the intern's cpf
-        console.log("Editing intern with CPF: ", cpfdata );
-    }
+        console.log("Editing intern with CPF: ", cpfdata);
+    };
 
     const EditIntern = async (intern, cpf) => {
         const jwtToken = localStorage.getItem('jwtToken');
@@ -109,74 +117,111 @@ export default function InternTableView({ interns }) {
         } catch (error) {
             console.error("Error deleting intern: ", error);
             return false;
-        }   
+        }
     };
-    return (    
-        <>    
-        <Toaster />
-        <div className="container mx-auto mt-8 flex items-center justify-center">
-            <table className="w-5/6 table-auto border-collapse border border-gray-300 ml-3">
-                <thead>
-                    <tr>
-                        <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-xs text-left">Nome</th>
-                        <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-sm text-left">CPF</th>
-                        <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-sm text-left">Matricula</th>
-                        <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-sm text-left">Senha</th>
-                        <th className="border-b-2 border-gray-300 px-5 py-2 text-sm text-left">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {interns.map((intern) => (
-                        <tr key={intern.cpf}>
-                            <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left  ">{intern.nome}</td>
-                            <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left ">{intern.cpf}</td>
-                            <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left ">{intern.matricula}</td>
-                            <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left ">{intern.senha}</td>
-                            <td className="flex gap-2 items-start justify-start border-b border-gray-300 border-r px-5 py-2">
-                                <img src="/img/MoreInfo.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" />
-                                
-                            <Sheet>
-                                    <SheetTrigger onClick={() => handleEditClick(intern.cpf)}>
-                                        <img src="/img/Update.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" />
-                                         </SheetTrigger>
-                                    <SheetContent>
-                                        <SheetHeader>
-                                        <SheetTitle>Edite um Interno</SheetTitle>
-                                        <SheetDescription>
-                                            Preencha os campos abaixo!
-                                            <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6 w-full items-center justify-center">
-                                                    <input type="text" name="nome" onChange={handleChange} placeholder="Nome" className="w-full h-10 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
-                                                    <input type="text" name="cpf" onChange={handleChange} placeholder="CPF" className="w-full h-10 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
-                                                    <input type="text" name="matricula" onChange={handleChange} placeholder="Matricula" className="w-full h-10 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
-                                                    <input type="password" name="senha" onChange={handleChange} placeholder="Senha" className="w-full h-10  border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
-                                                    <button className="bg-customBlue text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full h-10 text-medium transition-transform duration-200 hover:scale-105">Concluir</button>
-                                            </form>
-                                        </SheetDescription>
-                                        </SheetHeader>
-                                    </SheetContent>
-                                </Sheet>
 
-                                <AlertDialog>
-                                    <AlertDialogTrigger><img src="/img/Delete.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
-                                    <AlertDialogContent>
-                                        <AlertDialogHeader>
-                                            <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
-                                            <AlertDialogDescription>
-                                            Essa ação não pode ser desfeita. As informações deste paciente serão deletadas permanentemente do banco de dados.
-                                            </AlertDialogDescription>
-                                        </AlertDialogHeader>
-                                        <AlertDialogFooter>
-                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                            <AlertDialogAction onClick={() => handleDeleteIntern(intern.cpf)}>Continue</AlertDialogAction>
-                                        </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                </AlertDialog>
-                            </td>
+    const fetchInternInfo = async (cpf) => {
+        const url = `http://localhost:8080/monitora/${cpf}`;
+        console.log('getting info on cpf: ', cpf, url);
+        try {
+            const jwtToken = localStorage.getItem('jwtToken');
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwtToken}`
+                }
+            });
+            const monitora = await response.json();
+            setHoverContent(monitora);
+            return monitora;
+        }
+        catch (error) {
+            console.error("Failed to fetch data:", error);
+            return null;
+        }
+    };
+
+    return (
+        <>
+
+            <Toaster />
+            <div className="container mx-auto mt-8 flex items-center justify-center">
+                <table className="w-5/6 table-auto border-collapse border border-gray-300 ml-3">
+                    <thead>
+                        <tr>
+                            <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-xs text-left">Nome</th>
+                            <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-sm text-left">CPF</th>
+                            <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-sm text-left">Matricula</th>
+                            <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-sm text-left">Senha</th>
+                            <th className="border-b-2 border-gray-300 px-5 py-2 text-sm text-left">Ações</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        {interns.map((intern) => (
+                            <tr key={intern.cpf}>
+                                <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left  ">{intern.nome}</td>
+                                <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left ">{intern.cpf}</td>
+                                <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left ">{intern.matricula}</td>
+                                <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left ">{intern.senha}</td>
+                                <td className="flex gap-2 items-start justify-start border-b border-gray-300 border-r px-5 py-2">
+
+                                    <HoverCard>
+                                        <HoverCardTrigger onMouseEnter={() => fetchInternInfo(intern.cpf)}><img src="/img/MoreInfo.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" /></HoverCardTrigger>
+                                        {hoverContent && (
+                                            <HoverCardContent>
+                                                <p>Paciente(s) que o interno monitora: </p>
+                                                {hoverContent.map((item) => (
+                                                    <div key={item.fk_paciente_cpf}>
+                                                        <p>• {item.fk_paciente_cpf} - {item.nomePaciente}</p>
+                                                    </div>
+                                                ))}
+                                            </HoverCardContent>
+                                        )}
+                                    </HoverCard>
+
+                                    <Sheet>
+                                        <SheetTrigger onClick={() => handleEditClick(intern.cpf)}>
+                                            <img src="/img/Update.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" />
+                                        </SheetTrigger>
+                                        <SheetContent>
+                                            <SheetHeader>
+                                                <SheetTitle>Edite um Interno</SheetTitle>
+                                                <SheetDescription>
+                                                    Preencha os campos abaixo!
+                                                    <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6 w-full items-center justify-center">
+                                                        <input type="text" name="nome" onChange={handleChange} placeholder="Nome" className="w-full h-10 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
+                                                        <input type="text" name="cpf" onChange={handleChange} placeholder="CPF" className="w-full h-10 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
+                                                        <input type="text" name="matricula" onChange={handleChange} placeholder="Matricula" className="w-full h-10 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
+                                                        <input type="password" name="senha" onChange={handleChange} placeholder="Senha" className="w-full h-10  border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
+                                                        <button className="bg-customBlue text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full h-10 text-medium transition-transform duration-200 hover:scale-105">Concluir</button>
+                                                    </form>
+                                                </SheetDescription>
+                                            </SheetHeader>
+                                        </SheetContent>
+                                    </Sheet>
+
+                                    <AlertDialog>
+                                        <AlertDialogTrigger><img src="/img/Delete.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    Essa ação não pode ser desfeita. As informações deste paciente serão deletadas permanentemente do banco de dados.
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                <AlertDialogAction onClick={() => handleDeleteIntern(intern.cpf)}>Continue</AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </>
     );
 }

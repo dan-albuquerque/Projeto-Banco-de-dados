@@ -40,4 +40,8 @@ public class MonitoraController {
         return monitoraRepository.selectMonitora(fk_cpf_interno, fk_cpf_paciente);
     }
 
+    @GetMapping("/{fk_cpf_interno}")
+    public List<Monitora> getMonitoraByIntern(@PathVariable String fk_cpf_interno){
+        return monitoraRepository.selectMonitoraByIntern(fk_cpf_interno);
+    }
 }
