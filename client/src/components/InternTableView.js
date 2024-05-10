@@ -22,6 +22,7 @@ import {
   } from "@/components/ui/sheet"
 
 export default function InternTableView({ interns }) {
+
     const [intern, setIntern] = useState(
         {
             nome: null,
