@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState} from "react";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -18,9 +18,25 @@ import {
     SheetHeader,
     SheetTitle,
     SheetTrigger,
-  } from "@/components/ui/sheet"
+} from "@/components/ui/sheet"
+
+import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+} from "@/components/ui/hover-card"
 
 export default function DoctorsTableView({ doctors }) {
+    const [isGerente , setIsGerente] = useState(null);
+
+    const handleGerente = (doctor) => {
+        if (doctor.medicoCpfGerente === null) {
+            setIsGerente(false);
+        } else {
+            setIsGerente(true);
+        }
+    };
+
     return (
         <div className="container mx-auto mt-8 flex items-center justify-center">
             <table className="w-5/6 table-auto border-collapse border border-gray-300 ml-3">
@@ -32,7 +48,6 @@ export default function DoctorsTableView({ doctors }) {
                         <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-left text-sm">CRM</th>
                         <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-left text-sm">Medico Gerente</th>
                         <th className="border-b-2 border-gray-300 px-5 py-2 text-left text-sm">Ações</th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -42,39 +57,47 @@ export default function DoctorsTableView({ doctors }) {
                             <td className="border-b border-gray-300 border-r px-5 py-2 text-left text-sm">{doctor.cpf}</td>
                             <td className="border-b border-gray-300 border-r px-5 py-2 text-left text-sm">{doctor.rqe}</td>
                             <td className="border-b border-gray-300 border-r px-5 py-2 text-left text-sm">{doctor.crm}</td>
-                            <td className="border-b border-gray-300 border-r px-5 py-2 text-left text-sm">{doctor.fk_medico_cpf_gerente}</td>
+                            <td className="border-b border-gray-300 border-r px-5 py-2 text-left text-sm">{doctor.medicoCpfGerente}</td>
                             <td className="flex gap-2 items-start justify-start border-b border-gray-300 border-r px-5 py-2 ">
-                            <img src="/img/MoreInfo.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" />
-                                
+                                <HoverCard>
+                                    <HoverCardTrigger onMouseEnter={() => handleGerente(doctor)}> <img src="/img/MoreInfo.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" /> </HoverCardTrigger>
+                                    <HoverCardContent>
+                                        <div>
+                                            <p>• Especialidade: {doctor.especialidade}</p>
+                                            {isGerente && <p>• Médico gerente: {doctor.nomeGerente}</p>}
+                                        </div>
+                                    </HoverCardContent>
+                                </HoverCard>
+
                                 <Sheet>
-                                        <SheetTrigger> <img src="/img/Update.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" /> </SheetTrigger>
-                                        <SheetContent>
-                                            <SheetHeader>
+                                    <SheetTrigger> <img src="/img/Update.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" /> </SheetTrigger>
+                                    <SheetContent>
+                                        <SheetHeader>
                                             <SheetTitle>Are you absolutely sure?</SheetTitle>
                                             <SheetDescription>
                                                 This action cannot be undone. This will permanently delete your account
                                                 and remove your data from our servers.
                                             </SheetDescription>
-                                            </SheetHeader>
-                                        </SheetContent>
-                                    </Sheet>
-    
-                                    <AlertDialog>
-                                        <AlertDialogTrigger><img src="/img/Delete.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
-                                        <AlertDialogContent>
-                                            <AlertDialogHeader>
-                                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                                <AlertDialogDescription>
-                                                    This action cannot be undone. This will permanently delete your account
-                                                    and remove your data from our servers.
-                                                </AlertDialogDescription>
-                                            </AlertDialogHeader>
-                                            <AlertDialogFooter>
-                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                <AlertDialogAction>Continue</AlertDialogAction>
-                                            </AlertDialogFooter>
-                                        </AlertDialogContent>
-                                    </AlertDialog>
+                                        </SheetHeader>
+                                    </SheetContent>
+                                </Sheet>
+
+                                <AlertDialog>
+                                    <AlertDialogTrigger><img src="/img/Delete.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                            <AlertDialogDescription>
+                                                This action cannot be undone. This will permanently delete your account
+                                                and remove your data from our servers.
+                                            </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                            <AlertDialogAction>Continue</AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
                             </td>
                         </tr>
                     ))}

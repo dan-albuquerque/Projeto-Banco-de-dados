@@ -170,7 +170,7 @@ export default function InternTableView({ interns }) {
                                         <HoverCardTrigger onMouseEnter={() => fetchInternInfo(intern.cpf)}><img src="/img/MoreInfo.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" /></HoverCardTrigger>
                                         {hoverContent && (
                                             <HoverCardContent>
-                                                <p>Paciente(s) que o interno monitora: </p>
+                                                <p>Paciente(s) monitorados: </p>
                                                 {hoverContent.map((item) => (
                                                     <div key={item.fk_paciente_cpf}>
                                                         <p>• {item.fk_paciente_cpf} - {item.nomePaciente}</p>

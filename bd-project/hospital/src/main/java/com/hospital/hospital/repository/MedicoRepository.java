@@ -26,11 +26,12 @@ public class MedicoRepository {
         String sql;
         if (sortAlphabetically) {
             String order = reverseOrder ? "DESC" : "ASC";
-            sql = "SELECT * FROM Medico ORDER BY nome " + order;
+            sql = "SELECT m1.*, m2.nome AS nome_gerente from medico m1 LEFT JOIN medico m2 ON m1.fk_medico_cpf_gerente = m2.cpf ORDER BY m1.nome " 
+                    + order;
         } else if(sortNumerically){
-            sql = "SELECT * FROM Medico ORDER BY cpf DESC";
+            sql = "SELECT m1.*, m2.nome AS nome_gerente from medico m1 LEFT JOIN medico m2 ON m1.fk_medico_cpf_gerente = m2.cpf ORDER BY cpf DESC";
         }else{
-            sql = "SELECT * FROM Medico";
+            sql = "SELECT m1.*, m2.nome AS nome_gerente from medico m1 LEFT JOIN medico m2 ON m1.fk_medico_cpf_gerente = m2.cpf";
         }
         System.out.println("comando sql: " + sql);
         return jdbcTemplate.query(sql, medicoMapper);
@@ -57,6 +58,7 @@ public class MedicoRepository {
         else{
             medico.setMedicoCpfGerente(null);
         }
+        medico.setNomeGerente(rs.getString("nome_gerente"));
         return medico;
     };
 

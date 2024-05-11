@@ -345,10 +345,16 @@ export default function PatientTableView({ patients }) {
                                             <HoverCardContent>
                                                 <div>
                                                     {isInterned && (
-                                                        <p>Sala: {hoverContent.sala}</p>
+                                                        <div>
+                                                            <p>• Status: Internado</p>
+                                                            <p>• Sala: {hoverContent.sala}</p>
+                                                        </div>
                                                     )}
                                                     {isUrgent && (
-                                                        <p>Nível de Triagem: {hoverContent.nivel_triagem}</p>
+                                                        <div>
+                                                            <p>• Status: Urgência</p>
+                                                            <p>• Nível de Triagem: {hoverContent.nivel_triagem}</p>
+                                                        </div>
                                                     )}
                                                 </div>
                                             </HoverCardContent>
