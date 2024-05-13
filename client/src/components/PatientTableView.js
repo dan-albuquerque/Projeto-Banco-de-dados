@@ -1,5 +1,5 @@
-import React, {use, useState,useEffect} from "react";
-import {Toaster, toast} from 'react-hot-toast';
+import React, { use, useState, useEffect } from "react";
+import { Toaster, toast } from 'react-hot-toast';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -19,11 +19,20 @@ import {
     SheetHeader,
     SheetTitle,
     SheetTrigger,
-  } from "@/components/ui/sheet"
+} from "@/components/ui/sheet"
+
+import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+} from "@/components/ui/hover-card"
+
 
 export default function PatientTableView({ patients }) {
-    const [isInterned, setIsInterned] = useState(false); 
-    const [isUrgent, setIsUrgent] = useState(false); 
+    const [isInterned, setIsInterned] = useState(false);
+    const [isUrgent, setIsUrgent] = useState(false);
+    const [hoverContent, setHoverContent] = useState(null);
+
 
     const [patient, setPatient] = useState(
         {
@@ -53,13 +62,13 @@ export default function PatientTableView({ patients }) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
+
         // Always update the patient info regardless of patient type
         setPatient(prevState => ({
             ...prevState,
             [name]: value
         }));
-    
+
         // Update internedPatient or urgentPatient based on the type
         if (isInterned) {
             setInternedPatient(prevState => ({
@@ -76,7 +85,7 @@ export default function PatientTableView({ patients }) {
         }
     };
     useEffect(() => {
-        if(patient.cpf){
+        if (patient.cpf) {
             setInternedPatient(prevState => ({
                 ...prevState,
                 fk_paciente_cpf: patient.cpf
@@ -85,7 +94,7 @@ export default function PatientTableView({ patients }) {
     }, [patient.cpf]);
 
     useEffect(() => {
-        if(patient.cpf){
+        if (patient.cpf) {
             setUrgentPatient(prevState => ({
                 ...prevState,
                 fk_paciente_cpf: patient.cpf
@@ -99,15 +108,15 @@ export default function PatientTableView({ patients }) {
         e.preventDefault();
         const patientData = { ...patient, cpf };
         let success = false;
-        if (isInterned){
+        if (isInterned) {
             console.log("Interned patient data: ", internedPatient);
             await EditPatient(patientData, cpf);
             success = await EditInternedPatient(internedPatient, cpf);
-        }else if (isUrgent){
+        } else if (isUrgent) {
             console.log("Urgent patient data: ", urgentPatient);
             await EditPatient(patientData, cpf);
             success = await EditUrgentPatient(urgentPatient, cpf);
-        }else {
+        } else {
             success = await EditPatient(patientData, cpf);
         }
         if (success) {
@@ -118,22 +127,22 @@ export default function PatientTableView({ patients }) {
     };
 
     const handleEditClick = (cpfdata) => {
-        setCpf(cpfdata); 
+        setCpf(cpfdata);
         TrytoGetInterned(cpfdata);
     };
 
-    const renderExtraFields = () => {  
+    const renderExtraFields = () => {
         if (isUrgent) {
             return (
-                <input type="text" name="nivel_triagem" onChange={handleChange} placeholder="Nivel de Triagem" className="w-full  border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />   
+                <input type="text" name="nivel_triagem" onChange={handleChange} placeholder="Nivel de Triagem" className="w-full  border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
 
             )
-        }if (isInterned) {
+        } if (isInterned) {
             return (
-                <input type="text" name="sala" onChange={handleChange} placeholder="Sala" className="w-full  border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />   
+                <input type="text" name="sala" onChange={handleChange} placeholder="Sala" className="w-full  border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
 
             )
-        }else{
+        } else {
             return null;
         }
     }
@@ -141,26 +150,26 @@ export default function PatientTableView({ patients }) {
     const TrytoGetInterned = async (cpf) => {
         const jwtToken = localStorage.getItem('jwtToken');
         console.log("Attempting to access URL: http://localhost:8080/paciente_internado/" + cpf)
-            const response = await fetch(`http://localhost:8080/paciente_internado/${cpf}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${jwtToken}`
-                }
-            });
-            if (response.ok) {
-                const data = await response.json();
-                console.log("Data received from the API: ", data);
-                setIsInterned(true);
-                setIsUrgent(false);
-                console.log("O paciente é internado. setIsUrgent está como false e setIsInterned está como true")
-            } else {
-                setIsInterned(false);
-                setIsUrgent(true);
-                console.log("O paciente não é internado. setIsUrgent está como true e setIsInterned está como false")
-                return false;
+        const response = await fetch(`http://localhost:8080/paciente_internado/${cpf}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`
             }
-       
+        });
+        if (response.ok) {
+            const data = await response.json();
+            console.log("Data received from the API: ", data);
+            setIsInterned(true);
+            setIsUrgent(false);
+            console.log("O paciente é internado. setIsUrgent está como false e setIsInterned está como true")
+        } else {
+            setIsInterned(false);
+            setIsUrgent(true);
+            console.log("O paciente não é internado. setIsUrgent está como true e setIsInterned está como false")
+            return false;
+        }
+
     };
 
     const EditPatient = async (patient, cpf) => {
@@ -261,12 +270,57 @@ export default function PatientTableView({ patients }) {
         }
     };
 
-    const handleDeletePatient  = async (pacientcpf) => {
+    const handleDeletePatient = async (pacientcpf) => {
         console.log("Deleting patient with CPF: ", pacientcpf);
 
         const isDeleted = await deletePatient(pacientcpf);
 
         isDeleted ? console.log("Patient deleted successfully") : console.log("Failed to delete patient");
+    };
+
+    const handlePatientTypeChange = () => {
+        setIsInterned(!isInterned);
+        setIsUrgent(!isUrgent);
+    };
+
+    const fetchPatientInfo = async (cpf) => {
+        TrytoGetInterned(cpf);
+
+        if (isInterned) {
+            try {
+                console.log("Attempting to access URL: http://localhost:8080/paciente_internado/" + cpf)
+                const response = await fetch(`http://localhost:8080/paciente_internado/${cpf}`, {
+                    method: 'GET'
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Data received from the API: ", data);
+                    setHoverContent(data);
+                }
+            }
+            catch (error) {
+                console.error('Error:', error);
+            }
+        }else if (isUrgent) {
+            try {
+                console.log("Attempting to access URL: http://localhost:8080/pacienturgencia/" + cpf)
+                const response = await fetch(`http://localhost:8080/pacienturgencia/${cpf}`, {
+                    method: 'GET'
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Data received from the API: ", data);
+                    setHoverContent(data);
+                }
+            }
+            catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        else {
+            console.log("Paciente não é internado nem de urgência")  
+            setHoverContent(null);
+        }
     };
 
     return (
@@ -335,27 +389,27 @@ export default function PatientTableView({ patients }) {
                                         </SheetContent>
                                     </Sheet>
 
-                                <AlertDialog>
-                                    <AlertDialogTrigger><img src="/img/Delete.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
-                                    <AlertDialogContent>
-                                        <AlertDialogHeader>
-                                            <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
-                                            <AlertDialogDescription>
-                                                Essa ação não pode ser desfeita. As informações deste paciente serão deletadas permanentemente do banco de dados.
-                                            </AlertDialogDescription>
-                                        </AlertDialogHeader>
-                                        <AlertDialogFooter>
-                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                            <AlertDialogAction onClick={() => handleDeletePatient(patient.cpf)}>Continue</AlertDialogAction>
-                                        </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                </AlertDialog>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+                                    <AlertDialog>
+                                        <AlertDialogTrigger><img src="/img/Delete.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    Essa ação não pode ser desfeita. As informações deste paciente serão deletadas permanentemente do banco de dados.
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                <AlertDialogAction onClick={() => handleDeletePatient(patient.cpf)}>Continue</AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </>
     );
 }
