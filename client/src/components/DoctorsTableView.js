@@ -27,6 +27,35 @@ import {
 } from "@/components/ui/hover-card"
 
 export default function DoctorsTableView({ doctors }) {
+    const [isGerente, setIsGerente] = useState(false);
+    const [nomeGerente, setNomeGerente] = useState('');
+
+    const getInfoGerente = async (nomeMedicoGerente) => {
+        console.log('cpf gerente: ', nomeMedicoGerente);
+
+        try{
+            const response = await fetch(`http://localhost:8080/medico/${nomeMedicoGerente}`);
+            if(response.ok){
+                const data = await response.json();
+                setNomeGerente(data.nome);
+            }
+            console.log(nomeGerente);
+        }
+        catch(error){
+            console.error('Erro ao buscar informações do médico:', error);
+        }
+    };
+
+    const handleHoverCard = (doctor) => {
+        if(doctor.medicoCpfGerente === null) {
+            setIsGerente(true);
+
+        } else {
+            setIsGerente(false);
+            console.log( 'cpf Gerente: ', doctor.medicoCpfGerente);
+            getInfoGerente(doctor.medicoCpfGerente);            
+        }
+    };
 
     return (
         <div className="container mx-auto mt-8 flex items-center justify-center">
@@ -51,13 +80,18 @@ export default function DoctorsTableView({ doctors }) {
                             <td className="border-b border-gray-300 border-r px-5 py-2 text-left text-sm">{doctor.medicoCpfGerente}</td>
                             <td className="flex gap-2 items-start justify-start border-b border-gray-300 border-r px-5 py-2 ">
                                 <HoverCard>
-                                    <HoverCardTrigger > <img src="/img/MoreInfo.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" /> </HoverCardTrigger>
+                                    <HoverCardTrigger onMouseEnter={() => handleHoverCard(doctor)}> <img src="/img/MoreInfo.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" /> </HoverCardTrigger>
                                     <HoverCardContent>
-                                        <div>
-                                            content
-                                            {/* <p>• Especialidade: {doctor.especialidade}</p> */}
-                                            {/* {isGerente && <p>• Médico gerente: {doctor.nomeGerente}</p>} */}
-                                        </div>
+                                        {isGerente ? (
+                                            <div>
+                                                <p>• Especialidade: {doctor.especialidade}</p>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <p>• Especialidade: {doctor.especialidade}</p>
+                                                <p>• Médico gerente: {nomeGerente}</p>
+                                            </div>
+                                        )}
                                     </HoverCardContent>
                                 </HoverCard>
 
