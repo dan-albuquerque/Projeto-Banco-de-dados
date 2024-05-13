@@ -1,14 +1,13 @@
 package com.hospital.hospital.models.elenco;
 
 public class Medico {
-    private String cpf;
-    private int rqe;
-    private String nome;
-    private String senha;
-    private String especialidade;
-    private String crm;
-    private String fk_medico_cpf_gerente;
-    private String nome_gerente;
+    public String cpf;
+    public int rqe;
+    public String nome;
+    public String senha;
+    public String especialidade;
+    public String crm;
+    public String fk_medico_cpf_gerente;
 
     public Medico(String cpf, int rqe, String nome, String senha, String especialidade, String crm,
             String fk_medico_cpf_gerente) {
@@ -53,10 +52,12 @@ public class Medico {
 
     public String getSenha() {
         return senha;
+
     }
 
     public void setSenha(String senha) {
         this.senha = senha;
+
     }
 
     public String getEspecialidade() {
@@ -86,13 +87,6 @@ public class Medico {
 
     public void setMedicoCpfGerente(String fk_medico_cpf_gerente) {
         this.fk_medico_cpf_gerente = fk_medico_cpf_gerente;
-    }
 
-    public String getNomeGerente() {
-        return nome_gerente;
-    }
-
-    public void setNomeGerente(String nome_gerente) {
-        this.nome_gerente = nome_gerente;
     }
 }

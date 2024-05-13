@@ -20,22 +20,22 @@ public class MedicoRepository {
         jdbcTemplate.update("insert into medico(cpf, rqe, nome, especialidade, crm, fk_medico_cpf_gerente, senha) values(?, ?, ?, ?, ?, ?, ?)",
             medico.getCpf(), medico.getRqe(), medico.getNome(), medico.getEspecialidade(), medico.getCrm(), medico.getMedicoCpfGerente(), encodedPassword);
     }
-    
+
 
     public List<Medico> selectMedicos(boolean sortAlphabetically, boolean reverseOrder, boolean sortNumerically) {
         String sql;
         if (sortAlphabetically) {
             String order = reverseOrder ? "DESC" : "ASC";
-            sql = "SELECT m1.*, m2.nome AS nome_gerente from medico m1 LEFT JOIN medico m2 ON m1.fk_medico_cpf_gerente = m2.cpf ORDER BY m1.nome " 
-                    + order;
+            sql = "SELECT * FROM Medico ORDER BY nome " + order;
         } else if(sortNumerically){
-            sql = "SELECT m1.*, m2.nome AS nome_gerente from medico m1 LEFT JOIN medico m2 ON m1.fk_medico_cpf_gerente = m2.cpf ORDER BY cpf DESC";
+            sql = "SELECT * FROM Medico ORDER BY cpf DESC";
         }else{
-            sql = "SELECT m1.*, m2.nome AS nome_gerente from medico m1 LEFT JOIN medico m2 ON m1.fk_medico_cpf_gerente = m2.cpf";
+            sql = "SELECT * FROM Medico";
         }
         System.out.println("comando sql: " + sql);
         return jdbcTemplate.query(sql, medicoMapper);
     }
+
 
     public List<Medico> searchMedicos(boolean isSearch, String searchName){
         String sql = "SELECT * FROM Medico WHERE nome LIKE ?";
@@ -58,7 +58,6 @@ public class MedicoRepository {
         else{
             medico.setMedicoCpfGerente(null);
         }
-        medico.setNomeGerente(rs.getString("nome_gerente"));
         return medico;
     };
 

@@ -27,15 +27,6 @@ import {
 } from "@/components/ui/hover-card"
 
 export default function DoctorsTableView({ doctors }) {
-    const [isGerente , setIsGerente] = useState(null);
-
-    const handleGerente = (doctor) => {
-        if (doctor.medicoCpfGerente === null) {
-            setIsGerente(false);
-        } else {
-            setIsGerente(true);
-        }
-    };
 
     return (
         <div className="container mx-auto mt-8 flex items-center justify-center">
@@ -60,11 +51,12 @@ export default function DoctorsTableView({ doctors }) {
                             <td className="border-b border-gray-300 border-r px-5 py-2 text-left text-sm">{doctor.medicoCpfGerente}</td>
                             <td className="flex gap-2 items-start justify-start border-b border-gray-300 border-r px-5 py-2 ">
                                 <HoverCard>
-                                    <HoverCardTrigger onMouseEnter={() => handleGerente(doctor)}> <img src="/img/MoreInfo.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" /> </HoverCardTrigger>
+                                    <HoverCardTrigger > <img src="/img/MoreInfo.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" /> </HoverCardTrigger>
                                     <HoverCardContent>
                                         <div>
-                                            <p>• Especialidade: {doctor.especialidade}</p>
-                                            {isGerente && <p>• Médico gerente: {doctor.nomeGerente}</p>}
+                                            content
+                                            {/* <p>• Especialidade: {doctor.especialidade}</p> */}
+                                            {/* {isGerente && <p>• Médico gerente: {doctor.nomeGerente}</p>} */}
                                         </div>
                                     </HoverCardContent>
                                 </HoverCard>
