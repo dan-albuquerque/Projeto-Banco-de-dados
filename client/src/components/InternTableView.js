@@ -207,12 +207,12 @@ export default function InternTableView({ interns }) {
                                             <AlertDialogHeader>
                                                 <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
                                                 <AlertDialogDescription>
-                                                    Essa ação não pode ser desfeita. As informações deste paciente serão deletadas permanentemente do banco de dados.
+                                                    Essa ação não pode ser desfeita. As informações deste interno serão deletadas permanentemente do banco de dados.
                                                 </AlertDialogDescription>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>
-                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                <AlertDialogAction onClick={() => handleDeleteIntern(intern.cpf)}>Continue</AlertDialogAction>
+                                                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                                <AlertDialogAction onClick={() => handleDeleteIntern(intern.cpf)}>Continuar</AlertDialogAction>
                                             </AlertDialogFooter>
                                         </AlertDialogContent>
                                     </AlertDialog>
