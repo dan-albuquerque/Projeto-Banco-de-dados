@@ -23,7 +23,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software:
+What you need to install the software:
 
 - JDK 11+
 - Node.js
@@ -38,7 +38,7 @@ A step-by-step series of examples that tell you how to get a development environ
 1. **Clone the repository**
    ```bash
     git clone https://github.com/dan-albuquerque/Projeto-Banco-de-dados.git
-    cd e-hospital
+    cd Trabalho-banco-de-dados
 
 2. **Setup the backend**
    ```bash
