@@ -30,16 +30,16 @@ public class MedicacaoRepository {
         return medicacao;
     };
     
-    public void updateMedicacao(Medicacao medicacao){
-        jdbcTemplate.update("update medicacao set fk_registro_urgencia_codigo = ?, nome = ? where id = ?", medicacao.getRegistroUrgenciaCodigo(), medicacao.getNome(), medicacao.getId());
+    public void updateMedicacao(int fk_registro_urgencia_codigo, int id, Medicacao medicacao){
+        jdbcTemplate.update("update medicacao set nome = ? where id = ? and fk_registro_urgencia_codigo = ?", medicacao.getNome(), id, fk_registro_urgencia_codigo);
     }
 
-    public void deleteMedicacao(int id){
-        jdbcTemplate.update("delete from medicacao where id = ?", id);
+    public void deleteMedicacao(int fk_registro_urgencia_codigo, int id){
+        jdbcTemplate.update("delete from medicacao where fk_registro_urgencia_codigo = ? and id = ?", fk_registro_urgencia_codigo, id);
     }
 
-    public Medicacao selectMedicacao(int id){
-        return jdbcTemplate.queryForObject("select * from medicacao where id = ?", medicacaoMapper, id);
+    public Medicacao selectMedicacao(int fk_registro_urgencia_codigo, int id){
+        return jdbcTemplate.queryForObject("select * from medicacao where fk_registro_urgencia_codigo = ? and id = ?", medicacaoMapper, fk_registro_urgencia_codigo, id);
     }
 
     public List<Medicacao> selectMedicacoesByRegistro(int fk_registro_urgencia_codigo){

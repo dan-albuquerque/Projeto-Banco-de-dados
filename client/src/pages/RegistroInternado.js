@@ -77,23 +77,34 @@ export default function RegistroInternado() {
               <img src="/img/GreenProgress.png" alt="medico icon" />
             </div>
           </div>
-          <div className="mb-6 flex items-stretch">
+          <div className="mb-2 flex items-stretch">
             <div className="flex-grow">
-              <label htmlFor="hipoteses" className="block text-sm font-medium text-gray-700">Hipóteses:</label>
-              <textarea id="hipotese" value={hipotese} onChange={(e) => setHipotese(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-4 resize-none" placeholder="Insira uma hipótese" />
+              <div className="flex justify-between items-center gap-4 ">
+                <div className='flex flex-col w-full'><label htmlFor="hipoteses" className="block text-sm font-medium text-gray-700">Hipóteses:</label>
+                  <textarea id="hipotese" value={hipotese} onChange={(e) => setHipotese(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-4 resize-none items-center" placeholder="Insira uma hipótese" />
+                </div>
+                <button
+                  type="button"
+                  onClick={handleHipotese}
+                  className={`items-center justify-center px-2 py-2 w-12 h-12 mt-4 bg-green-600 hover:bg-gray-800 text-white text-medium text-3xl rounded-full shadow-lg transition-transform duration-200 ${!hipotese.trim() ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  disabled={!hipotese.trim()}
+                >
+                  <p>+</p>
+                </button>
+              </div>
+
             </div>
-            <button type="button" onClick={handleHipotese} className="align-self-stretch ml-4 px-6 py-2 bg-black hover:bg-gray-800 text-white font-weight rounded-md shadow-lg transition-transform duration-200">ADD</button>
           </div>
           {hipoteses.map((h, index) => (
-            <div key={index} className="flex items-center mb-2">
-              <input readOnly className="flex-1 border border-gray-300 rounded-md shadow-sm p-2 text-sm" value={h} />
-              <button type="button" onClick={() => handleRemoveHipotese(index)} className="ml-2 p-2 bg-red-500 hover:bg-red-700 text-white rounded-md">
-                x
+            <div key={index} className="flex items-center mb-2 gap-3">
+              <textarea readOnly className="mt-2 block w-full border border-gray-300 rounded-md resize-none items-center shadow-sm p-2 text-sm" placeholder=" Nova hipótese" value={h} />
+              <button type="button" onClick={() => handleRemoveHipotese(index)} className="ml-2 w-10 h-10 rounded-full text-xl bg-red-500 hover:bg-red-700 text-white justify-center items-center shadow-lg">
+                <p>x</p>
               </button>
             </div>
           ))}
           <div className="flex justify-center">
-            <button type="submit" className="mt-1 w-full px-4 py-2 bg-black hover:bg-gray-800 text-white font-weight rounded-md shadow-lg transition-transform duration-200 hover:scale-105">
+            <button type="submit" className="mt-4 w-full px-4 py-2 bg-black hover:bg-gray-800 text-white font-weight rounded-md shadow-lg transition-transform duration-200 hover:scale-105">
               Gerar consulta
             </button>
           </div>

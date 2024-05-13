@@ -4,7 +4,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import com.hospital.hospital.models.pacientes.Comorbidade;
+
+import com.hospital.hospital.models.informacao.Comorbidade;
+
 import org.springframework.jdbc.core.RowMapper;
 
 @Repository
@@ -18,13 +20,12 @@ public class ComorbidadeRepository {
             comorbidade.getRegistroUrgenciaCodigo(), comorbidade.getId(), comorbidade.getNome());
     }
 
-    public void deleteComorbidade(int id){
-        jdbcTemplate.update("delete from comorbidade where id = ?", id);
+    public void deleteComorbidade(int fk_registro_codigo, int id){
+        jdbcTemplate.update("delete from comorbidade where id = ? and fk_registro_urgencia_codigo = ?", id, fk_registro_codigo);
     }
 
-    public void updateComorbidade(Comorbidade comorbidade){
-        jdbcTemplate.update("update comorbidade set fk_registro_urgencia_codigo = ?, nome = ? where id = ?", 
-            comorbidade.getRegistroUrgenciaCodigo(), comorbidade.getNome(), comorbidade.getId());
+    public void updateComorbidade(int fk_registro_codigo, int id, Comorbidade comorbidade){
+        jdbcTemplate.update("update comorbidade set nome = ? where id = ? and fk_registro_urgencia_codigo = ?", comorbidade.getNome(), id, fk_registro_codigo);
     }
 
     public List<Comorbidade> selectComorbidades() {
@@ -41,12 +42,12 @@ public class ComorbidadeRepository {
         return comorbidade;
     };
 
-    public Comorbidade updateComorbidade(int id){
-        return jdbcTemplate.queryForObject("select * from comorbidade where id = ?", comorbidadeMapper, id);
+    public Comorbidade selectComorbidade(int fk_registro_codigo, int id){
+        return jdbcTemplate.queryForObject("select * from comorbidade where id = ? and fk_registro_urgencia_codigo = ?", comorbidadeMapper, id, fk_registro_codigo);
     }
 
-    public Comorbidade selectComorbidadesById(int id){
-        return jdbcTemplate.queryForObject("SELECT * FROM comorbidade WHERE id = ?", comorbidadeMapper, id);
+    public List<Comorbidade> selectComorbidadesByRegistro(int fk_registro_codigo){
+        return jdbcTemplate.query("SELECT * FROM comorbidade WHERE fk_registro_urgencia_codigo = ?", comorbidadeMapper, fk_registro_codigo);
     }
     
 }

@@ -27,9 +27,9 @@ public class MedicacaoController {
         return "Medicacao created: " + medicacao.getId();
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteMedicacao(@PathVariable int id){
-        medicacaoRepository.deleteMedicacao(id);
+    @DeleteMapping("/{fk_registro_urgencia_codigo}/{id}")
+    public String deleteMedicacao(@PathVariable int fk_registro_urgencia_codigo,@PathVariable int id){
+        medicacaoRepository.deleteMedicacao(fk_registro_urgencia_codigo, id);
         return "Medicacao deleted: " + id;
     }
 
@@ -38,14 +38,14 @@ public class MedicacaoController {
         return medicacaoRepository.selectMedicacoes();
     }
 
-    @GetMapping("/{id}")
-    public Medicacao getMedicacaoById(@PathVariable int id){
-        return medicacaoRepository.selectMedicacao(id);
+    @GetMapping("/{fk_registro_urgencia_codigo}/{id}")
+    public Medicacao getMedicacaoById(@PathVariable int fk_registro_urgencia_codigo, @PathVariable int id){
+        return medicacaoRepository.selectMedicacao(fk_registro_urgencia_codigo, id);
     }
 
-    @PutMapping("/{id}")
-    public String updateMedicacao(@PathVariable int id, @RequestBody Medicacao medicacao){
-        medicacaoRepository.updateMedicacao(medicacao);
+    @PutMapping("/{fk_registro_urgencia_codigo}/{id}")
+    public String updateMedicacao(@PathVariable int fk_registro_urgencia_codigo,@PathVariable int id, @RequestBody Medicacao medicacao){
+        medicacaoRepository.updateMedicacao(fk_registro_urgencia_codigo, id, medicacao);
         return "Medicacao updated: " + medicacao.getId();
     }
 }

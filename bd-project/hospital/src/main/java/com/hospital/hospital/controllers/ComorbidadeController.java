@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
-import com.hospital.hospital.models.pacientes.Comorbidade;
+
+import com.hospital.hospital.models.informacao.Comorbidade;
 import com.hospital.hospital.repository.ComorbidadeRepository;
 
 @RestController
@@ -21,9 +22,9 @@ public class ComorbidadeController {
         return "Comorbidade created: " + comorbidade.getNome();
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteComorbidade(@PathVariable int id){
-        comorbidadeRepository.deleteComorbidade(id);
+    @DeleteMapping("/{fk_registro_urgencia_codigo}/{id}")
+    public String deleteComorbidade(@PathVariable int fk_registro_urgencia_codigo,@PathVariable int id){
+        comorbidadeRepository.deleteComorbidade(fk_registro_urgencia_codigo, id);
         return "Comorbidade deleted! " + id;
     }
 
@@ -32,15 +33,14 @@ public class ComorbidadeController {
         return comorbidadeRepository.selectComorbidades();
     }
 
-    @GetMapping("/{id}")
-    public Comorbidade getComorbidadeById(@PathVariable int id){
-        return comorbidadeRepository.selectComorbidadesById(id);
+    @GetMapping("/{fk_registro_urgencia_codigo}")
+    public List<Comorbidade> getComorbidadeByRegistro(@PathVariable int fk_registro_urgencia_codigo){
+        return comorbidadeRepository.selectComorbidadesByRegistro(fk_registro_urgencia_codigo);
     }
 
-    @PutMapping("/{id}")
-    public String updateComorbidade(@RequestBody Comorbidade comorbidade) {
-        comorbidadeRepository.updateComorbidade(comorbidade);
+    @PutMapping("/{fk_registro_urgencia_codigo}/{id}")
+    public String updateComorbidade(@PathVariable int fk_registro_urgencia_codigo, @PathVariable int id,@RequestBody Comorbidade comorbidade) {
+        comorbidadeRepository.updateComorbidade(fk_registro_urgencia_codigo, id, comorbidade);
         return "Comorbidade updated: " + comorbidade.getId();
     }
-
 }

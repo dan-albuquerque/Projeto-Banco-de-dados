@@ -1,4 +1,4 @@
-package com.hospital.hospital.models.pacientes;
+package com.hospital.hospital.models.informacao;
 
 public class Comorbidade {
     public int fk_registro_urgencia_codigo;
