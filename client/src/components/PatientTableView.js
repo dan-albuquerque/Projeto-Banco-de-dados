@@ -102,8 +102,6 @@ export default function PatientTableView({ patients }) {
         }
     }, [patient.cpf]);
 
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         const patientData = { ...patient, cpf };
@@ -242,47 +240,6 @@ export default function PatientTableView({ patients }) {
         }
     };
 
-
-
-
-    const deletePatient = async (pacientcpf) => {
-        const jwtToken = localStorage.getItem('jwtToken');
-        console.log("Attempting to access URL: http://localhost:8080/pacient/" + pacientcpf)
-
-        try {
-            const response = await fetch(`http://localhost:8080/pacient/${pacientcpf}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${jwtToken}`
-                },
-            });
-            if (response.ok) {
-                console.log("Patient deleted successfully");
-                return true;
-            } else {
-                console.error("Failed to delete patient");
-                return false;
-            }
-        } catch (error) {
-            console.error("An error occurred while trying to delete the patient");
-            return false;
-        }
-    };
-
-    const handleDeletePatient = async (pacientcpf) => {
-        console.log("Deleting patient with CPF: ", pacientcpf);
-
-        const isDeleted = await deletePatient(pacientcpf);
-
-        isDeleted ? console.log("Patient deleted successfully") : console.log("Failed to delete patient");
-    };
-
-    const handlePatientTypeChange = () => {
-        setIsInterned(!isInterned);
-        setIsUrgent(!isUrgent);
-    };
-
     const fetchPatientInfo = async (cpf) => {
         TrytoGetInterned(cpf);
 
@@ -388,22 +345,6 @@ export default function PatientTableView({ patients }) {
                                             </SheetHeader>
                                         </SheetContent>
                                     </Sheet>
-
-                                    <AlertDialog>
-                                        <AlertDialogTrigger><img src="/img/Delete.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
-                                        <AlertDialogContent>
-                                            <AlertDialogHeader>
-                                                <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
-                                                <AlertDialogDescription>
-                                                    Essa ação não pode ser desfeita. As informações deste paciente serão deletadas permanentemente do banco de dados.
-                                                </AlertDialogDescription>
-                                            </AlertDialogHeader>
-                                            <AlertDialogFooter>
-                                                <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                                                <AlertDialogAction onClick={() => handleDeletePatient(patient.cpf)}>Continuar</AlertDialogAction>
-                                            </AlertDialogFooter>
-                                        </AlertDialogContent>
-                                    </AlertDialog>
                                 </td>
                             </tr>
                         ))}
