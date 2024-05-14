@@ -29,11 +29,29 @@ export async function getServerSideProps() {
       console.log('Doctors not found or response not ok:', doctors, doctorsRes);
       return { notFound: true };
     }
+    const consultationUrgentWithNames = await Promise.all(consultationUrgent.map(async (consulta) => {
+      const responsePaciente = await fetch(`http://localhost:8080/pacient/${consulta.fk_paciente_urgencia_cpf}`);
+      const paciente = await responsePaciente.json();
+
+      const responseMedico = await fetch(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);
+      const medico = await responseMedico.json();
+      return { ...consulta, nomePaciente: paciente.nome, nomeMedico: medico.nome }; 
+    }));
+
+    const consultaInternadoNomes = await Promise.all(consultatioHospitalized.map(async (consulta) => {
+      const responsePaciente = await fetch(`http://localhost:8080/pacient/${consulta.fk_paciente_internado_cpf}`);
+      const paciente = await responsePaciente.json();
+
+      const responseMedico = await fetch(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);
+      const medico = await responseMedico.json();
+      return { ...consulta, nomePaciente: paciente.nome, nomeMedico: medico.nome }; 
+    }));
+
     return {
       props: {
         doctors,
-        consultationUrgent,
-        consultatioHospitalized
+        consultationUrgent: consultationUrgentWithNames,
+        consultatioHospitalized: consultaInternadoNomes,
       },
     };
   } catch (error) {
