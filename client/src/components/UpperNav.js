@@ -8,7 +8,7 @@ export default function UpperNav({ swapPatient, swapIntern, swapDoctor, searchBy
     const [isView, setIsView] = useState(true);
     const [isInsert, setIsInsert] = useState(false);
     const [searchData, setSearchData] = useState(null);
-    const [userType, setUserType] = useState('intern')
+    const [userType, setUserType] = useState('intern');
 
     const handleSearchData = (data) => {    
         setSearchData(data);
@@ -47,6 +47,7 @@ export default function UpperNav({ swapPatient, swapIntern, swapDoctor, searchBy
         setIsView(false);
         setIsInsert(true);
     }
+
 
     return (
         <div className="h-16 flex justify-between items-center mt-5 ">
