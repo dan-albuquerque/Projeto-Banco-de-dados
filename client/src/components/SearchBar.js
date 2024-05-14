@@ -99,15 +99,25 @@ export default function SearchBar({onSearch, userType}) {
     };
 
     return (
-        <div className='w-1/3 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 flex justify-between' > {/* Wrap JSX elements inside a parent element */}
-            <input className='w-full bg-transparent focus:outline-none'
-                type="text"
-                placeholder="Pesquisar..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <img src="/img/search.png" alt="search" onClick={handleSearch} className="w-6 h-6 ml-2 cursor-pointer" /> {/* Remove the closing slash */}
-
-        </div>
+    <div className='w-1/3 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 flex justify-between' >
+    <input 
+        className='w-full bg-transparent focus:outline-none'
+        type="text"
+        placeholder="Pesquisar..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        onKeyPress={(e) => {
+        if (e.key === 'Enter') {
+            handleSearch();
+        }
+        }}
+    />
+    <img 
+        src="/img/search.png" 
+        alt="search" 
+        onClick={handleSearch} 
+        className="w-6 h-6 ml-2 cursor-pointer" 
+    />
+    </div>
     );
 }

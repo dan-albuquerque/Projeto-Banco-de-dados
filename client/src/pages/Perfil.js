@@ -57,7 +57,7 @@ export default function Perfil() {
   return (
     <CentralizedLayout>
       <Toaster />
-      <div className='w-4/4 flex justify-between gap-10' style={{ height: '50vh' }}>
+      <div className='w-4/4 flex justify-between gap-10 mb-16' style={{ height: '50vh' }}>
         <div className='w-1/2 h-full'>
           <div className='h-full w-full rounded-full bg-blue-200 border-customBlue border-8'>
             <img className='w-full h-full object-cover rounded-full' src='img/doctor.svg' alt='Foto do médico' />

@@ -103,8 +103,8 @@ export default function ConsultaUrgencia() {
       <Toaster />
       <CentralizedLayout>
         <form id="registroForm" onSubmit={handleSubmit} className="w-1/2 mx-auto p-8 mb-16 shadow-xl rounded-lg">
-        <div className='flex justify-between items-center mb-10'>
-            <h1 className="text-3xl font-weight self-start text-normalBlue">
+          <div className='flex justify-between items-center mb-6'>
+            <h1 className="text-2xl font-weight self-start text-normalBlue">
               Consulta de Urgência
             </h1>
             <div className="flex items-center gap-3">
@@ -112,24 +112,23 @@ export default function ConsultaUrgencia() {
               <img src="/img/GreenProgress.png" alt="medico icon" />
               <img src="/img/EmptyProgress.png" alt="medico icon" />
             </div>
-
           </div>
-          <div className="grid grid-cols-1 gap-4 mb-6">
+          <div className="grid grid-cols-1 gap-4 mb-4">
             <div>
               <label htmlFor="conduta" className="block text-sm font-medium text-gray-700">Conduta:</label>
-              <textarea id="conduta" value={conduta} onChange={(e) => setConduta(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-4 resize-none" placeholder="Insira a conduta que terá o paciente" />
+              <textarea id="conduta" value={conduta} onChange={(e) => setConduta(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 resize-none" placeholder="Insira a conduta que terá o paciente" />
             </div>
             <div>
               <label htmlFor="historico" className="block text-sm font-medium text-gray-700">Histórico da doença:</label>
-              <textarea id="historico" value={historico} onChange={(e) => setHistorico(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-4 resize-none" placeholder="Insira a histórico da doença" />
+              <textarea id="historico" value={historico} onChange={(e) => setHistorico(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 resize-none" placeholder="Insira a histórico da doença" />
             </div>
             <div>
               <label htmlFor="exameFisico" className="block text-sm font-medium text-gray-700">Exame físico:</label>
-              <textarea id="exameFisico" value={exameFisico} onChange={(e) => setExameFisico(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-4 resize-none" placeholder="Insira um resumo dos exames físicos" />
+              <textarea id="exameFisico" value={exameFisico} onChange={(e) => setExameFisico(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 resize-none" placeholder="Insira um resumo dos exames físicos" />
             </div>
             <div>
               <label htmlFor="pacienteCpf" className="block text-sm font-medium text-gray-700">CPF do paciente:</label>
-              <input id="pacienteCpf" type="text" value={pacienteCpf} onChange={(e) => setPacienteCpf(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-4" placeholder="Insira o CPF do paciente" />
+              <input id="pacienteCpf" type="text" value={pacienteCpf} onChange={(e) => setPacienteCpf(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" placeholder="Insira o CPF do paciente" />
             </div>
           </div>
           <div className="flex justify-center">
@@ -138,7 +137,6 @@ export default function ConsultaUrgencia() {
             </button>
           </div>
         </form>
-
         <DownerNav></DownerNav>
       </CentralizedLayout>
     </>
