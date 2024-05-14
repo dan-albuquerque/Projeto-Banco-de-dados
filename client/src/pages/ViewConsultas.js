@@ -3,39 +3,43 @@ import UppernavConsultas from '@/components/UpperNavConsultas';
 import DownerNav from '@/components/DownerNav';
 import ConsultaUrgenciaTableView from '@/components/ConsultaUrgenciaTableView';
 import ConsultaInternadoTableView from '@/components/ConsultaInternadoTableView';
+import cookie from 'cookie';
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  const { req, res } = context;
+
+  const parsedCookies = cookie.parse(req ? req.headers.cookie || "" : "");
+  const docCpf = parsedCookies.cpf
 
   const urls = {
     consultationUrgent: 'http://localhost:8080/consulta_urgencia',
     consultatioHospitalized: 'http://localhost:8080/consulta_internado',
-    doctors: 'http://localhost:8080/medico'
+    consultasUrgenciaByMedico: `http://localhost:8080/consulta_urgencia/medico/${docCpf}`,
+    consultasInternadoByMedico: `http://localhost:8080/consulta_internado/medico/${docCpf}`,
   };
 
   try {
-    const [doctorsRes, consultationUrgentRes, consultatioHospitalizedRes] = await Promise.all([
-      fetch(urls.doctors),
+    const [consultationUrgentRes, consultatioHospitalizedRes, consultasUrgenciaByMedicoRes, consultaInternadoByMedicoRes] = await Promise.all([
       fetch(urls.consultationUrgent),
-      fetch(urls.consultatioHospitalized)
+      fetch(urls.consultatioHospitalized),
+      fetch(urls.consultasUrgenciaByMedico),
+      fetch(urls.consultasInternadoByMedico),
     ]);
 
-    const [doctors, consultationUrgent, consultatioHospitalized] = await Promise.all([
-      doctorsRes.json(),
+    const [consultationUrgent, consultatioHospitalized, consultasUrgenciaByMedico, consultaInternadoByMedico] = await Promise.all([
       consultationUrgentRes.json(),
-      consultatioHospitalizedRes.json()
+      consultatioHospitalizedRes.json(),
+      consultasUrgenciaByMedicoRes.json(),
+      consultaInternadoByMedicoRes.json(),
     ]);
 
-    if (!doctors || !doctorsRes.ok) {
-      console.log('Doctors not found or response not ok:', doctors, doctorsRes);
-      return { notFound: true };
-    }
     const consultationUrgentWithNames = await Promise.all(consultationUrgent.map(async (consulta) => {
       const responsePaciente = await fetch(`http://localhost:8080/pacient/${consulta.fk_paciente_urgencia_cpf}`);
       const paciente = await responsePaciente.json();
 
       const responseMedico = await fetch(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);
       const medico = await responseMedico.json();
-      return { ...consulta, nomePaciente: paciente.nome, nomeMedico: medico.nome }; 
+      return { ...consulta, nomePaciente: paciente.nome, nomeMedico: medico.nome };
     }));
 
     const consultaInternadoNomes = await Promise.all(consultatioHospitalized.map(async (consulta) => {
@@ -44,14 +48,33 @@ export async function getServerSideProps() {
 
       const responseMedico = await fetch(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);
       const medico = await responseMedico.json();
-      return { ...consulta, nomePaciente: paciente.nome, nomeMedico: medico.nome }; 
+      return { ...consulta, nomePaciente: paciente.nome, nomeMedico: medico.nome };
+    }));
+
+    const consultasUrgenciaByMedicoWithNames = await Promise.all(consultasUrgenciaByMedico.map(async (consulta) => {
+      const responsePaciente = await fetch(`http://localhost:8080/pacient/${consulta.fk_paciente_urgencia_cpf}`);
+      const paciente = await responsePaciente.json();
+
+      const responseMedico = await fetch(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);
+      const medico = await responseMedico.json();
+      return { ...consulta, nomePaciente: paciente.nome, nomeMedico: medico.nome };
+    }));
+
+    const consultaInternadoByMedicoWithNames = await Promise.all(consultaInternadoByMedico.map(async (consulta) => {
+      const responsePaciente = await fetch(`http://localhost:8080/pacient/${consulta.fk_paciente_internado_cpf}`);
+      const paciente = await responsePaciente.json();
+
+      const responseMedico = await fetch(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);
+      const medico = await responseMedico.json();
+      return { ...consulta, nomePaciente: paciente.nome, nomeMedico: medico.nome };
     }));
 
     return {
       props: {
-        doctors,
         consultationUrgent: consultationUrgentWithNames,
         consultatioHospitalized: consultaInternadoNomes,
+        consultasUrgenciaByMedico: consultasUrgenciaByMedicoWithNames,
+        consultaInternadoByMedico: consultaInternadoByMedicoWithNames,
       },
     };
   } catch (error) {
@@ -60,18 +83,28 @@ export async function getServerSideProps() {
   }
 }
 
-export default function ViewConsultas({ doctors, consultationUrgent, consultatioHospitalized }) {
+export default function ViewConsultas({ consultationUrgent, consultatioHospitalized, consultasUrgenciaByMedico, consultaInternadoByMedico }) {
   const [isUrgent, setIsUrget] = useState(true);
-  const [isHospitalized, setIsHospitalized] = useState(false);
+  const [isMyConsultas, setIsMyConsultas] = useState(false);
 
   const handleChooseUrgent = () => {
     setIsUrget(true);
-    setIsHospitalized(false);
   };
 
   const handleChooseHospitalized = () => {
     setIsUrget(false);
-    setIsHospitalized(true);
+  };
+
+  const toggleMyConsultas = () => {
+    setIsMyConsultas(!isMyConsultas);
+  };
+
+  const getConsultationsToDisplay = () => {
+    if (isUrgent) {
+      return isMyConsultas ? consultasUrgenciaByMedico : consultationUrgent;
+    } else {
+      return isMyConsultas ? consultaInternadoByMedico : consultatioHospitalized;
+    }
   };
 
   return (
@@ -79,12 +112,15 @@ export default function ViewConsultas({ doctors, consultationUrgent, consultatio
       <UppernavConsultas
         swapUrgent={handleChooseUrgent}
         swapHospitalized={handleChooseHospitalized} />
+      <button onClick={toggleMyConsultas} className="mx-4 my-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        {isMyConsultas ? 'Ver Todas Consultas' : 'Ver Minhas Consultas'}
+      </button>
       <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '70vh' }}>
 
         {isUrgent ? (
-          <ConsultaUrgenciaTableView ConsultasUrgencia={consultationUrgent} />
+          <ConsultaUrgenciaTableView ConsultasUrgencia={getConsultationsToDisplay()} />
         ) : (
-          <ConsultaInternadoTableView ConsultasInternado={consultatioHospitalized} />
+          <ConsultaInternadoTableView ConsultasInternado={getConsultationsToDisplay()} />
         )}
 
       </div>
