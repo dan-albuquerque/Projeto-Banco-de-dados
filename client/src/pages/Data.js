@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../app/globals.css";
-import {Layout} from "../app/layout";
+import { Layout } from "../app/layout";
 import UpperNav from '@/components/UpperNav';
 import InternTableView from '@/components/InternTableView';
 import DoctorsTableView from '@/components/DoctorsTableView';
@@ -259,56 +259,56 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
       } else if (isPatient) {
         return <PatientTableView patients={upperNavSearch} />;
       }
-    }else{
+    } else {
 
-    if (isView) {
-      if (isIntern) {
-        if (isSortedInternsReverse) {
-          console.log(isSortedInternsReverse);
-          return <InternTableView interns={sortedInternsReverse} />;
-        } else if (isSortedInterns) {
-          console.log(isSortedInterns);
-          return <InternTableView interns={sortedInterns} />;
-        } else if (isSortedInternsCpf) {
-          console.log(isSortedInternsCpf);
-          return <InternTableView interns={sortedInternsCpf} />;
+      if (isView) {
+        if (isIntern) {
+          if (isSortedInternsReverse) {
+            console.log(isSortedInternsReverse);
+            return <InternTableView interns={sortedInternsReverse} />;
+          } else if (isSortedInterns) {
+            console.log(isSortedInterns);
+            return <InternTableView interns={sortedInterns} />;
+          } else if (isSortedInternsCpf) {
+            console.log(isSortedInternsCpf);
+            return <InternTableView interns={sortedInternsCpf} />;
+          }
+          return <InternTableView interns={interns} />;
+        } else if (isDoctor) {
+          if (isSortedDoctorsReverse) {
+            console.log(isSortedDoctorsReverse);
+            return <DoctorsTableView doctors={sortedDoctorsReverse} />;
+          } else if (isSortedDoctors) {
+            console.log(isSortedDoctors);
+            return <DoctorsTableView doctors={sortedDoctors} />;
+          } else if (isSortedDoctorsCpf) {
+            console.log(isSortedDoctorsCpf);
+            return <DoctorsTableView doctors={sortedDoctorsCpf} />;
+          }
+          return <DoctorsTableView doctors={doctors} />;
+        } else if (isPatient) {
+          if (isSortedPatientsReverse) {
+            console.log(isSortedPatientsReverse);
+            return <PatientTableView patients={sortedPatientsReverse} />;
+          } else if (isSortedPatients) {
+            console.log(isSortedPatients);
+            return <PatientTableView patients={sortedPatients} />;
+          } else if (isSortedPatientsCpf) {
+            console.log(isSortedPatientsCpf);
+            return <PatientTableView patients={sortedPatientsCpf} />;
+          }
+          return <PatientTableView patients={patients} />;
         }
-        return <InternTableView interns={interns} />;
-      } else if (isDoctor) {
-        if (isSortedDoctorsReverse) {
-          console.log(isSortedDoctorsReverse);
-          return <DoctorsTableView doctors={sortedDoctorsReverse} />;
-        } else if (isSortedDoctors) {
-          console.log(isSortedDoctors);
-          return <DoctorsTableView doctors={sortedDoctors} />;
-        } else if (isSortedDoctorsCpf) {
-          console.log(isSortedDoctorsCpf);
-          return <DoctorsTableView doctors={sortedDoctorsCpf} />;
+      } else if (isInsert) {
+        if (isIntern) {
+          return <InsertNewIntern />;
+        } else if (isPatient) {
+          return <InsertNewPacient />;
+        } else if (isDoctor) {
+          return <CriarMedico />;
         }
-        return <DoctorsTableView doctors={doctors} />;
-      } else if (isPatient) {
-        if (isSortedPatientsReverse) {
-          console.log(isSortedPatientsReverse);
-          return <PatientTableView patients={sortedPatientsReverse} />;
-        } else if (isSortedPatients) {
-          console.log(isSortedPatients);
-          return <PatientTableView patients={sortedPatients} />;
-        } else if (isSortedPatientsCpf) {
-          console.log(isSortedPatientsCpf);
-          return <PatientTableView patients={sortedPatientsCpf} />;
-        }
-        return <PatientTableView patients={patients} />;
-      }
-    } else if (isInsert) {
-      if (isIntern) {
-        return <InsertNewIntern />;
-      } else if (isPatient) {
-        return <InsertNewPacient />;
-      }else if (isDoctor){
-        return <CriarMedico />;
       }
     }
-  }
   };
 
   return (

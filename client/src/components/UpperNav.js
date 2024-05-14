@@ -49,6 +49,7 @@ export default function UpperNav({ swapPatient, swapIntern, swapDoctor, searchBy
         setIsInsert(true);
     };
 
+
     return (
         <div className="h-16 flex justify-between items-center mt-5 ">
             <div className="ml-12 flex gap-4 items-center justify-center">
