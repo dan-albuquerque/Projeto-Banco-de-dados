@@ -7,8 +7,10 @@ import { Toaster, toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
 export default function ConsultInternado() {
+  
   const navigate = useRouter();
   const [pacienteCpf, setPacienteCpf] = useState('');
+  
   const [conduta, setConduta] = useState('');
   const [historico, setHistorico] = useState('');
   const [evolucao, setEvolucao] = useState('');

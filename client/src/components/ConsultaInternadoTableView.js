@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
 
 
-export default function ConsultaInternadoTableView({ ConsultasInternado }) {
+export default function ConsultaInternadoTableView({ ConsultasInternado, isSearch }) {
+  console.log('Consulta internado prop', ConsultasInternado);
   const router = useRouter();
 
   const handleMoreInfoClick = (consultaId) => {
@@ -34,9 +35,11 @@ export default function ConsultaInternadoTableView({ ConsultasInternado }) {
                   alt="Mais informações"
                   onClick={() => handleMoreInfoClick(Consulta.fk_registro_internado_codigo)}
                 />
+
               </td>
             </tr>
           ))}
+
         </tbody>
 
       </table>
