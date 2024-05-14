@@ -1,5 +1,6 @@
 package com.hospital.hospital.controllers;
 
+import com.hospital.hospital.models.ConsultaInternadoDTO;
 import com.hospital.hospital.models.consultas.ConsultaInternado;
 import com.hospital.hospital.repository.ConsultaInternadoRepository;
 import java.util.List;
@@ -37,13 +38,15 @@ public class ConsultaInternadoController {
         return consultaInternadoRepository.selectConsultaInternado(cod_registro, cpfMedico, cpfPaciente);
     }
 
-    @GetMapping("/paciente/{cpfPaciente}")
-    public List<ConsultaInternado> getConsultaInternadoByPaciente(@PathVariable String cpfPaciente) {
-        return consultaInternadoRepository.selectConsultaInternadoByPaciente(cpfPaciente);
-    }
-
     @GetMapping("/medico/{cpfMedico}")
     public List<ConsultaInternado> getConsultaInternadoByMedico(@PathVariable String cpfMedico) {
         return consultaInternadoRepository.selectConsultaInternadoByMedico(cpfMedico);
     }
+
+    @GetMapping("/paciente/{nomePaciente}")
+    public List<ConsultaInternadoDTO> searchConsultaInternadosByPaciente(@PathVariable String nomePaciente) {
+        System.out.println("!!!!!!!!Nome paciente!!!!!!!!!!: " + nomePaciente);
+        return consultaInternadoRepository.searchByPatientName(nomePaciente);
+    }
+    
 }

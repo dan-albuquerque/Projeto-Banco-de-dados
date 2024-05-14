@@ -4,9 +4,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.List;
+
+import com.hospital.hospital.models.ConsultaInternadoDTO;
 import com.hospital.hospital.models.consultas.ConsultaInternado;
 import org.springframework.jdbc.core.RowMapper;
-
+import com.hospital.hospital.models.ConsultaInternadoDTO;
 @Repository
 public class ConsultaInternadoRepository {
 
@@ -46,6 +48,14 @@ public class ConsultaInternadoRepository {
         return consultaInternado;
     };
 
+    private RowMapper<ConsultaInternadoDTO> consultaInternadoDTOMapper = (rs, rowNum) -> {
+        return new ConsultaInternadoDTO(
+            rs.getDate("data_realizacao"),
+            rs.getString("paciente_nome"),
+            rs.getString("medico_nome")
+        );
+    };
+
     public void deleteConsultaInternado(int fk_registro_internado_codigo,
             String fk_medico_cpf,
             String fk_paciente_internado_cpf) {
@@ -62,5 +72,18 @@ public class ConsultaInternadoRepository {
 
     public  List<ConsultaInternado> selectConsultaInternadoByMedico(String cpf) {
         return jdbcTemplate.query("SELECT * FROM consulta_internado WHERE fk_medico_cpf = ?", consultaInternadoMapper, cpf);
+    }
+
+    @SuppressWarnings("deprecation")
+    public List<ConsultaInternadoDTO> searchByPatientName(String name) {
+        return jdbcTemplate.query(
+            "SELECT c.data_realizacao, p.nome as paciente_nome, m.nome as medico_nome FROM consulta_internado c " +
+            "INNER JOIN paciente_internado pi ON c.fk_paciente_internado_cpf = pi.fk_paciente_cpf " +
+            "INNER JOIN paciente p ON p.cpf = pi.fk_paciente_cpf " +
+            "INNER JOIN medico m ON m.cpf = c.fk_medico_cpf " +
+            "WHERE p.nome LIKE ?", 
+            new Object[] { "%" + name + "%" }, 
+            consultaInternadoDTOMapper
+        );
     }
 }

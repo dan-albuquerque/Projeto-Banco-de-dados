@@ -1,4 +1,33 @@
 @tailwind base;
   @tailwind components;
   @tailwind utilities;
-  
+
+@keyframes moveRight {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes moveLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.position-relative {
+    position: relative;
+}
+
+.move-right {
+    animation: moveRight 0.5s forwards;
+}
+
+.move-left {
+    animation: moveLeft 0.5s forwards;
+}

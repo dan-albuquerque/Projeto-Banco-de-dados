@@ -24,6 +24,30 @@ export async function getInterns(searchQuery) {
     }
 }
 
+export async function getConsultasInternado(cpfPaciente) {
+    const url = `http://localhost:8080/consulta_internado/paciente/${cpfPaciente}`;
+    console.log(cpfPaciente, url);
+    console.log("attempting to fetch data from URL:", url);
+
+    try {
+        const jwtToken = localStorage.getItem('jwtToken');
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`
+            }
+    });
+    const consultas_urgentes = await response.json();
+    console.log(consultas_urgentes);
+    return consultas_urgentes;
+    } catch (error) {
+        console.error("Failed to fetch data:", error);
+        return null;
+    }
+
+
+}
 export async function getPatients(searchQuery) {
     const url = `http://localhost:8080/pacient?searchName=${searchQuery}`;
     console.log(searchQuery, url);
@@ -90,6 +114,10 @@ export default function SearchBar({onSearch, userType}) {
             const searchedDoctors = await getDoctors(searchQuery);
             setDoctors(searchedDoctors);
             data = searchedDoctors;
+        }else if (userType === 'consulta_internado'){
+            const searchedConsultas = await getConsultasInternado(searchQuery);
+            data = searchedConsultas;
+
         } else {
             const searchedPatients = await getPatients(searchQuery);
             data = searchedPatients;
