@@ -1,7 +1,13 @@
 import React, { useState } from "react";
+import { useRouter } from 'next/navigation';
 
 
 export default function ConsultaUrgenciaTableView({ ConsultasUrgencia }) {
+  const router = useRouter();
+
+  const handleMoreInfoClick = (consultaId) => {
+    router.push(`/consulta-urgencia-detalhes/${consultaId}`);
+  };
 
   return (
     <div className="container mx-auto mt-8 flex items-center justify-center">
@@ -22,9 +28,12 @@ export default function ConsultaUrgenciaTableView({ ConsultasUrgencia }) {
               <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left">{Consulta.nomePaciente}</td>
               <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left">{Consulta.nomeMedico}</td>
               <td className="flex gap-2 items-start justify-start border-b border-gray-300 border-r px-5 py-2 ">
-                <img src="/img/MoreInfo.png" className="w-6 h-6 mt-1" alt="perfil icon" />
-                <img src="/img/Update.png" className="w-6 h-6 mt-1" alt="perfil icon" />
-                <img src="/img/Delete.png" className="w-6 h-6 mt-1" alt="perfil icon" />
+              <img
+                  src="/img/MoreInfo.png"
+                  className="w-6 h-6 mt-1 cursor-pointer"
+                  alt="Mais informações"
+                  onClick={() => handleMoreInfoClick(Consulta.fk_registro_urgencia_codigo)}
+                />
               </td>
             </tr>
           ))}
