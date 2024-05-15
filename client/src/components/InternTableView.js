@@ -120,26 +120,29 @@ export default function InternTableView({ interns }) {
         }
     };
 
-    const fetchInternInfo = async (cpf) => {
-        const url = `http://localhost:8080/monitora/${cpf}`;
-        console.log('getting info on cpf: ', cpf, url);
-        try {
-            const jwtToken = localStorage.getItem('jwtToken');
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${jwtToken}`
-                }
+    const fetchInternInfo = async (cpfIntern) => {
+        // Fetch the CPFs of the patients
+        console.log("Fetching CPFs of the patients...");
+        return fetch(`http://localhost:8080/monitora/${cpfIntern}`)
+          .then(response => response.json())
+          .then(data => {
+            // Extract only the fk_paciente_cpf from the data
+            const cpfs = data.map(item => item.fk_paciente_cpf);
+    
+            // For each CPF, fetch the patient's name
+            console.log("Fetching names of the patients...");
+            const fetchPromises = cpfs.map(async cpfPaciente => {
+              const response = await fetch(`http://localhost:8080/pacient/${cpfPaciente}`);
+                return await response.json();
             });
-            const monitora = await response.json();
-            setHoverContent(monitora);
-            return monitora;
-        }
-        catch (error) {
-            console.error("Failed to fetch data:", error);
-            return null;
-        }
+      
+            return Promise.all(fetchPromises);
+          })
+          .then(patients => {
+            // Create the hover content
+            console.log("Creating hover content...");
+            return patients.map(patient => `${patient.cpf} - ${patient.nome}`);
+          });
     };
 
     return (
@@ -167,13 +170,15 @@ export default function InternTableView({ interns }) {
                                 <td className="flex gap-2 items-start justify-start border-b border-gray-300 border-r px-5 py-2">
 
                                     <HoverCard>
-                                        <HoverCardTrigger onMouseEnter={() => fetchInternInfo(intern.cpf)}><img src="/img/MoreInfo.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" /></HoverCardTrigger>
+                                        <HoverCardTrigger onMouseEnter={() => fetchInternInfo(intern.cpf).then(content => setHoverContent(content))}>
+                                            <img src="/img/MoreInfo.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" />
+                                        </HoverCardTrigger>
                                         {hoverContent && (
                                             <HoverCardContent>
                                                 <p>Paciente(s) monitorados: </p>
-                                                {hoverContent.map((item) => (
-                                                    <div key={item.fk_paciente_cpf}>
-                                                        <p>• {item.fk_paciente_cpf} - {item.nomePaciente}</p>
+                                                {hoverContent.map((item, index) => (
+                                                    <div key={index}>
+                                                        <p>• {item}</p>
                                                     </div>
                                                 ))}
                                             </HoverCardContent>

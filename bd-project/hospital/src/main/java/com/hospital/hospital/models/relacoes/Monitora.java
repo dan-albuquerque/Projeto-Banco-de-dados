@@ -1,7 +1,5 @@
 package com.hospital.hospital.models.relacoes;
 
-import com.hospital.hospital.models.pacientes.Paciente;
-
 public class Monitora {
 
     private String fk_paciente_cpf;
