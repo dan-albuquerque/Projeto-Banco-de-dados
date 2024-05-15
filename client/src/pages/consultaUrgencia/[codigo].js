@@ -54,14 +54,14 @@ export default function ConsultaDetalhes() {
         <p className='italic text-grey-600'>Data da consulta: {data_realizacao}</p>
       </div>
     </div>
-    <div className='flex items-start justify-between gap-10'>
-      <div className='relative flex flex-col w-1/2 border h-56 px-6 py-4 border-blue-400 shadow-md rounded-md overflow-auto'>
+    <div className='flex items-center justify-between gap-10 w-full'>
+      <div className='relative flex flex-col w-full border h-56 px-6 py-4 border-blue-400 shadow-md rounded-md overflow-auto'>
         <p className='w-2/3'><strong>Histórico da Doença:</strong> {consulta.historico_doenca || consulta.historicoDoenca}</p>
         <p className='w-2/3'><strong>Exame Físico:</strong> {consulta.exame_fisico || consulta.exameFisico}</p>
         
         <img src="/img/consulta.svg" alt="Imagem" className="absolute bottom-2 right-2 w-36 h-36" />
       </div>
-      <div className='relative flex flex-col border h-56 px-6 py-4 border-blue-400 shadow-md rounded-md w-1/2 overflow-auto'>
+      <div className='relative flex flex-col border h-56 px-6 py-4 border-blue-400 shadow-md rounded-md w-full overflow-auto'>
         <h2 className="text-2xl font-bold">Comorbidades</h2>
         <ul className="list-disc list-inside">
           {comorbidades.map((comorbidade) => (
