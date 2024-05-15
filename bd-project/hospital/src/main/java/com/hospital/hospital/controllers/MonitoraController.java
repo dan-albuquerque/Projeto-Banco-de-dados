@@ -24,6 +24,7 @@ public class MonitoraController {
         monitoraRepository.deleteMonitora(fk_cpf_interno, fk_cpf_paciente);
         return "Monitora deleted: ";
     }
+
     @GetMapping
     public List<Monitora> getAllMonitoras() {
         return monitoraRepository.selectMonitoras();
@@ -41,7 +42,7 @@ public class MonitoraController {
     }
 
     @GetMapping("/{fk_cpf_interno}")
-    public List<Monitora> getMonitoraByIntern(@PathVariable String fk_cpf_interno){
-        return monitoraRepository.selectMonitoraByIntern(fk_cpf_interno);
+    public List<Monitora> getMonitorasByInternoCPF(@PathVariable String fk_cpf_interno){
+        return monitoraRepository.selectMonitorasByInternoCPF(fk_cpf_interno);
     }
 }

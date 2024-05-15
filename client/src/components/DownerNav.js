@@ -34,6 +34,11 @@ export default function DownerNav({ doctors }) {
           </button>
         </div>
         <div className="flex flex-col items-center justify-center">
+          <button onClick={() => router.push('/Monitora')} className="w-8 h-8 flex items-center justify-center">
+            Monitora
+          </button>
+        </div>
+        <div className="flex flex-col items-center justify-center">
           <button onClick={() => router.push('/Perfil')} className="w-8 h-8 flex items-center justify-center">
             <img src="/img/perfil.png" className="w-8 h-8 transition-transform duration-200 hover:scale-125" alt="perfil icon" />
           </button>

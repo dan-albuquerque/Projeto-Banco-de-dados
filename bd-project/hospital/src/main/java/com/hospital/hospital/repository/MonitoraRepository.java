@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 import com.hospital.hospital.models.relacoes.Monitora;
@@ -45,7 +43,6 @@ public class MonitoraRepository {
                 "update monitora set fk_cpf_paciente = ? where fk_cpf_interno = ?",
                 monitora.getfk_paciente_cpf(),
                 fk_cpf_interno);
-
     }
 
     public Monitora selectMonitora(String fk_cpf_interno, String fk_cpf_paciente) {
@@ -53,18 +50,7 @@ public class MonitoraRepository {
                 monitoraMapper, fk_cpf_interno, fk_cpf_paciente);
     }
 
-    public List<Monitora> selectMonitoraByIntern(String fk_cpf_interno) {
-        String sql = "select m.*, p.nome from monitora m join paciente p on p.cpf = m.fk_cpf_paciente where m.fk_cpf_interno = ?";
-
-        return jdbcTemplate.query(sql, new RowMapper<Monitora>() {
-            @Override
-            public Monitora mapRow(ResultSet rs, int rowNum) throws SQLException {
-                Monitora monitora = new Monitora(null, null, null);
-                monitora.setfk_paciente_cpf(rs.getString("fk_cpf_paciente"));
-                monitora.setfk_interno_cpf(rs.getString("fk_cpf_interno"));
-                monitora.setNomePaciente(rs.getString("nome"));
-                return monitora;
-            }
-        }, fk_cpf_interno);
+    public List<Monitora> selectMonitorasByInternoCPF(String fk_cpf_interno) {
+        return jdbcTemplate.query("SELECT * FROM monitora WHERE fk_cpf_interno = ?", monitoraMapper, fk_cpf_interno);
     }
 }
