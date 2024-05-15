@@ -34,8 +34,9 @@ export default function DownerNav({ doctors }) {
           </button>
         </div>
         <div className="flex flex-col items-center justify-center">
+        <img onClick={() => router.push('/Monitora')}    src="/img/basichospital.svg" className="w-8 h-8 transition-transform duration-200 hover:scale-125 cursor-pointer                " alt="monitora icon" />
           <button onClick={() => router.push('/Monitora')} className="w-8 h-8 flex items-center justify-center">
-            Monitora
+            <p className='text-l text-black font-light cursor-pointer transition-transform duration-200 hover:scale-125'>Monitorias</p>
           </button>
         </div>
         <div className="flex flex-col items-center justify-center">
