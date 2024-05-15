@@ -1,9 +1,10 @@
 // pages/consulta/[codigo].js
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Data from '../Data';
 import { CentralizedLayout } from '@/app/layout';
 import DownerNav from '@/components/DownerNav';
+import { useRouter } from 'next/router';
+
 export default function ConsultaDetalhes() {
   const router = useRouter();
   const { codigo, nomeMedico, nomePaciente, data_realizacao} = router.query;

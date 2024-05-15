@@ -35,7 +35,7 @@ export default function ConsultaInternadoTableView({ ConsultasInternado, isSearc
                   src="/img/MoreInfo.png"
                   className="w-6 h-6 mt-1 cursor-pointer"
                   alt="Mais informações"
-                  onClick={() => handleMoreInfoClick(consulta.fk_registro_urgencia_codigo, consulta.nomeMedico, consulta.nomePaciente, consulta.data_realizacao)}
+                  onClick={() => handleMoreInfoClick(consulta.fk_registro_internado_codigo, consulta.nomeMedico, consulta.nomePaciente, consulta.data_realizacao)}
                 />
 
               </td>
