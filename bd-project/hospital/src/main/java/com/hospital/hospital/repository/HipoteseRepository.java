@@ -25,6 +25,7 @@ public class HipoteseRepository {
         Hipotese hipotese = new Hipotese();
         hipotese.setId(rs.getInt("id"));
         hipotese.setRegistroCodigo(rs.getInt("fk_registro_codigo"));
+        hipotese.setDescricao(rs.getString("descricao"));
         return hipotese;
     };
 

@@ -48,4 +48,9 @@ public class MedicacaoController {
         medicacaoRepository.updateMedicacao(fk_registro_urgencia_codigo, id, medicacao);
         return "Medicacao updated: " + medicacao.getId();
     }
+
+    @GetMapping("/{fk_registro_urgencia_codigo}")
+    public List<Medicacao> getMedicacoesByRegistro(@PathVariable int fk_registro_urgencia_codigo){
+        return medicacaoRepository.selectMedicacoesByRegistro(fk_registro_urgencia_codigo);
+    }
 }

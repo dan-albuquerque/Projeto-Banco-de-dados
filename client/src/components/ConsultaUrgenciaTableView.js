@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React from 'react';
 import { useRouter } from 'next/navigation';
-
 
 export default function ConsultaUrgenciaTableView({ ConsultasUrgencia }) {
   const router = useRouter();
 
-  const handleMoreInfoClick = (consultaId) => {
-    router.push(`/consulta-urgencia-detalhes/${consultaId}`);
+  const handleMoreInfoClick = (codigo, nomeMedico, nomePaciente, data_realizacao) => {
+    router.push({
+      pathname: `/consultaUrgencia/${codigo}`,
+      query: { nomeMedico, nomePaciente, data_realizacao }
+    });
   };
 
   return (
@@ -21,24 +23,22 @@ export default function ConsultaUrgenciaTableView({ ConsultasUrgencia }) {
           </tr>
         </thead>
         <tbody>
-
-          {ConsultasUrgencia && ConsultasUrgencia.map((Consulta) => (
-            <tr key={ConsultasUrgencia.fk_medico_cpf}>
-              <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left">{Consulta.data_realizacao}</td>
-              <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left">{Consulta.nomePaciente}</td>
-              <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left">{Consulta.nomeMedico}</td>
+          {ConsultasUrgencia && ConsultasUrgencia.map((consulta) => (
+            <tr key={consulta.fk_registro_urgencia_codigo}>
+              <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left">{consulta.data_realizacao}</td>
+              <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left">{consulta.nomePaciente}</td>
+              <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left">{consulta.nomeMedico}</td>
               <td className="flex gap-2 items-start justify-start border-b border-gray-300 border-r px-5 py-2 ">
-              <img
+                <img
                   src="/img/MoreInfo.png"
                   className="w-6 h-6 mt-1 cursor-pointer"
                   alt="Mais informações"
-                  onClick={() => handleMoreInfoClick(Consulta.fk_registro_urgencia_codigo)}
+                  onClick={() => handleMoreInfoClick(consulta.fk_registro_urgencia_codigo, consulta.nomeMedico, consulta.nomePaciente, consulta.data_realizacao)}
                 />
               </td>
             </tr>
           ))}
         </tbody>
-
       </table>
     </div>
   );
