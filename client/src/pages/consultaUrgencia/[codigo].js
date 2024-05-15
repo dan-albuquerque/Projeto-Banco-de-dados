@@ -2,7 +2,8 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Data from '../Data';
-
+import { CentralizedLayout } from '@/app/layout';
+import DownerNav from '@/components/DownerNav';
 export default function ConsultaDetalhes() {
   const router = useRouter();
   const { codigo, nomeMedico, nomePaciente, data_realizacao} = router.query;
@@ -44,35 +45,55 @@ export default function ConsultaDetalhes() {
   }
 
   return (
-    <div className="container mx-auto mt-8">
-      <h1 className="text-3xl font-bold mb-4">Detalhes da Consulta</h1>
-      <p><strong>Data da Realização:</strong> {data_realizacao}</p>
-      <p><strong>Nome do Paciente:</strong> {nomePaciente}</p>
-      <p><strong>Nome do Médico:</strong> {nomeMedico}</p>
-      <p><strong>Histórico da Doença:</strong> {consulta.historico_doenca || consulta.historicoDoenca}</p>
-      <p><strong>Exame Físico:</strong> {consulta.exame_fisico || consulta.exameFisico}</p>
-      <p><strong>Registro Código:</strong> {consulta.fk_registro_codigo || consulta.registroCodigo}</p>
-      
-      <h2 className="text-2xl font-bold mt-4 mb-2">Comorbidades</h2>
-      <ul className="list-disc list-inside">
-        {comorbidades.map((comorbidade) => (
-          <li key={comorbidade.id}>{comorbidade.nome}</li>
-        ))}
-      </ul>
-
-      <h2 className="text-2xl font-bold mt-4 mb-2">Hipóteses Diagnósticas</h2>
-      <ul className="list-disc list-inside">
-        {hipoteses.map((hipotese) => (
-          <li key={hipotese.id}>{hipotese.descricao || 'Descrição não disponível'}</li>
-        ))}
-      </ul>
-
-      <h2 className="text-2xl font-bold mt-4 mb-2">Medicações</h2>
-      <ul className="list-disc list-inside">
-        {medicacoes.map((medicacao) => (
-          <li key={medicacao.id}>{medicacao.nome}</li>
-        ))}
-      </ul>
+    <CentralizedLayout>
+  <div className="flex flex-col items-start justify-center w-2/3 gap-10 mb-16" style={{ height: '80vh' }}>
+    <div>
+      <h1 className="text-3xl font-medium mb-1 ">Detalhes da Consulta de {nomePaciente} e {nomeMedico}</h1>
+      <div className='flex gap-6 text-lg'>
+        <p className='italic text-grey-600'>Código de Registro: {consulta.fk_registro_codigo || consulta.registroCodigo}</p>
+        <p className='italic text-grey-600'>Data da consulta: {data_realizacao}</p>
+      </div>
     </div>
+    <div className='flex items-start justify-between gap-10'>
+      <div className='relative flex flex-col w-1/2 border h-56 px-6 py-4 border-blue-400 shadow-md rounded-md overflow-auto'>
+        <p className='w-2/3'><strong>Histórico da Doença:</strong> {consulta.historico_doenca || consulta.historicoDoenca}</p>
+        <p className='w-2/3'><strong>Exame Físico:</strong> {consulta.exame_fisico || consulta.exameFisico}</p>
+        
+        <img src="/img/consulta.svg" alt="Imagem" className="absolute bottom-2 right-2 w-36 h-36" />
+      </div>
+      <div className='relative flex flex-col border h-56 px-6 py-4 border-blue-400 shadow-md rounded-md w-1/2 overflow-auto'>
+        <h2 className="text-2xl font-bold">Comorbidades</h2>
+        <ul className="list-disc list-inside">
+          {comorbidades.map((comorbidade) => (
+            <li className="w-2/3" key={comorbidade.id}>{comorbidade.nome}</li>
+          ))}
+        </ul>
+        <img src="/img/sickpatient.svg" alt="Imagem" className="absolute bottom-2 right-2 w-36 h-36" />
+        
+      </div>
+    </div>
+    <div className='flex items-start justify-between gap-10 w-full'>
+      <div className='relative flex flex-col w-1/2 border h-56 px-6 py-4 border-blue-400 shadow-md rounded-md overflow-auto'>
+        <h2 className="text-2xl font-bold">Hipóteses Diagnósticas</h2>
+        <ul className="list-disc list-inside">
+          {hipoteses.map((hipotese) => (
+            <li className="w-2/3" key={hipotese.id}>{hipotese.descricao || 'Descrição não disponível'}</li>
+          ))}
+        </ul>
+        <img src="/img/doctorexplaining.svg" alt="Imagem" className="absolute bottom-2 right-2 w-36 h-36" />
+      </div>
+      <div className='relative flex flex-col w-1/2 border h-56 px-6 py-4 border-blue-400 shadow-md rounded-md overflow-auto'>
+        <h2 className="text-2xl font-bold">Medicações</h2>
+        <ul className="list-disc list-inside">
+          {medicacoes.map((medicacao) => (
+            <li className="w-2/3" key={medicacao.id}>{medicacao.nome}</li>
+          ))}
+        </ul>
+        <img src="/img/receita.svg" alt="Imagem" className="absolute bottom-2 right-2 w-36 h-36" />
+      </div>
+    </div>
+  </div>
+  <DownerNav />
+</CentralizedLayout>
   );
 }
