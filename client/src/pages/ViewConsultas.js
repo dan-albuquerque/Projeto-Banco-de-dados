@@ -92,23 +92,30 @@ export default function ViewConsultas({ consultationUrgent, consultatioHospitali
   const handleUpperNavSearch = (data) => {
     setIsSearch(true);
     console.log("is Search");
-    console.log(data);
+    console.log('data: ', data);
     setUpperNavSearch(data);
   }
 
   const handleChooseUrgent = () => {
     setIsUrgent(true);
+    setIsSearch(false);  // Limpa o filtro de pesquisa ao alternar
   };
 
   const handleChooseHospitalized = () => {
     setIsUrgent(false);
+    setIsSearch(false);  // Limpa o filtro de pesquisa ao alternar
   };
 
   const toggleMyConsultas = () => {
     setIsMyConsultas(!isMyConsultas);
+    setIsSearch(false);  // Limpa o filtro de pesquisa ao alternar
   };
 
   const getConsultationsToDisplay = () => {
+    if (isSearch && upperNavSearch) {
+      return upperNavSearch;
+    }
+
     if (isUrgent) {
       return isMyConsultas ? consultasUrgenciaByMedico : consultationUrgent;
     } else {
@@ -120,11 +127,7 @@ export default function ViewConsultas({ consultationUrgent, consultatioHospitali
     if (isUrgent) {
       return <ConsultaUrgenciaTableView ConsultasUrgencia={getConsultationsToDisplay()} />;
     } else {
-      if (isSearch) {
-        return <ConsultaInternadoTableView ConsultasInternado={upperNavSearch} />;
-      } else {
-        return <ConsultaInternadoTableView ConsultasInternado={getConsultationsToDisplay()} />;
-      }
+      return <ConsultaInternadoTableView ConsultasInternado={getConsultationsToDisplay()} />;
     }
   };
 
@@ -135,16 +138,12 @@ export default function ViewConsultas({ consultationUrgent, consultatioHospitali
         swapHospitalized={handleChooseHospitalized}
         toggleMyConsultas={toggleMyConsultas}
         isMyConsultas={isMyConsultas}
+        onData={handleUpperNavSearch}
       />
       <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '70vh' }}>
-        {isUrgent ? (
-          <ConsultaUrgenciaTableView ConsultasUrgencia={getConsultationsToDisplay()} />
-        ) : (
-          <ConsultaInternadoTableView ConsultasInternado={getConsultationsToDisplay()} />
-        )}
+        {renderTable()}
       </div>
       <DownerNav />
     </>
   );
-  
 }
