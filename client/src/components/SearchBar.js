@@ -119,7 +119,7 @@ export async function getDoctors(searchQuery) {
     }
 }
 
-export default function SearchBar({onSearch, userType, searchFunc}) {
+export default function SearchBar({onSearch, userType, onCancelSearch}) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [interns, setInterns] = useState([]);
@@ -129,8 +129,6 @@ export default function SearchBar({onSearch, userType, searchFunc}) {
     
     const undoSearch = () => {
         setIsSearch(false);
-        setSearchQuery('');
-         // Clear the search results
       };
     
     const handleSearch = async () => {
@@ -179,8 +177,8 @@ export default function SearchBar({onSearch, userType, searchFunc}) {
             <img
               src="/img/cancel.svg"
               alt="cancel"
-              onClick={()=>[undoSearch(), searchFunc]}
-              className="w-6 h-6 cursor-pointer"
+              onClick={()=>[undoSearch(), onCancelSearch(), console.log("1. Estou na primeira etapa. o x foi clicado.")]}
+              className="w-6 h-6 cursor-pointer transition-transform duration-200 hover:scale-125"
             />
           ):(
           <img
@@ -191,7 +189,7 @@ export default function SearchBar({onSearch, userType, searchFunc}) {
                 handleSearch();
               }
             }}
-            className="w-6 h-6 ml-2 cursor-pointer"
+            className="w-6 h-6 ml-2 cursor-pointer transition-transform duration-200 hover:scale-125"
           />
         )}
         </div>

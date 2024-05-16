@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import "../app/globals.css";
 import SearchBar from './SearchBar';
 
-export default function UpperNav({ swapPatient, swapIntern, swapDoctor, searchByCpf, searchByAZ, searchByZA, insert, view, onData }) {
+export default function UpperNav({ swapPatient, swapIntern, swapDoctor, searchByCpf, searchByAZ, searchByZA, insert, view, onData, cancelSearch }) {
     const [isIntern, setIsIntern] = useState(true);
     const [isDoctor, setIsDoctor] = useState(false);
     const [isPatient, setIsPatient] = useState(false);
@@ -69,11 +69,12 @@ export default function UpperNav({ swapPatient, swapIntern, swapDoctor, searchBy
                 <li className="text-xl font-medium text-black cursor-pointer">Ordenar:</li>
                 <li className="text-xl text-normalBlue font-light cursor-pointer transition-transform duration-200 hover:scale-125" onClick={searchByCpf}>• CPF</li>
                 <li className="text-xl font-light text-normalBlue cursor-pointer transition-transform duration-200 hover:scale-125" onClick={searchByAZ}>• A-Z</li>
-                <li className="text-xl font-light text-normalBlue cursor-pointer transition-transform duration-200 hover:scale-125" onClick={searchByZA}>• Z-A</li>
+                <li className="text-xl font-light text-normalBlue cursor-pointer transition -transform duration-200 hover:scale-125" onClick={searchByZA}>• Z-A</li>
             </ul>
             <SearchBar
                 onSearch={handleSearchData}
                 userType={userType}
+                onCancelSearch={() => [cancelSearch(), console.log("2. Estou na segunda etapa. fui passado de searchbar para uppernavconsultas")]}
             />
             <div className="mr-12 flex gap-4">
                 <p className='text-xl text-normalBlue font-light cursor-pointer transition-transform duration-200 hover:scale-125' onClick={() => { swapPatient(); handleChoosePatient(); }} style={{ color: isPatient ? '#063866' : '#0671D3' }}>Paciente</p>

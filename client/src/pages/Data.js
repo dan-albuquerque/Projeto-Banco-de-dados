@@ -311,6 +311,12 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
     }
   };
 
+ const undoSearch = () => {
+    console.log("3. terceira e final etapa. undo search foi acionado. Estou em data.js"); 
+    setIsSearch(false);
+    setUpperNavSearch(null);
+  };
+
   return (
     <Layout className="max-w-4xl mx-auto">
 
@@ -324,6 +330,7 @@ export default function Data({ interns, doctors, patients, sortedPatients, sorte
         view={handleView}
         insert={handleInsert}
         onData={handleUpperNavSearch}
+        cancelSearch={undoSearch}
       />
 
       <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '74vh' }}>

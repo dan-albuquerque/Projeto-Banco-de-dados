@@ -83,7 +83,7 @@ export async function getServerSideProps(context) {
   }
 }
 
-export default function ViewConsultas({ consultationUrgent, consultatioHospitalized, consultasUrgenciaByMedico, consultaInternadoByMedico }) {
+export default function ViewConsultas({ consultationUrgent, consultatioHospitalized, consultasUrgenciaByMedico, consultaInternadoByMedico}) {
   const [isUrgent, setIsUrgent] = useState(true);
   const [isMyConsultas, setIsMyConsultas] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
@@ -95,6 +95,12 @@ export default function ViewConsultas({ consultationUrgent, consultatioHospitali
     console.log('data: ', data);
     setUpperNavSearch(data);
   }
+
+  const undoSearch = () => {
+    console.log("3. terceira e final etapa. undo search foi acionado. Estou em viewconsultas.js"); 
+    setIsSearch(false);
+    setUpperNavSearch(null);
+  };
 
   const handleChooseUrgent = () => {
     setIsUrgent(true);
@@ -139,6 +145,7 @@ export default function ViewConsultas({ consultationUrgent, consultatioHospitali
         toggleMyConsultas={toggleMyConsultas}
         isMyConsultas={isMyConsultas}
         onData={handleUpperNavSearch}
+        cancelSearch={undoSearch}
       />
       <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '70vh' }}>
         {renderTable()}

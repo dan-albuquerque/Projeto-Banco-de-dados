@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import "../app/globals.css";
 import SearchBar from './SearchBar';
 
-export default function UpperNavConsultas({ swapUrgent, swapHospitalized, onData, toggleMyConsultas, isMyConsultas }) {
+export default function UpperNavConsultas({ swapUrgent, swapHospitalized, onData, toggleMyConsultas, isMyConsultas, cancelSearch }) {
 
   const [isUrgent, setIsUrgent] = useState(true);
   const [isHospitalized, setIsHospitalized] = useState(false);
@@ -49,6 +49,7 @@ export default function UpperNavConsultas({ swapUrgent, swapHospitalized, onData
 
       <SearchBar userType={chooseUserType()}
         onSearch={handleSearchData} 
+        onCancelSearch={()=>[cancelSearch(), console.log("2. Estou na segunda etapa. fui passado de searchbar para uppernavconsultas")]}
         sear/>
 
       <div className="mr-12 flex gap-4">
