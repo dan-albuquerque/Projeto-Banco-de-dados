@@ -7,6 +7,9 @@ export default function UpperNavConsultas({ swapUrgent, swapHospitalized, onData
   const [isUrgent, setIsUrgent] = useState(true);
   const [isHospitalized, setIsHospitalized] = useState(false);
   const [searchData, setSearchData] = useState('');
+  const [isSearch, setIsSearch] = useState(false);
+
+
 
   const handleSearchData = (data) => {
     setSearchData(data);
@@ -45,7 +48,8 @@ export default function UpperNavConsultas({ swapUrgent, swapHospitalized, onData
       </button>
 
       <SearchBar userType={chooseUserType()}
-        onSearch={handleSearchData} />
+        onSearch={handleSearchData} 
+        sear/>
 
       <div className="mr-12 flex gap-4">
         <p className='text-xl text-normalBlue font-light cursor-pointer transition-transform duration-200 hover:scale-125' onClick={() => { swapUrgent(); handleChooseUrgent(); }} style={{ color: isUrgent ? '#063866' : '#0671D3' }}>Urgencia</p>

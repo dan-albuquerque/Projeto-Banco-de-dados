@@ -119,15 +119,22 @@ export async function getDoctors(searchQuery) {
     }
 }
 
-export default function SearchBar({onSearch, userType}) {
+export default function SearchBar({onSearch, userType, searchFunc}) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [interns, setInterns] = useState([]);
     const [doctors, setDoctors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
+    const [isSearch, setIsSearch] = useState(false);
+    
+    const undoSearch = () => {
+        setIsSearch(false);
+        setSearchQuery('');
+         // Clear the search results
+      };
     
     const handleSearch = async () => {
+        setIsSearch(true);
         setIsLoading(true);
         let data = null;
         if (userType === 'intern') {
@@ -168,6 +175,14 @@ export default function SearchBar({onSearch, userType}) {
               }
             }}
           />
+          {isSearch ? (
+            <img
+              src="/img/cancel.svg"
+              alt="cancel"
+              onClick={()=>[undoSearch(), searchFunc]}
+              className="w-6 h-6 cursor-pointer"
+            />
+          ):(
           <img
             src="/img/search.png"
             alt="search"
@@ -178,6 +193,7 @@ export default function SearchBar({onSearch, userType}) {
             }}
             className="w-6 h-6 ml-2 cursor-pointer"
           />
+        )}
         </div>
       );
 }
