@@ -45,7 +45,6 @@ public class ConsultaInternadoController {
 
     @GetMapping("/paciente/{nomePaciente}")
     public List<ConsultaInternadoDTO> searchConsultaInternadosByPaciente(@PathVariable String nomePaciente) {
-        System.out.println("!!!!!!!!Nome paciente!!!!!!!!!!: " + nomePaciente);
         return consultaInternadoRepository.searchByPatientName(nomePaciente);
     }
     

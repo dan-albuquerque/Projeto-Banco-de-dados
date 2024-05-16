@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import com.hospital.hospital.models.ConsultaUrgenciaDTO;
 import com.hospital.hospital.models.consultas.ConsultaUrgencia;
 import com.hospital.hospital.repository.ConsultaUrgenciaRepository;
 
@@ -40,13 +42,17 @@ public class ConsultaUrgenciaController {
         return consultaUrgenciaRepository.selectConsultaUrgencia(cod_registro, cpfMedico, cpfPaciente);
     }
 
-    @GetMapping("/paciente/{cpfPaciente}")
-    public List<ConsultaUrgencia> getConsultaInternadoByPaciente(@PathVariable String cpfPaciente) {
-        return consultaUrgenciaRepository.selectConsultaUrgenciaByPaciente(cpfPaciente);
+    @GetMapping("/paciente/{nomePaciente}")
+    public List<ConsultaUrgenciaDTO> searchConsultaUrgenciasByPaciente(@PathVariable String nomePaciente){
+        System.out.println(nomePaciente + " - nomePaciente");
+        return consultaUrgenciaRepository.selectConsultaUrgenciaDTOByPaciente(nomePaciente);
     }
+
 
     @GetMapping("/medico/{cpfMedico}")
     public List<ConsultaUrgencia> getConsultaInternadoByMedico(@PathVariable String cpfMedico) {
         return consultaUrgenciaRepository.selectConsultaUrgenciaByMedico(cpfMedico);
     }
+
+
 }

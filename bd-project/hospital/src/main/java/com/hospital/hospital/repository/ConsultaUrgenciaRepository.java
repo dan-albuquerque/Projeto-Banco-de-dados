@@ -4,8 +4,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.List;
+
+import com.hospital.hospital.models.ConsultaInternadoDTO;
 import com.hospital.hospital.models.consultas.ConsultaUrgencia;
 import org.springframework.jdbc.core.RowMapper;
+import com.hospital.hospital.models.ConsultaUrgenciaDTO;
 
 @Repository
 public class ConsultaUrgenciaRepository {
@@ -60,5 +63,27 @@ public class ConsultaUrgenciaRepository {
 
     public  List<ConsultaUrgencia> selectConsultaUrgenciaByMedico(String cpf) {
         return jdbcTemplate.query("SELECT * FROM consulta_urgencia WHERE fk_medico_cpf = ?", consultaUrgenciaMapper, cpf);
+    }
+
+    private RowMapper<ConsultaUrgenciaDTO> consultaUrgenciaDTOMapper = (rs, rowNum) -> {
+        return new ConsultaUrgenciaDTO(
+            rs.getDate("data_realizacao"),
+            rs.getString("paciente_nome"),
+            rs.getString("medico_nome")
+        );
+    };
+
+    
+    @SuppressWarnings("deprecation")
+    public List<ConsultaUrgenciaDTO> selectConsultaUrgenciaDTOByPaciente(String nomePaciente) {
+        return jdbcTemplate.query(
+            "SELECT c.data_realizacao, p.nome as paciente_nome, m.nome as medico_nome FROM consulta_urgencia c " +
+            "INNER JOIN paciente_urgencia pi ON c.fk_paciente_urgencia_cpf = pi.fk_paciente_cpf " +
+            "INNER JOIN paciente p ON p.cpf = pi.fk_paciente_cpf " +
+            "INNER JOIN medico m ON m.cpf = c.fk_medico_cpf " +
+            "WHERE p.nome LIKE ?", 
+            new Object[] { "%" + nomePaciente + "%" }, 
+            consultaUrgenciaDTOMapper
+        );
     }
 }
