@@ -23,6 +23,15 @@ export default function UpperNavConsultas({ swapUrgent, swapHospitalized, onData
     setIsHospitalized(true);
   };
 
+  const chooseUserType = () => {
+    if (isUrgent) {
+      return 'consulta_urgencia';
+    } else if (isHospitalized) {
+      return 'consulta_internado';
+    }
+  }
+
+
   return (
     <div className="h-16 flex justify-between items-center mt-5 ">
       <div className="ml-12 flex gap-4 items-center justify-center">
@@ -35,7 +44,7 @@ export default function UpperNavConsultas({ swapUrgent, swapHospitalized, onData
         {isMyConsultas ? 'Ver Todas Consultas' : 'Ver Minhas Consultas'}
       </button>
 
-      <SearchBar userType='consulta_internado'
+      <SearchBar userType={chooseUserType()}
         onSearch={handleSearchData} />
 
       <div className="mr-12 flex gap-4">
