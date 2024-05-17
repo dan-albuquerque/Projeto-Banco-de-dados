@@ -55,6 +55,14 @@ export default function DownerNav({ doctors }) {
             <p className='text-l text-black font-light cursor-pointer transition-transform duration-200 hover:scale-125'>Logout</p>
           </button>
         </div>
+        <div className="flex flex-col items-center justify-center">
+          <button onClick={() => router.push('/home')} className="w-8 h-8 flex items-center justify-center">
+            <img src="/img/home.svg" className="w-8 h-8 transition-transform duration-200 hover:scale-125" alt="home icon" />
+          </button>
+          <button onClick={() => router.push('/home')} className="w-8 h-8 flex items-center justify-center">
+            <p className='text-l text-black font-light cursor-pointer transition-transform duration-200 hover:scale-125'>Home</p>
+          </button>
+      </div>
       </div>
     </div>
   );

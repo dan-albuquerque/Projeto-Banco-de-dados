@@ -85,5 +85,7 @@ public class ConsultaUrgenciaRepository {
             new Object[] { "%" + nomePaciente + "%" }, 
             consultaUrgenciaDTOMapper
         );
+
+        
     }
 }
