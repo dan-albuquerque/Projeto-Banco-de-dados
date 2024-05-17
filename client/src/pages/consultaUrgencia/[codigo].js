@@ -1,6 +1,6 @@
 // pages/consulta/[codigo].js
 import { useEffect, useState } from 'react';
-import Data from '../Data';
+import Data from '../data';
 import { CentralizedLayout } from '@/app/layout';
 import DownerNav from '@/components/DownerNav';
 import { useRouter } from 'next/router';

@@ -38,14 +38,14 @@ export default function UpperNavConsultas({ swapUrgent, swapHospitalized, onData
   return (
     <div className="h-16 flex justify-between items-center mt-5 ">
       <div className="ml-12 flex gap-4 items-center justify-center">
-        <h1 className="text-3xl font-medium text-customBlue cursor-pointer">Visualizar Consultas</h1>
+        <h1 className="text-3xl font-medium text-customBlue">Visualizar Consultas</h1>
       </div>
-      <button
+      <p
         onClick={toggleMyConsultas}
-        className="mx-4 my-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className=" text-normalBlue cursor-pointer transition-transform duration-200 hover:scale-105 text-lg"
       >
-        {isMyConsultas ? 'Ver Todas Consultas' : 'Ver Minhas Consultas'}
-      </button>
+        {isMyConsultas ? '• Ver Todas Consultas' : '• Ver Minhas Consultas'}
+      </p>
 
       <SearchBar userType={chooseUserType()}
         onSearch={handleSearchData} 

@@ -7,7 +7,7 @@ export default function ConsultaInternadoTableView({ ConsultasInternado, isSearc
 
   const handleMoreInfoClick = (codigo, nomeMedico, nomePaciente, data_realizacao) => {
     router.push({
-      pathname: `/consultaInternado/${codigo}`,
+      pathname: `/consultainternado/${codigo}`,
       query: { nomeMedico, nomePaciente, data_realizacao }
     });
   };
@@ -33,7 +33,7 @@ export default function ConsultaInternadoTableView({ ConsultasInternado, isSearc
               <td className="flex gap-2 items-start justify-start border-b border-gray-300 border-r px-5 py-2 ">
               <img
                   src="/img/MoreInfo.png"
-                  className="w-6 h-6 mt-1 cursor-pointer"
+                  className="w-6 h-6 mt-1 cursor-pointer transition-transform duration-200 hover:scale-125"
                   alt="Mais informações"
                   onClick={() => handleMoreInfoClick(consulta.fk_registro_internado_codigo, consulta.nomeMedico, consulta.nomePaciente, consulta.data_realizacao)}
                 />

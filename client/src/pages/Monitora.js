@@ -77,7 +77,7 @@ export default function Monitora() {
                         CPF do interno:
                         <input id="internoCpf" type="text" value={internoCpf} onChange={(e) => setInternoCpf(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" placeholder="Insira o CPF do interno" />
                     </label>
-                    <button type="submit" className="mt-1 w-full px-4 py-2 bg-black hover:bg-gray-800 text-white font-weight rounded-md shadow-lg transition-transform duration-200 hover:scale-105">Submit</button>
+                    <button type="submit" className="mt-1 w-full px-4 py-2 bg-black hover:bg-gray-800 text-white font-weight rounded-md shadow-lg transition-transform duration-200 hover:scale-105">Enviar</button>
                 </form>
             </CentralizedLayout>
             <DownerNav></DownerNav>
