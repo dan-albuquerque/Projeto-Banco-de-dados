@@ -18,7 +18,7 @@ export async function getServerSideProps(context) {
     consultasInternadoByMedico: `http://localhost:8080/consulta_internado/medico/${docCpf}`,
   };
 
-  try {
+  try{
     const [consultationUrgentRes, consultatioHospitalizedRes, consultasUrgenciaByMedicoRes, consultaInternadoByMedicoRes] = await Promise.all([
       fetch(urls.consultationUrgent),
       fetch(urls.consultatioHospitalized),
