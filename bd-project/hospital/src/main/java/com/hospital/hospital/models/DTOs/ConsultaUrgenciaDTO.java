@@ -1,12 +1,12 @@
-package com.hospital.hospital.models;
+package com.hospital.hospital.models.DTOs;
 import java.util.Date;
 
-public class ConsultaInternadoDTO {
+public class ConsultaUrgenciaDTO {
     private Date data_realizacao;
     private String nomePaciente;
     private String nomeMedico;
 
-    public ConsultaInternadoDTO(Date data_realizacao, String nomePaciente, String nomeMedico) {
+    public ConsultaUrgenciaDTO(Date data_realizacao, String nomePaciente, String nomeMedico) {
         this.data_realizacao = data_realizacao;
         this.nomePaciente = nomePaciente;
         this.nomeMedico = nomeMedico;
@@ -36,4 +36,3 @@ public class ConsultaInternadoDTO {
         this.nomeMedico = nomeMedico;
     }
 }
-

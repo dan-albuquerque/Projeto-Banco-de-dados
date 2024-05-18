@@ -1,13 +1,13 @@
-package com.hospital.hospital.models;
+package com.hospital.hospital.models.DTOs;
 import java.util.Date;
-public class DashBoardDTO {
+public class UltimasConsultasDTO {
     private String type;
     private Date date;
     private String doctor;
     private String patient;
 
     // Constructor, Getters, and Setters
-    public DashBoardDTO(String type, Date date, String doctor, String patient) {
+    public UltimasConsultasDTO(String type, Date date, String doctor, String patient) {
         this.type = type;
         this.date = date;
         this.doctor = doctor;

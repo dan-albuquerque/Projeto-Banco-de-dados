@@ -1,6 +1,6 @@
 package com.hospital.hospital.controllers;
 
-import com.hospital.hospital.models.ConsultaInternadoDTO;
+import com.hospital.hospital.models.DTOs.ConsultaInternadoDTO;
 import com.hospital.hospital.models.consultas.ConsultaInternado;
 import com.hospital.hospital.repository.ConsultaInternadoRepository;
 import java.util.List;

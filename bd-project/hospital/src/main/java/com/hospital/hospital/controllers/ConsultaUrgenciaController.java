@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.hospital.hospital.models.ConsultaUrgenciaDTO;
+import com.hospital.hospital.models.DTOs.ConsultaUrgenciaDTO;
 import com.hospital.hospital.models.consultas.ConsultaUrgencia;
 import com.hospital.hospital.repository.ConsultaUrgenciaRepository;
 
@@ -53,6 +53,5 @@ public class ConsultaUrgenciaController {
     public List<ConsultaUrgencia> getConsultaInternadoByMedico(@PathVariable String cpfMedico) {
         return consultaUrgenciaRepository.selectConsultaUrgenciaByMedico(cpfMedico);
     }
-
 
 }

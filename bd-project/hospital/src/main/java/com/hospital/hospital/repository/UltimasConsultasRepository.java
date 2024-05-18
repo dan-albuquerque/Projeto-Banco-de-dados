@@ -3,18 +3,17 @@ package com.hospital.hospital.repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import com.hospital.hospital.models.DashBoardDTO;
+
+import com.hospital.hospital.models.DTOs.UltimasConsultasDTO;
+
 import java.util.List;
-import org.springframework.jdbc.core.RowMapper;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 @Repository
-public class DashBoardRepository {
+public class UltimasConsultasRepository {
      @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public List<DashBoardDTO> getLatestConsultations() {
+    public List<UltimasConsultasDTO> getLatestConsultations() {
         String sql = "SELECT 'Urgency' AS type, cu.data_realizacao AS date, m.nome AS doctor, p.nome AS patient " +
                      "FROM consulta_urgencia cu " +
                      "JOIN medico m ON cu.fk_medico_cpf = m.cpf " +
@@ -30,7 +29,7 @@ public class DashBoardRepository {
                      "LIMIT 10";
 
         return jdbcTemplate.query(sql, (rs, rowNum) ->
-                new DashBoardDTO(
+                new UltimasConsultasDTO(
                         rs.getString("type"),
                         rs.getDate("date"),
                         rs.getString("doctor"),

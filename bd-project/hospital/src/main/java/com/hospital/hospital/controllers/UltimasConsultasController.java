@@ -1,7 +1,7 @@
 package com.hospital.hospital.controllers;
 
-import com.hospital.hospital.models.DashBoardDTO;
-import com.hospital.hospital.repository.DashBoardRepository;
+import com.hospital.hospital.models.DTOs.UltimasConsultasDTO;
+import com.hospital.hospital.repository.UltimasConsultasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,13 +11,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/dashboard")
-public class DashBoardController {
+public class UltimasConsultasController {
 
     @Autowired
-    private DashBoardRepository dashboardRepository;
+    private UltimasConsultasRepository dashboardRepository;
 
     @GetMapping("/latest-consultations")
-    public List<DashBoardDTO> getLatestConsultations() {
+    public List<UltimasConsultasDTO> getLatestConsultations() {
         return dashboardRepository.getLatestConsultations();
     }
 }
