@@ -10,14 +10,14 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/dashboard")
+@RequestMapping("/dashboard/ultimas-consultas")
 public class UltimasConsultasController {
 
     @Autowired
-    private UltimasConsultasRepository dashboardRepository;
+    private UltimasConsultasRepository ultimasConsultasRepository;
 
-    @GetMapping("/latest-consultations")
+    @GetMapping()
     public List<UltimasConsultasDTO> getLatestConsultations() {
-        return dashboardRepository.getLatestConsultations();
+        return ultimasConsultasRepository.getLatestConsultations();
     }
 }

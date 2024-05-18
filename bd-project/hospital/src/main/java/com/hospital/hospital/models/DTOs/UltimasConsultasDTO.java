@@ -1,5 +1,6 @@
 package com.hospital.hospital.models.DTOs;
 import java.util.Date;
+
 public class UltimasConsultasDTO {
     private String type;
     private Date date;
