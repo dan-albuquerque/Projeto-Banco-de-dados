@@ -25,7 +25,7 @@ export default function ConsultaPage() {
       
         <div className="flex items-center w-3/5 gap-5 justify-center mb-16 flex-col">
         <div className='w-full flex justify-between items-center mb-6'>
-        <h1 className='text-4xl font-light text-customBlue'>Inicie sua operação</h1>
+        <h1 className='text-4xl font-light text-normalBlue'>Inicie sua operação</h1>
         <div className='flex items-center gap-3 '>
           <img src="/img/GreenProgress.png" alt="medico icon" />
           <img src="/img/EmptyProgress.png" alt="medico icon" />

@@ -93,7 +93,7 @@ export default function ConsultInternado() {
           sameSite: 'Strict'
         }
         )
-        navigate.push('/RegistroInternado');
+        navigate.push('/registrointernado');
       })
       .catch((error) => {
         toast.error(error.toString());

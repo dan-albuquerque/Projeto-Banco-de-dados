@@ -5,7 +5,7 @@ export const getServerSideProps = async (context) => {
     const { req } = context;
     const cookies = cookie.parse(req.headers.cookie || '');
     const jwtToken = cookies.jwtToken; 
-    const url = `http://localhost:8080/dashboard/latest-consultations`;
+    const url = `http://localhost:8080/dashboard/ultimas-consultas`;
 
     try {
         const response = await fetch(url, {

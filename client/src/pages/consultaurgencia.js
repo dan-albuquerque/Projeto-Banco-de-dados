@@ -91,7 +91,7 @@ export default function ConsultaUrgencia() {
           sameSite: 'Strict'
         }
         )
-        navigate.push('/RegistroUrgencia');
+        navigate.push('/registrourgencia');
       })
       .catch((error) => {
         toast.error(error);
