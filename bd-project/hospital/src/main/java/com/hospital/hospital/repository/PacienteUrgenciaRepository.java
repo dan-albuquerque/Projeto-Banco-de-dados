@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.hospital.hospital.models.DTOs.PacienteUrgenciaDTO;
 import com.hospital.hospital.models.pacientes.PacienteUrgencia;
 
 import org.springframework.jdbc.core.RowMapper;
@@ -43,6 +44,23 @@ public class PacienteUrgenciaRepository {
     
     public PacienteUrgencia selectPacient(String cpf){
         return jdbcTemplate.queryForObject("select * from paciente_urgencia where fk_paciente_cpf = ?", pacienteMapper, cpf);
+    }
+
+    public List<PacienteUrgenciaDTO> findTop10GravePatients() {
+        String sql = 
+            "SELECT p.cpf, p.nome, pu.nivel_triagem " +
+            "FROM paciente p " +
+            "JOIN paciente_urgencia pu ON p.cpf = pu.fk_paciente_cpf " +
+            "ORDER BY pu.nivel_triagem DESC " +
+            "LIMIT 10";
+        
+        return jdbcTemplate.query(sql, (rs, rowNum) -> 
+            new PacienteUrgenciaDTO(
+                rs.getString("cpf"),
+                rs.getString("nome"),
+                rs.getInt("nivel_triagem")
+            )
+        );
     }
     
 }

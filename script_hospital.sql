@@ -179,3 +179,30 @@ insert into consulta_internado (fk_registro_internado_codigo, fk_medico_cpf, fk_
 (60, '12345678910', '12345678907', '2024-04-29');
 
 select m.nome as "Nome do Doutor", i.nome as "Nome do interno" from medico m, interno i;
+
+-- Inserindo internos
+INSERT INTO interno (cpf, nome, senha, matricula) VALUES ('12345678901', 'Interno A', 'senhaA', 1001);
+INSERT INTO interno (cpf, nome, senha, matricula) VALUES ('23456789012', 'Interno B', 'senhaB', 1002);
+INSERT INTO interno (cpf, nome, senha, matricula) VALUES ('34567890123', 'Interno C', 'senhaC', 1003);
+
+-- Inserindo pacientes
+INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES ('98765432101', 'Paciente 1', '123456789', '987654321', 'Cidade A', 'Bairro A', 'Rua A', 1);
+INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES ('87654321012', 'Paciente 2', '123456789', '987654321', 'Cidade A', 'Bairro A', 'Rua A', 2);
+INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES ('76543210123', 'Paciente 3', '123456789', '987654321', 'Cidade B', 'Bairro B', 'Rua B', 3);
+INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES ('65432101234', 'Paciente 4', '123456789', '987654321', 'Cidade B', 'Bairro B', 'Rua B', 4);
+INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES ('54321012345', 'Paciente 5', '123456789', '987654321', 'Cidade C', 'Bairro C', 'Rua C', 5);
+INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES ('43210123456', 'Paciente 6', '123456789', '987654321', 'Cidade C', 'Bairro C', 'Rua C', 6);
+INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES ('32101234567', 'Paciente 7', '123456789', '987654321', 'Cidade D', 'Bairro D', 'Rua D', 7);
+INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES ('21012345678', 'Paciente 8', '123456789', '987654321', 'Cidade D', 'Bairro D', 'Rua D', 8);
+
+-- Inserindo relações de monitoramento
+INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('12345678901', '98765432101');
+INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('12345678901', '87654321012');
+INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('12345678901', '76543210123');
+INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('23456789012', '65432101234');
+INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('23456789012', '54321012345');
+INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('23456789012', '43210123456');
+INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('34567890123', '32101234567');
+INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('34567890123', '21012345678');
+INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('34567890123', '98765432101');
+INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('34567890123', '87654321012');

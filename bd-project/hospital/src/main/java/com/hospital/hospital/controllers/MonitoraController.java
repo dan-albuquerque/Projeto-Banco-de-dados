@@ -1,5 +1,5 @@
 package com.hospital.hospital.controllers;
-import org.springframework.web.bind.annotation.RestController;
+import com.hospital.hospital.models.DTOs.InternoDTO;
 import com.hospital.hospital.models.relacoes.Monitora;
 import com.hospital.hospital.repository.MonitoraRepository;
 import java.util.List;
@@ -44,5 +44,10 @@ public class MonitoraController {
     @GetMapping("/{fk_cpf_interno}")
     public List<Monitora> getMonitorasByInternoCPF(@PathVariable String fk_cpf_interno){
         return monitoraRepository.selectMonitorasByInternoCPF(fk_cpf_interno);
+    }
+
+    @GetMapping("/mais-monitora")
+    public InternoDTO getTopInterno() {
+        return monitoraRepository.findTopInterno();
     }
 }

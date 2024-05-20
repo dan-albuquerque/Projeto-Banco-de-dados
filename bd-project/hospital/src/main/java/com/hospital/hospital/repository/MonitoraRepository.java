@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import com.hospital.hospital.models.DTOs.InternoDTO;
 import com.hospital.hospital.models.relacoes.Monitora;
 
 import org.springframework.jdbc.core.RowMapper;
@@ -52,5 +53,26 @@ public class MonitoraRepository {
 
     public List<Monitora> selectMonitorasByInternoCPF(String fk_cpf_interno) {
         return jdbcTemplate.query("SELECT * FROM monitora WHERE fk_cpf_interno = ?", monitoraMapper, fk_cpf_interno);
+    }
+
+    public InternoDTO findTopInterno() {
+        String sql = 
+            "SELECT i.cpf, i.nome, COUNT(m.fk_cpf_paciente) AS total_pacientes " +
+            "FROM interno i " +
+            "JOIN monitora m ON i.cpf = m.fk_cpf_interno " +
+            "GROUP BY i.cpf, i.nome " +
+            "ORDER BY total_pacientes DESC " +
+            "LIMIT 1";
+
+        return jdbcTemplate.queryForObject(sql, new RowMapper<InternoDTO>() {
+            @Override
+            public InternoDTO mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
+                return new InternoDTO(
+                    rs.getString("cpf"),
+                    rs.getString("nome"),
+                    rs.getInt("total_pacientes")
+                );
+            }
+        });
     }
 }

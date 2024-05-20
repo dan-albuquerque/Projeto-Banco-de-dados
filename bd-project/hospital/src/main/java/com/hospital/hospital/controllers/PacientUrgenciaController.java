@@ -1,7 +1,6 @@
 package com.hospital.hospital.controllers;
 
-import org.springframework.web.bind.annotation.RestController;
-
+import com.hospital.hospital.models.DTOs.PacienteUrgenciaDTO;
 import com.hospital.hospital.models.pacientes.PacienteUrgencia;
 
 import com.hospital.hospital.repository.PacienteUrgenciaRepository;
@@ -44,5 +43,10 @@ public class PacientUrgenciaController {
     @GetMapping("/{cpf}")
     public PacienteUrgencia getPacient(@PathVariable String cpf){
         return pacientRepository.selectPacient(cpf);
+    }
+
+    @GetMapping("/mais-graves")
+    public List<PacienteUrgenciaDTO> getTop10GravePatients() {
+        return pacientRepository.findTop10GravePatients();
     }
 }
