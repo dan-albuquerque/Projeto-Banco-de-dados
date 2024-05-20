@@ -1,29 +1,67 @@
 import cookie from 'cookie';
 import { Layout } from '../app/layout';
 import DownerNav from '@/components/DownerNav';
+
 export const getServerSideProps = async (context) => {
     const { req } = context;
-    const cookies = cookie.parse(req.headers.cookie || '');
-    const jwtToken = cookies.jwtToken; 
-    const url = `http://localhost:8080/dashboard/ultimas-consultas`;
+    const parsedCookies = cookie.parse(req ? req.headers.cookie || "" : "");
+    const jwtToken = parsedCookies.jwtToken;
+
+    const fetchWithAuth = (url) => fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${jwtToken}`
+        }
+    });
+    const urls = {
+        latestConsultations: `http://localhost:8080/dashboard/ultimas-consultas`,
+        doctorsCount: `http://localhost:8080/dashboard/quantidade-medicos`,
+        internsCount: `http://localhost:8080/dashboard/quantidade-internos`
+    };
 
     try {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${jwtToken}`
-            }
-        });
-        const latestConsultations = await response.json();
-        return { props: { latestConsultations } };
+        const [latestConsultationsResponse, doctorsCountResponse, internsCountResponse] = await Promise.all([
+            fetchWithAuth(urls.latestConsultations),
+            fetchWithAuth(urls.doctorsCount),
+            fetchWithAuth(urls.internsCount)
+        ]);
+        
+        const [latestConsultations, doctorsCount, internsCount] = await Promise.all([
+            latestConsultationsResponse.json(),
+            doctorsCountResponse.json(),
+            internsCountResponse.json()
+        ]);
+
+        if(!doctorsCount || !internsCount || !latestConsultations) {
+            return { 
+                props: { 
+                    latestConsultations: [] ,
+                    doctorsCount: 0,
+                    internsCount: 0
+                    } 
+            };
+        }
+        return {
+            props: { 
+                latestConsultations, 
+                doctorsCount, 
+                internsCount 
+            }, 
+        };
     } catch (error) {
         console.error("Failed to fetch data:", error);
-        return { props: { latestConsultations: [] } };
+        return { 
+            props: { 
+                latestConsultations: [],
+                doctorsCount: 0,
+                internsCount: 0
+            }
+        };
     }
 };
 
-export default function Home({ latestConsultations }) {
+export default function Home({ latestConsultations, doctorsCount, internsCount}) {
+
     return (
         <Layout>
             <div>
@@ -39,6 +77,10 @@ export default function Home({ latestConsultations }) {
                         </li>
                     ))}
                 </ul>
+            </div>
+            <div>
+                <h1>Quantidade de medicos: {doctorsCount.doctorCount}</h1>
+                <h1>Quantidade de internos: {internsCount.internCount}</h1>
             </div>
             <DownerNav />
         </Layout>

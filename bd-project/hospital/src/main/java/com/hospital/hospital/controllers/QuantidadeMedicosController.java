@@ -17,7 +17,6 @@ public class QuantidadeMedicosController {
 
     @GetMapping()
     public QuantidadeMedicosDTO getDoctorCount() {
-        System.out.println("to aqui no controller");
         return quantidadeMedicosRepository.getDoctorCount();
     }
     

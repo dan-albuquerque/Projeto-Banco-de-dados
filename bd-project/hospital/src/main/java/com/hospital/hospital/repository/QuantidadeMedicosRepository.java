@@ -14,7 +14,7 @@ public class QuantidadeMedicosRepository {
 
     public QuantidadeMedicosDTO getDoctorCount() {
         String sql = "SELECT COUNT(*) AS doctorCount FROM medico";
-        System.out.println("to aqui" + sql);
+        System.out.println(sql);
 
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
                 new QuantidadeMedicosDTO(
