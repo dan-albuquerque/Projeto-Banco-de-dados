@@ -298,7 +298,7 @@ export default function PatientTableView({ patients }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {patients.map((patient) => (
+                        {patients && patients.map((patient) => (
                             <tr key={patient.cpf}>
                                 <td className="border-b border-gray-300 border-r px-5 py-2 text-xs text-left">{patient.nome}</td>
                                 <td className="border-b border-gray-300 border-r px-5 py-2 text-xs text-left">{patient.cpf}</td>

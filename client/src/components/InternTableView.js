@@ -124,25 +124,25 @@ export default function InternTableView({ interns }) {
         // Fetch the CPFs of the patients
         console.log("Fetching CPFs of the patients...");
         return fetch(`http://localhost:8080/monitora/${cpfIntern}`)
-          .then(response => response.json())
-          .then(data => {
-            // Extract only the fk_paciente_cpf from the data
-            const cpfs = data.map(item => item.fk_paciente_cpf);
-    
-            // For each CPF, fetch the patient's name
-            console.log("Fetching names of the patients...");
-            const fetchPromises = cpfs.map(async cpfPaciente => {
-              const response = await fetch(`http://localhost:8080/pacient/${cpfPaciente}`);
-                return await response.json();
+            .then(response => response.json())
+            .then(data => {
+                // Extract only the fk_paciente_cpf from the data
+                const cpfs = data.map(item => item.fk_paciente_cpf);
+
+                // For each CPF, fetch the patient's name
+                console.log("Fetching names of the patients...");
+                const fetchPromises = cpfs.map(async cpfPaciente => {
+                    const response = await fetch(`http://localhost:8080/pacient/${cpfPaciente}`);
+                    return await response.json();
+                });
+
+                return Promise.all(fetchPromises);
+            })
+            .then(patients => {
+                // Create the hover content
+                console.log("Creating hover content...");
+                return patients.map(patient => `${patient.cpf} - ${patient.nome}`);
             });
-      
-            return Promise.all(fetchPromises);
-          })
-          .then(patients => {
-            // Create the hover content
-            console.log("Creating hover content...");
-            return patients.map(patient => `${patient.cpf} - ${patient.nome}`);
-          });
     };
 
     return (
@@ -161,7 +161,7 @@ export default function InternTableView({ interns }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {interns.map((intern) => (
+                        {interns && interns.map((intern) => (
                             <tr key={intern.cpf}>
                                 <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left  ">{intern.nome}</td>
                                 <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left ">{intern.cpf}</td>

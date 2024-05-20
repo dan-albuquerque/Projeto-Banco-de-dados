@@ -181,11 +181,11 @@ export default function SearchBar({onSearch, userType, onCancelSearch}) {
               className="w-6 h-6 cursor-pointer transition-transform duration-200 hover:scale-125"
             />
           ):(
-          <img
+            <img
             src="/img/search.png"
             alt="search"
             onClick={() => {
-              if (searchQuery.trim() !== '') {
+              if (searchQuery.trim() !== '' && !searchQuery.includes(']')) {
                 handleSearch();
               }
             }}
