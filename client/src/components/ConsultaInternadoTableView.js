@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from 'next/navigation';
 
 
-export default function ConsultaInternadoTableView({ ConsultasInternado, isSearch }) {
+export default function ConsultaInternadoTableView({ ConsultasInternado }) {
   const router = useRouter();
 
-  const handleMoreInfoClick = (codigo, nomeMedico, nomePaciente, data_realizacao) => {
+  const handleMoreInfoClick = (codigo, cpf_medico, cpf_paciente) => {
     router.push({
-      pathname: `/consultainternado/${codigo}`,
-      query: { nomeMedico, nomePaciente, data_realizacao }
+      pathname: `/consultainternado/${codigo}/${cpf_medico}/${cpf_paciente}`
     });
-  };
+  }
 
   return (
     <div className="container mx-auto mt-8 flex items-center justify-center">
@@ -31,11 +30,11 @@ export default function ConsultaInternadoTableView({ ConsultasInternado, isSearc
               <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left">{consulta.nomePaciente}</td>
               <td className="border-b border-gray-300 border-r px-5 py-2 text-sm text-left">{consulta.nomeMedico}</td>
               <td className="flex gap-2 items-start justify-start border-b border-gray-300 border-r px-5 py-2 ">
-              <img
+                <img
                   src="/img/MoreInfo.png"
                   className="w-6 h-6 mt-1 cursor-pointer transition-transform duration-200 hover:scale-125"
                   alt="Mais informações"
-                  onClick={() => handleMoreInfoClick(consulta.fk_registro_internado_codigo, consulta.nomeMedico, consulta.nomePaciente, consulta.data_realizacao)}
+                  onClick={() => handleMoreInfoClick(consulta.fk_registro_internado_codigo, consulta.fk_medico_cpf, consulta.fk_paciente_internado_cpf)}
                 />
 
               </td>

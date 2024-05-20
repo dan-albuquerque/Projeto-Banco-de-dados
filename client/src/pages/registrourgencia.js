@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 export default function RegistroUrgencia() {
   const navigate = useRouter();
   const medicoCpf = Cookies.get('cpf');
+  const pacienteCpf = Cookies.get('paciente_cpf');
   const jwtToken = Cookies.get('jwtToken');
   const id_registro = Cookies.get('id_registro');
   const [hipotese, setHipotese] = useState('');
@@ -125,7 +126,6 @@ export default function RegistroUrgencia() {
         })
       });
 
-      // Verifica se a resposta é bem-sucedida
       if (!response.ok) {
         const message = `Erro ao enviar comborbidade: ${response.statusText}`;
         toast.error(message);
@@ -136,6 +136,10 @@ export default function RegistroUrgencia() {
         toast.success(message);
         console.log(message);
       }
+
+      navigate.push({
+        pathname: `/consultaurgencia/${id_registro}/${medicoCpf}/${pacienteCpf}`
+      });
     }
 
     // Limpa os estados após o envio

@@ -4,10 +4,9 @@ import { useRouter } from 'next/navigation';
 export default function ConsultaUrgenciaTableView({ ConsultasUrgencia }) {
   const router = useRouter();
 
-  const handleMoreInfoClick = (codigo, nomeMedico, nomePaciente, data_realizacao) => {
+  const handleMoreInfoClick = (codigo, cpf_medico, cpf_paciente) => {
     router.push({
-      pathname: `/consultaurgencia/${codigo}`,
-      query: { nomeMedico, nomePaciente, data_realizacao }
+      pathname: `/consultaurgencia/${codigo}/${cpf_medico}/${cpf_paciente}`,
     });
   };
 
@@ -33,7 +32,7 @@ export default function ConsultaUrgenciaTableView({ ConsultasUrgencia }) {
                   src="/img/MoreInfo.png"
                   className="w-6 h-6 mt-1 cursor-pointer transition-transform duration-200 hover:scale-125"
                   alt="Mais informações"
-                  onClick={() => handleMoreInfoClick(consulta.fk_registro_urgencia_codigo, consulta.nomeMedico, consulta.nomePaciente, consulta.data_realizacao)}
+                  onClick={() => handleMoreInfoClick(consulta.fk_registro_urgencia_codigo, consulta.fk_medico_cpf, consulta.fk_paciente_urgencia_cpf)}
                 />
               </td>
             </tr>

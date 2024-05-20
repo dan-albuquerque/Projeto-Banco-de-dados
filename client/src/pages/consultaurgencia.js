@@ -81,6 +81,12 @@ export default function ConsultaUrgencia() {
       .then(response => response.ok ? response.text() : Promise.reject('Falha ao criar consulta de urgência! ' + response.statusText))
       .then(() => {
         toast.success('Consulta de urgência criada com sucesso!');
+        Cookies.set('paciente_cpf', pacienteCpf, {
+          expires: 7,
+          secure: true,
+          sameSite: 'Strict'
+        }
+        )
         setPacienteCpf('');
         setConduta('');
         setHistorico('');

@@ -86,4 +86,15 @@ public class ConsultaInternadoRepository {
             consultaInternadoDTOMapper
         );
     }
+
+    public ConsultaInternadoDTO selectConsultaInternadoDTOById(int fk_registro_internado_codigo, String fk_medico_cpf, String fk_paciente_internado_cpf) {
+        return jdbcTemplate.queryForObject(
+                "SELECT c.data_realizacao, p.nome as paciente_nome, m.nome as medico_nome FROM consulta_internado c " +
+                        "INNER JOIN paciente p ON c.fk_paciente_internado_cpf = p.cpf " +
+                        "INNER JOIN medico m ON c.fk_medico_cpf = m.cpf " +
+                        "WHERE c.fk_registro_internado_codigo = ? AND c.fk_medico_cpf = ? AND c.fk_paciente_internado_cpf = ?",
+                consultaInternadoDTOMapper,
+                fk_registro_internado_codigo, fk_medico_cpf, fk_paciente_internado_cpf
+        );
+    }
 }

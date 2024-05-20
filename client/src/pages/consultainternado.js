@@ -83,6 +83,12 @@ export default function ConsultInternado() {
       .then(response => response.ok ? response.text() : Promise.reject('Falha ao criar consulta de internado! ' + response.statusText))
       .then(() => {
         toast.success('Consulta de internado criada com sucesso!');
+        Cookies.set('paciente_cpf', pacienteCpf, {
+          expires: 7,
+          secure: true,
+          sameSite: 'Strict'
+        }
+        )
         setPacienteCpf('');
         setConduta('');
         setHistorico('');

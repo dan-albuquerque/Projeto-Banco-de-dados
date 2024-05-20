@@ -47,5 +47,12 @@ public class ConsultaInternadoController {
     public List<ConsultaInternadoDTO> searchConsultaInternadosByPaciente(@PathVariable String nomePaciente) {
         return consultaInternadoRepository.searchByPatientName(nomePaciente);
     }
+
+    @GetMapping("/details/{cod_registro}/{cpfMedico}/{cpfPaciente}")
+    public ConsultaInternadoDTO getConsultaUrgenciaDetailsById(@PathVariable int cod_registro, 
+                                                              @PathVariable String cpfMedico, 
+                                                              @PathVariable String cpfPaciente) {
+        return consultaInternadoRepository.selectConsultaInternadoDTOById(cod_registro, cpfMedico, cpfPaciente);
+    }
     
 }

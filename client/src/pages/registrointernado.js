@@ -11,6 +11,7 @@ export default function RegistroInternado() {
   const medicoCpf = Cookies.get('cpf');
   const jwtToken = Cookies.get('jwtToken');
   const id_registro = Cookies.get('id_registro');
+  const pacienteCpf = Cookies.get('paciente_cpf');
   const [hipotese, setHipotese] = useState('');
   const [hipoteses, setHipoteses] = useState([]);
 
@@ -54,6 +55,10 @@ export default function RegistroInternado() {
         toast.success(message);
         console.log(message);
       }
+
+      navigate.push({
+        pathname: `/consultainternado/${id_registro}/${medicoCpf}/${pacienteCpf}`
+      });
     }
 
     // Limpa os estados após o envio

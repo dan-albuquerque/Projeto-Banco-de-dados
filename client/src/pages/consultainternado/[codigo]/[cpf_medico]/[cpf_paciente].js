@@ -5,9 +5,15 @@ import { CentralizedLayout } from '@/app/layout';
 import DownerNav from '@/components/DownerNav';
 export default function ConsultaDetalhes() {
   const router = useRouter();
-  const { codigo, nomeMedico, nomePaciente, data_realizacao } = router.query;
+  const { codigo, cpf_medico, cpf_paciente } = router.query;
   const [consulta, setConsulta] = useState(null);
   const [hipoteses, setHipoteses] = useState([]);
+  const [detalhesConsulta, setDetalhesConsulta] = useState({
+    data_realizacao: '',
+    nomePaciente: '',
+    nomeMedico: '',
+  });
+
 
   useEffect(() => {
     if (codigo) {
@@ -28,8 +34,12 @@ export default function ConsultaDetalhes() {
           setHipoteses(data);
         })
         .catch(error => console.error('Error fetching hipoteses:', error));
-    }
-  }, [codigo]);
+    }// Fetch consulta details using the codigo, cpf_medico and cpf_paciente
+    fetch(`http://localhost:8080/consulta_internado/details/${codigo}/${cpf_medico}/${cpf_paciente}`)
+    .then(res => res.json())
+    .then(data => setDetalhesConsulta(data))
+    .catch(error => console.error('Error fetching consulta details:', error));
+}, [codigo, cpf_medico, cpf_paciente]);
 
   if (!consulta) {
     return <div>Loading...</div>;
@@ -39,9 +49,9 @@ export default function ConsultaDetalhes() {
     <CentralizedLayout>
   <div className="flex flex-col items-start justify-center w-2/3 gap-10 mb-16" style={{ height: '80vh' }}>
     <div>
-      <h1 className="text-3xl font-medium mb-1">Detalhes da Consulta de {nomePaciente} e {nomeMedico}</h1>
+      <h1 className="text-3xl font-medium mb-1">Detalhes da Consulta de {detalhesConsulta.nomePaciente} e {detalhesConsulta.nomeMedico}</h1>
       <div className='flex gap-6 text-lg'>
-        <p className='italic text-grey-600'>Data da Realização: {data_realizacao}</p>
+        <p className='italic text-grey-600'>Data da Realização: {detalhesConsulta.data_realizacao}</p>
       </div>
     </div>
     <div className='flex items-center justify-between gap-10 w-full'>

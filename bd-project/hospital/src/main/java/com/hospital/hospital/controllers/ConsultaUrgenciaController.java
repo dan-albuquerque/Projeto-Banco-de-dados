@@ -54,4 +54,16 @@ public class ConsultaUrgenciaController {
         return consultaUrgenciaRepository.selectConsultaUrgenciaByMedico(cpfMedico);
     }
 
+    @GetMapping("/details")
+    public List<ConsultaUrgenciaDTO> getConsultaUrgenciaDetails() {
+        return consultaUrgenciaRepository.selectConsultaUrgenciaDTO();
+    }
+
+    @GetMapping("/details/{cod_registro}/{cpfMedico}/{cpfPaciente}")
+    public ConsultaUrgenciaDTO getConsultaUrgenciaDetailsById(@PathVariable int cod_registro, 
+                                                              @PathVariable String cpfMedico, 
+                                                              @PathVariable String cpfPaciente) {
+        return consultaUrgenciaRepository.selectConsultaUrgenciaDTOById(cod_registro, cpfMedico, cpfPaciente);
+    }
+
 }
