@@ -91,7 +91,7 @@ export default function Home({ latestConsultations, doctorsCount, internsCount, 
           <h1>Interno destaque: {internStar.nome}</h1>
           <h1>Pacientes mais graves: </h1>
           <ul>
-            {patientsMoreUrgent.map((patient, index) => (
+            {patientsMoreUrgent && patientsMoreUrgent.map((patient, index) => (
               <li key={index}>
                 <p>{patient.nome}</p>
                 <p>{patient.nivel_triagem}</p>
