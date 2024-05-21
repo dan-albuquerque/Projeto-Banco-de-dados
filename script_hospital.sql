@@ -100,22 +100,22 @@ create table consulta_urgencia(
 	data_realizacao date not null,
 	fk_registro_urgencia_codigo integer not null,
 	fk_medico_cpf varchar(11) not null,
-	fk_paciente_urgencia_cpf varchar(11) not null,
-	primary key (fk_registro_urgencia_codigo, fk_medico_cpf, fk_paciente_urgencia_cpf),
+	fk_paciente_cpf varchar(11) not null,
+	primary key (fk_registro_urgencia_codigo, fk_medico_cpf, fk_paciente_cpf),
 	foreign key (fk_registro_urgencia_codigo) references registro_urgencia(fk_registro_codigo),
 	foreign key (fk_medico_cpf) references medico(cpf),
-	foreign key (fk_paciente_urgencia_cpf) references paciente_urgencia(fk_paciente_cpf)
+	foreign key (fk_paciente_cpf) references paciente(cpf)
 );
 
 create table consulta_internado(
 	data_realizacao date not null,
 	fk_registro_internado_codigo integer not null,
 	fk_medico_cpf varchar(11) not null,
-	fk_paciente_internado_cpf varchar(11) not null,
-	primary key (fk_registro_internado_codigo, fk_medico_cpf, fk_paciente_internado_cpf),
+	fk_paciente_cpf varchar(11) not null,
+	primary key (fk_registro_internado_codigo, fk_medico_cpf, fk_paciente_cpf),
 	foreign key (fk_registro_internado_codigo) references registro_internado(fk_registro_codigo),
 	foreign key (fk_medico_cpf) references medico(cpf),
-	foreign key (fk_paciente_internado_cpf) references paciente_internado(fk_paciente_cpf)
+	foreign key (fk_paciente_cpf) references paciente(cpf)
 );
 
 INSERT INTO interno (cpf, nome, senha, matricula) VALUES

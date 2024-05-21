@@ -34,7 +34,7 @@ export default function ConsultaInternadoTableView({ ConsultasInternado }) {
                   src="/img/MoreInfo.png"
                   className="w-6 h-6 mt-1 cursor-pointer transition-transform duration-200 hover:scale-125"
                   alt="Mais informações"
-                  onClick={() => handleMoreInfoClick(consulta.fk_registro_internado_codigo, consulta.fk_medico_cpf, consulta.fk_paciente_internado_cpf)}
+                  onClick={() => handleMoreInfoClick(consulta.fk_registro_internado_codigo, consulta.fk_medico_cpf, consulta.fk_paciente_cpf)}
                 />
 
               </td>

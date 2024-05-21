@@ -34,7 +34,7 @@ export async function getServerSideProps(context) {
     ]);
 
     const consultationUrgentWithNames = await Promise.all(consultationUrgent.map(async (consulta) => {
-      const responsePaciente = await fetch(`http://localhost:8080/pacient/${consulta.fk_paciente_urgencia_cpf}`);
+      const responsePaciente = await fetch(`http://localhost:8080/pacient/${consulta.fk_paciente_cpf}`);
       const paciente = await responsePaciente.json();
 
       const responseMedico = await fetch(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);
@@ -43,7 +43,7 @@ export async function getServerSideProps(context) {
     }));
 
     const consultaInternadoNomes = await Promise.all(consultatioHospitalized.map(async (consulta) => {
-      const responsePaciente = await fetch(`http://localhost:8080/pacient/${consulta.fk_paciente_internado_cpf}`);
+      const responsePaciente = await fetch(`http://localhost:8080/pacient/${consulta.fk_paciente_cpf}`);
       const paciente = await responsePaciente.json();
 
       const responseMedico = await fetch(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);
@@ -52,7 +52,7 @@ export async function getServerSideProps(context) {
     }));
 
     const consultasUrgenciaByMedicoWithNames = await Promise.all(consultasUrgenciaByMedico.map(async (consulta) => {
-      const responsePaciente = await fetch(`http://localhost:8080/pacient/${consulta.fk_paciente_urgencia_cpf}`);
+      const responsePaciente = await fetch(`http://localhost:8080/pacient/${consulta.fk_paciente_cpf}`);
       const paciente = await responsePaciente.json();
 
       const responseMedico = await fetch(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);
@@ -61,7 +61,7 @@ export async function getServerSideProps(context) {
     }));
 
     const consultaInternadoByMedicoWithNames = await Promise.all(consultaInternadoByMedico.map(async (consulta) => {
-      const responsePaciente = await fetch(`http://localhost:8080/pacient/${consulta.fk_paciente_internado_cpf}`);
+      const responsePaciente = await fetch(`http://localhost:8080/pacient/${consulta.fk_paciente_cpf}`);
       const paciente = await responsePaciente.json();
 
       const responseMedico = await fetch(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);

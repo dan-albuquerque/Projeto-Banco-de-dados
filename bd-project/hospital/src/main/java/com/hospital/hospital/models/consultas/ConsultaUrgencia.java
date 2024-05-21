@@ -7,13 +7,13 @@ public class ConsultaUrgencia {
     public Date data_realizacao;
     public int fk_registro_urgencia_codigo;
     public String fk_medico_cpf;
-    public String fk_paciente_urgencia_cpf;
+    public String fk_paciente_cpf;
 
-    public ConsultaUrgencia(Date data_realizacao, int fk_registro_urgencia_codigo, String fk_medico_cpf, String fk_paciente_urgencia_cpf){
+    public ConsultaUrgencia(Date data_realizacao, int fk_registro_urgencia_codigo, String fk_medico_cpf, String fk_paciente_cpf){
         this.data_realizacao = data_realizacao;
         this.fk_registro_urgencia_codigo = fk_registro_urgencia_codigo;
         this.fk_medico_cpf = fk_medico_cpf;
-        this.fk_paciente_urgencia_cpf = fk_paciente_urgencia_cpf;
+        this.fk_paciente_cpf = fk_paciente_cpf;
     }
 
     public Date getDataRealizacao(){
@@ -41,10 +41,10 @@ public class ConsultaUrgencia {
     }
 
     public String getPacienteUrgenciaCpf(){
-        return fk_paciente_urgencia_cpf;
+        return fk_paciente_cpf;
     }
 
-    public void setPacienteUrgenciaCpf(String fk_paciente_urgencia_cpf){
-        this.fk_paciente_urgencia_cpf = fk_paciente_urgencia_cpf;
+    public void setPacienteUrgenciaCpf(String fk_paciente_cpf){
+        this.fk_paciente_cpf = fk_paciente_cpf;
     }
 }
