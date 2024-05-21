@@ -118,20 +118,79 @@ create table consulta_internado(
 	foreign key (fk_paciente_cpf) references paciente(cpf)
 );
 
+DELIMITER $$
+
+CREATE PROCEDURE AddUrgencyConsultation(
+    IN paciente_cpf VARCHAR(11),
+    IN medico_cpf VARCHAR(11),
+    IN conduta VARCHAR(50),
+    IN historico_doenca VARCHAR(500),
+    IN exame_fisico VARCHAR(500),
+    IN data_consulta DATE
+)
+BEGIN
+    DECLARE registro_codigo INT;
+
+    -- Inserir um novo registro
+    INSERT INTO registro (conduta) VALUES (conduta);
+    SET registro_codigo = LAST_INSERT_ID();
+
+    -- Inserir registro de urgência associado
+    INSERT INTO registro_urgencia (fk_registro_codigo, historico_doenca, exame_fisico) 
+    VALUES (registro_codigo, historico_doenca, exame_fisico);
+
+    -- Inserir consulta de urgência associada
+    INSERT INTO consulta_urgencia (data_realizacao, fk_registro_urgencia_codigo, fk_medico_cpf, fk_paciente_cpf)
+    VALUES (data_consulta, registro_codigo, medico_cpf, paciente_cpf);
+END $$
+
+DELIMITER ;
+
+CALL AddUrgencyConsultation(
+    '23456789018', -- CPF do paciente
+    '12345678910', -- CPF do médico
+    'Exame de emergência',
+    'Histórico da doença do paciente',
+    'Exame físico detalhado',
+    '2024-05-21'  -- Data da consulta
+);
+
 INSERT INTO interno (cpf, nome, senha, matricula) VALUES
 ('12345678904', 'João Silva', 'senha123', 1001),
 ('23456789015', 'Maria Souza', 'senha456', 1002),
 ('34567890126', 'Carlos Pereira', 'senha789', 1003);
 
-INSERT INTO registro (conduta) VALUES
-('Prescrever medicação'),
-('Encaminhar para especialista'),
-('Realizar exames adicionais');
+-- Inserir registros na tabela registro
+INSERT INTO registro (codigo, conduta) VALUES
+(1, 'Conduta 1'),
+(2, 'Conduta 2'),
+(3, 'Conduta 3'),
+(4, 'Conduta 4'),
+(5, 'Conduta 5'),
+(6, 'Conduta 6');
 
+-- Inserir registros na tabela registro_urgencia
+INSERT INTO registro_urgencia (fk_registro_codigo, historico_doenca, exame_fisico) VALUES
+(1, 'Histórico de Doença 1', 'Exame Físico 1'),
+(2, 'Histórico de Doença 2', 'Exame Físico 2'),
+(3, 'Histórico de Doença 3', 'Exame Físico 3');
+
+-- Inserir registros na tabela registro_internado
 INSERT INTO registro_internado (fk_registro_codigo, evolucao, historico_exames) VALUES
-(58, 'Histórico de diabetes', 'Exame físico normal'),
-(59, 'Dor abdominal recorrente', 'Sinais vitais estáveis'),
-(60, 'Cefaleia frequente', 'Pressão arterial elevada');
+(4, 'Evolução 4', 'Histórico de Exames 4'),
+(5, 'Evolução 5', 'Histórico de Exames 5'),
+(6, 'Evolução 6', 'Histórico de Exames 6');
+
+-- Agora inserir os dados nas tabelas consulta_urgencia e consulta_internado
+INSERT INTO consulta_urgencia (fk_registro_urgencia_codigo, fk_medico_cpf, fk_paciente_cpf, data_realizacao) VALUES
+(1, '12345678910', '23456789018', '2024-04-27'),
+(2, '12345678910', '23456789018', '2024-04-28'),
+(3, '12345678910', '23456789018', '2024-04-29');
+
+INSERT INTO consulta_internado (fk_registro_internado_codigo, fk_medico_cpf, fk_paciente_cpf, data_realizacao) VALUES
+(4, '12345678910', '12345678907', '2024-04-27'),
+(5, '12345678910', '12345678907', '2024-04-28'),
+(6, '12345678910', '12345678907', '2024-04-29');
 
 INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES
 ('12345678907', 'João Silva', '3132123456', '31987654321', 'Belo Horizonte', 'Centro', 'Rua Floresta', 100),
@@ -142,16 +201,6 @@ INSERT INTO paciente_internado (fk_paciente_cpf, sala) VALUES
 ('12345678907', 3),
 ('23456789018', 2),
 ('34567890129', 1);
-
-INSERT INTO consulta_urgencia (fk_registro_urgencia_codigo, fk_medico_cpf, fk_paciente_urgencia_cpf, data_realizacao) VALUES
-(1, '12345678910', '12345678901', '2024-04-27'),
-(2, '12345678910', '12345678901', '2024-04-28'),
-(3, '12345678910', '12345678901', '2024-04-29');
-
-insert into consulta_internado (fk_registro_internado_codigo, fk_medico_cpf, fk_paciente_internado_cpf, data_realizacao) values
-(58, '12345678910', '12345678907', '2024-04-27'),
-(59, '12345678910', '12345678907', '2024-04-28'),
-(60, '12345678910', '12345678907', '2024-04-29');
 
 select m.nome as "Nome do Doutor", i.nome as "Nome do interno" from medico m, interno i;
 

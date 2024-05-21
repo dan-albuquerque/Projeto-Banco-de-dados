@@ -107,4 +107,9 @@ public class ConsultaUrgenciaRepository {
                 fk_registro_urgencia_codigo, fk_medico_cpf, fk_paciente_cpf
         );
     }
+
+    public void addUrgencyConsultation(String pacienteCpf, String medicoCpf, String conduta, String historicoDoenca, String exameFisico, String dataConsulta) {
+        String sql = "CALL AddUrgencyConsultation(?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, pacienteCpf, medicoCpf, conduta, historicoDoenca, exameFisico, dataConsulta);
+    }    
 }

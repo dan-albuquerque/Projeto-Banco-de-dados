@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import "../app/globals.css";
-import {CentralizedLayout} from "../app/layout";
+import { CentralizedLayout } from "../app/layout";
 import DownerNav from '@/components/DownerNav';
 import Cookies from 'js-cookie';
 import { Toaster, toast } from 'react-hot-toast';
@@ -21,88 +21,45 @@ export default function ConsultaUrgencia() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('CPF do paciente:', pacienteCpf);
-    console.log('Conduta:', conduta);
-    console.log('Histórico:', historico);
-    console.log('Exame físico:', exameFisico);
-    console.log('Data da consulta:', dataConsulta);
-    const registroData = {
-      conduta: conduta
+
+    const consultaData = {
+      pacienteCpf: pacienteCpf,
+      medicoCpf: medicoCpf,
+      conduta: conduta,
+      historicoDoenca: historico,
+      exameFisico: exameFisico,
+      dataConsulta: dataConsulta
     };
 
-    return fetch('http://localhost:8080/registro', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${jwtToken}`
-      },
-      body: JSON.stringify(registroData)
-    })
-      .then(response => response.ok ? response.json() : Promise.reject('Falha ao criar consulta de urgência!' + response.statusText))
-      .then((data) => {
-        console.log('Registro:', data)
-        codigo = data.codigo;
-        console.log('Código:', codigo);
-        const registroUrgenciaData = {
-          fk_registro_codigo: codigo,
-          historico_doenca: historico,
-          exame_fisico: exameFisico
-        };
-
-        console.log('Registro de urgência:', registroUrgenciaData);
-
-        return fetch('http://localhost:8080/registro_urgencia', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwtToken}`
-          },
-          body: JSON.stringify(registroUrgenciaData)
-        });
-      })
-      .then(response => response.ok ? response.text() : Promise.reject('Falha ao criar consulta de urgência!' + response.statusText))
-      .then(() => {
-        const consultaUrgenciaData = {
-          fk_registro_urgencia_codigo: codigo,
-          data_realizacao: dataConsulta,
-          fk_medico_cpf: medicoCpf,
-          fk_paciente_cpf: pacienteCpf
-        };
-
-        return fetch('http://localhost:8080/consulta_urgencia', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwtToken}`
-          },
-          body: JSON.stringify(consultaUrgenciaData)
-        });
-      })
-      .then(response => response.ok ? response.text() : Promise.reject('Falha ao criar consulta de urgência! ' + response.statusText))
-      .then(() => {
-        toast.success('Consulta de urgência criada com sucesso!');
-        Cookies.set('paciente_cpf', pacienteCpf, {
-          expires: 7,
-          secure: true,
-          sameSite: 'Strict'
-        }
-        )
-        setPacienteCpf('');
-        setConduta('');
-        setHistorico('');
-        setExameFisico('');
-        Cookies.set('id_registro', codigo, {
-          expires: 7,
-          secure: true,
-          sameSite: 'Strict'
-        }
-        )
-        navigate.push('/registrourgencia');
-      })
-      .catch((error) => {
-        toast.error(error);
+    try {
+      const response = await fetch('http://localhost:8080/consulta_urgencia/procedure', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`
+        },
+        body: JSON.stringify(consultaData)
       });
-  }
+
+      if (!response.ok) {
+        throw new Error('Falha ao criar consulta de urgência! ' + response.statusText);
+      }
+
+      toast.success('Consulta de urgência criada com sucesso!');
+      Cookies.set('paciente_cpf', pacienteCpf, {
+        expires: 7,
+        secure: true,
+        sameSite: 'Strict'
+      });
+      setPacienteCpf('');
+      setConduta('');
+      setHistorico('');
+      setExameFisico('');
+      navigate.push('/registrourgencia');
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <>
