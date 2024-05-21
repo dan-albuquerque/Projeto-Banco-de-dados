@@ -66,7 +66,7 @@ export default function ConsultaUrgencia() {
           fk_registro_urgencia_codigo: codigo,
           data_realizacao: dataConsulta,
           fk_medico_cpf: medicoCpf,
-          fk_paciente_urgencia_cpf: pacienteCpf
+          fk_paciente_cpf: pacienteCpf
         };
 
         return fetch('http://localhost:8080/consulta_urgencia', {
