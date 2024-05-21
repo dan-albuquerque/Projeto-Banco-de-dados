@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.hospital.hospital.models.DTOs.MedicoDTO;
 import com.hospital.hospital.models.elenco.Medico;
 import org.springframework.jdbc.core.RowMapper;
 import java.util.List;
@@ -11,40 +12,39 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Repository
 public class MedicoRepository {
-    
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void insertMedico(Medico medico){
+    public void insertMedico(Medico medico) {
         String encodedPassword = new BCryptPasswordEncoder().encode(medico.getSenha());
-        jdbcTemplate.update("insert into medico(cpf, rqe, nome, especialidade, crm, fk_medico_cpf_gerente, senha) values(?, ?, ?, ?, ?, ?, ?)",
-            medico.getCpf(), medico.getRqe(), medico.getNome(), medico.getEspecialidade(), medico.getCrm(), medico.getMedicoCpfGerente(), encodedPassword);
+        jdbcTemplate.update(
+                "insert into medico(cpf, rqe, nome, especialidade, crm, fk_medico_cpf_gerente, senha) values(?, ?, ?, ?, ?, ?, ?)",
+                medico.getCpf(), medico.getRqe(), medico.getNome(), medico.getEspecialidade(), medico.getCrm(),
+                medico.getMedicoCpfGerente(), encodedPassword);
     }
-
 
     public List<Medico> selectMedicos(boolean sortAlphabetically, boolean reverseOrder, boolean sortNumerically) {
         String sql;
         if (sortAlphabetically) {
             String order = reverseOrder ? "DESC" : "ASC";
             sql = "SELECT * FROM Medico ORDER BY nome " + order;
-        } else if(sortNumerically){
+        } else if (sortNumerically) {
             sql = "SELECT * FROM Medico ORDER BY cpf DESC";
-        }else{
+        } else {
             sql = "SELECT * FROM Medico";
         }
         System.out.println("comando sql: " + sql);
         return jdbcTemplate.query(sql, medicoMapper);
     }
 
-
-    public List<Medico> searchMedicos(boolean isSearch, String searchName){
+    public List<Medico> searchMedicos(boolean isSearch, String searchName) {
         String sql = "SELECT * FROM Medico WHERE nome LIKE ?";
         System.out.println("comando sql: " + sql);
         return jdbcTemplate.query(sql, medicoMapper, "%" + searchName + "%");
     }
 
-    private RowMapper<Medico> medicoMapper = (rs, rowNum) ->
-    {
+    private RowMapper<Medico> medicoMapper = (rs, rowNum) -> {
         Medico medico = new Medico();
         medico.setCpf(rs.getString("cpf"));
         medico.setRqe(rs.getInt("rqe"));
@@ -52,25 +52,56 @@ public class MedicoRepository {
         medico.setSenha(rs.getString("senha"));
         medico.setEspecialidade(rs.getString("especialidade"));
         medico.setCrm(rs.getString("crm"));
-        if(rs.getString("fk_medico_cpf_gerente") != null){
+        if (rs.getString("fk_medico_cpf_gerente") != null) {
             medico.setMedicoCpfGerente(rs.getString("fk_medico_cpf_gerente"));
-        }
-        else{
+        } else {
             medico.setMedicoCpfGerente(null);
         }
         return medico;
     };
 
-    public void updateMedico(Medico medico){
-        jdbcTemplate.update("update medico set rqe = ?, nome = ?, senha = ?, especialidade = ?, crm = ?, fk_medico_cpf_gerente = ? where cpf = ?", medico.getRqe(), medico.getNome(), medico.getSenha(), medico.getEspecialidade(), medico.getCrm(), medico.getMedicoCpfGerente(), medico.getCpf());
+    public void updateMedico(Medico medico) {
+        jdbcTemplate.update(
+                "update medico set rqe = ?, nome = ?, senha = ?, especialidade = ?, crm = ?, fk_medico_cpf_gerente = ? where cpf = ?",
+                medico.getRqe(), medico.getNome(), medico.getSenha(), medico.getEspecialidade(), medico.getCrm(),
+                medico.getMedicoCpfGerente(), medico.getCpf());
     }
 
-    public void deleteMedico(String cpf){
+    public void deleteMedico(String cpf) {
         jdbcTemplate.update("UPDATE medico SET fk_medico_cpf_gerente = NULL WHERE fk_medico_cpf_gerente = ?", cpf);
         jdbcTemplate.update("delete from medico where cpf = ?", cpf);
     }
 
-    public Medico selectMedico(String cpf){
+    public Medico selectMedico(String cpf) {
         return jdbcTemplate.queryForObject("select * from medico where cpf = ?", medicoMapper, cpf);
+    }
+
+    public MedicoDTO findTopMedico() {
+        String sql = "SELECT m.cpf, m.nome, " +
+                "       (COALESCE(cu.total_consultas_urgencia, 0) + COALESCE(ci.total_consultas_internado, 0)) AS total_consultas "
+                +
+                "FROM medico m " +
+                "LEFT JOIN (" +
+                "    SELECT fk_medico_cpf, COUNT(*) AS total_consultas_urgencia " +
+                "    FROM consulta_urgencia " +
+                "    GROUP BY fk_medico_cpf" +
+                ") cu ON m.cpf = cu.fk_medico_cpf " +
+                "LEFT JOIN (" +
+                "    SELECT fk_medico_cpf, COUNT(*) AS total_consultas_internado " +
+                "    FROM consulta_internado " +
+                "    GROUP BY fk_medico_cpf" +
+                ") ci ON m.cpf = ci.fk_medico_cpf " +
+                "ORDER BY total_consultas DESC " +
+                "LIMIT 1";
+
+        return jdbcTemplate.queryForObject(sql, new RowMapper<MedicoDTO>() {
+            @Override
+            public MedicoDTO mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
+                return new MedicoDTO(
+                        rs.getString("cpf"),
+                        rs.getString("nome"),
+                        rs.getInt("total_consultas"));
+            }
+        });
     }
 }

@@ -96,31 +96,6 @@ create table medico(
 	foreign key (fk_medico_cpf_gerente) references medico(cpf)
 );
 
-create table examina(
-	fk_medico_cpf varchar(11),
-	fk_paciente_internado_cpf varchar(11),
-	primary key(fk_medico_cpf, fk_paciente_internado_cpf),
-	foreign key (fk_medico_cpf) references medico(cpf),
-	foreign key (fk_paciente_internado_cpf) references paciente_internado(fk_paciente_cpf)
-);
-
-create table exame_complementar(
-	codigo integer auto_increment primary key,
-	resultados varchar(500) not null,
-	data_realizacao date not null,
-	tipo varchar(100) not null
-);
-
-create table solicita(
-	fk_examina_medico_cpf varchar(11),
-	fk_examina_paciente_internado_cpf varchar(11),
-	fk_exame_complementar_codigo integer,
-	primary key (fk_examina_medico_cpf, fk_examina_paciente_internado_cpf, fk_exame_complementar_codigo),
-	foreign key (fk_examina_medico_cpf) references examina(fk_medico_cpf),
-	foreign key (fk_examina_paciente_internado_cpf) references examina(fk_paciente_internado_cpf),
-	foreign key (fk_exame_complementar_codigo) references exame_complementar(codigo)
-);
-
 create table consulta_urgencia(
 	data_realizacao date not null,
 	fk_registro_urgencia_codigo integer not null,
@@ -206,3 +181,49 @@ INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('34567890123', '3
 INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('34567890123', '21012345678');
 INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('34567890123', '98765432101');
 INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('34567890123', '87654321012');
+
+-- Contando o interno que mais monitora pacientes
+SELECT i.cpf, i.nome, COUNT(m.fk_cpf_paciente) AS total_pacientes
+FROM interno i
+JOIN monitora m ON i.cpf = m.fk_cpf_interno
+GROUP BY i.cpf, i.nome
+ORDER BY total_pacientes DESC
+LIMIT 1;
+
+-- Inserindo pacientes de urgência
+INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('98765432101', 4);
+INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('87654321012', 3);
+INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('76543210123', 2);
+INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('65432101234', 4);
+INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('54321012345', 1);
+INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('43210123456', 0);
+INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('32101234567', 4);
+INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('21012345678', 2);
+
+
+-- Mostrar os pacientes em estado mais grave
+SELECT p.cpf, p.nome, pu.nivel_triagem
+FROM paciente p
+JOIN paciente_urgencia pu ON p.cpf = pu.fk_paciente_cpf
+ORDER BY pu.nivel_triagem DESC
+LIMIT 10;
+
+-- Médico que mais realizou consultas
+SELECT m.cpf, m.nome, 
+       (COALESCE(cu.total_consultas_urgencia, 0) + COALESCE(ci.total_consultas_internado, 0)) AS total_consultas
+FROM medico m
+LEFT JOIN (
+    SELECT fk_medico_cpf, COUNT(*) AS total_consultas_urgencia
+    FROM consulta_urgencia
+    GROUP BY fk_medico_cpf
+) cu ON m.cpf = cu.fk_medico_cpf
+LEFT JOIN (
+    SELECT fk_medico_cpf, COUNT(*) AS total_consultas_internado
+    FROM consulta_internado
+    GROUP BY fk_medico_cpf
+) ci ON m.cpf = ci.fk_medico_cpf
+ORDER BY total_consultas DESC
+LIMIT 1;
+
+select m.nome from consulta_internado ci, medico m
+where m.cpf = ci.fk_medico_cpf;

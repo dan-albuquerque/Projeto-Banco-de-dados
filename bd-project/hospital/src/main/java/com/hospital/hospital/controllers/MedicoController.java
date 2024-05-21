@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.hospital.hospital.repository.MedicoRepository;
+import com.hospital.hospital.models.DTOs.MedicoDTO;
 import com.hospital.hospital.models.elenco.Medico;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,5 +59,10 @@ public class MedicoController {
         medico.setCpf(cpf);
         medicoRepository.updateMedico(medico);
         return medico.toString();
+    }
+
+    @GetMapping("/mais-consultas")
+    public MedicoDTO getTopMedico() {
+        return medicoRepository.findTopMedico();
     }
 }
