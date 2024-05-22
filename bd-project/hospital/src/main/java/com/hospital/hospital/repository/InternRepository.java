@@ -14,7 +14,7 @@ public class InternRepository {
     private JdbcTemplate jdbcTemplate;
     
     public void insertIntern(Interno interno){
-        jdbcTemplate.update("insert into interno(cpf,nome,senha,matricula) values(?, ?, ?, ?)", interno.getCpf(), interno.getNome(), interno.getSenha(), interno.getMatricula());
+        jdbcTemplate.update("insert into interno(cpf,nome,matricula) values(?, ?, ?)", interno.getCpf(), interno.getNome(), interno.getMatricula());
     }
 
     public List<Interno> selectInterns(boolean sortAlphabetically, boolean reverseOrder, boolean sortNumerically) {
@@ -36,16 +36,14 @@ public class InternRepository {
         Interno interno = new Interno();
         interno.setName(rs.getString("nome"));
         interno.setCpf(rs.getString("cpf"));
-        interno.setSenha(rs.getString("senha"));
         interno.setmatricula(rs.getInt("matricula"));
         return interno;
     };
 
    public void updateIntern(String cpf, Interno interno) {
     jdbcTemplate.update(
-        "update interno set nome = ?, senha = ?, matricula = ? where cpf = ?",
+        "update interno set nome = ?, matricula = ? where cpf = ?",
         interno.getNome(),
-        interno.getSenha(),
         interno.getMatricula(),
         cpf 
     );
