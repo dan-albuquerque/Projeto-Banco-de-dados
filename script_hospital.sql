@@ -3,7 +3,6 @@ create database hospital;
 create table interno(
 	cpf varchar(11) primary key,
 	nome varchar(100) not null,
-	senha varchar(20) not null,
 	matricula integer not null unique
 );
 

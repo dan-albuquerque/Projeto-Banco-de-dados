@@ -74,7 +74,7 @@ export async function getConsultasUrgentesByNomePaciente(searchQuery) {
 }
 
 export async function getPatients(searchQuery) {
-    const url = `http://localhost:8080/pacient?searchName=${searchQuery}`;
+    const url = `http://localhost:8080/paciente_geral?searchName=${searchQuery}`;
     console.log(searchQuery, url);
     try {
         const jwtToken = localStorage.getItem('jwtToken');

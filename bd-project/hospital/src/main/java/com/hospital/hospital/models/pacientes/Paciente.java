@@ -17,6 +17,17 @@ public class Paciente {
         this.telefone_pessoal = telefone_pessoal;  
     }
 
+    public Paciente(String nome, String cpf, String cidade, String bairro, String rua, int numero, String telefone_residencial, String telefone_pessoal){
+        this.nome = nome;
+        this.cpf = cpf;
+        this.cidade = cidade;
+        this.bairro = bairro;
+        this.rua = rua;
+        this.numero = numero;
+        this.telefone_residencial = telefone_residencial; 
+        this.telefone_pessoal = telefone_pessoal;  
+    }
+
     public Paciente(){
     }
 
