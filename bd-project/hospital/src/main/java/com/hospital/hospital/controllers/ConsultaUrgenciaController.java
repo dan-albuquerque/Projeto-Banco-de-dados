@@ -31,14 +31,14 @@ public class ConsultaUrgenciaController {
     @PostMapping("/procedure")
     public ResponseEntity<String> addUrgencyConsultation(@RequestBody ConsultaUrgenciaRequest request) {
         try {
-            consultaUrgenciaRepository.addUrgencyConsultation(
+            int regitroCodigo = consultaUrgenciaRepository.addUrgencyConsultation(
                     request.getPacienteCpf(),
                     request.getMedicoCpf(),
                     request.getConduta(),
                     request.getHistoricoDoenca(),
                     request.getExameFisico(),
                     request.getDataConsulta());
-            return new ResponseEntity<>("Consulta de urgência adicionada com sucesso.", HttpStatus.CREATED);
+            return new ResponseEntity<>("Consulta de urgência adicionada com sucesso. Registro Código: " + regitroCodigo, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>("Erro ao adicionar consulta de urgência: " + e.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR);

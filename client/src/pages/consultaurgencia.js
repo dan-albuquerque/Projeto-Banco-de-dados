@@ -45,16 +45,28 @@ export default function ConsultaUrgencia() {
         throw new Error('Falha ao criar consulta de urgência! ' + response.statusText);
       }
 
-      toast.success('Consulta de urgência criada com sucesso!');
+      const responseText = await response.text();
+      const match = responseText.match(/Registro Código: (\d+)/);
+
+      if (match) {
+        const registroCodigo = match[1];
+        codigo = registroCodigo;
+        toast.success(`Consulta de urgência criada com sucesso! Registro Código: ${registroCodigo}`);
+        navigate.push('/registrourgencia');
+      } else {
+        toast.success('Consulta de urgência criada com sucesso!');
+      }
       Cookies.set('paciente_cpf', pacienteCpf, {
         expires: 7,
         secure: true,
         sameSite: 'Strict'
       });
-      setPacienteCpf('');
-      setConduta('');
-      setHistorico('');
-      setExameFisico('');
+      Cookies.set('id_registro', codigo, {
+        expires: 7,
+        secure: true,
+        sameSite: 'Strict'
+      });      
+
       navigate.push('/registrourgencia');
     } catch (error) {
       toast.error(error.message);

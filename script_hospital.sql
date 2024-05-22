@@ -117,6 +117,7 @@ create table consulta_internado(
 	foreign key (fk_paciente_cpf) references paciente(cpf)
 );
 
+-- Procedure para criar consulta urgencia
 DELIMITER $$
 
 CREATE PROCEDURE AddUrgencyConsultation(
@@ -141,6 +142,48 @@ BEGIN
     -- Inserir consulta de urgência associada
     INSERT INTO consulta_urgencia (data_realizacao, fk_registro_urgencia_codigo, fk_medico_cpf, fk_paciente_cpf)
     VALUES (data_consulta, registro_codigo, medico_cpf, paciente_cpf);
+   
+   select registro_codigo;
+END $$
+
+DELIMITER ;
+
+drop procedure AddUrgencyConsultation;
+
+CALL AddUrgencyConsultation(
+    '23456789018', -- CPF do paciente
+    '12345678910', -- CPF do médico
+    'Exame de emergência',
+    'Histórico da doença do paciente',
+    'Exame físico detalhado',
+    '2024-05-21'  -- Data da consulta
+);
+
+-- Procedure para criar consulta internado
+DELIMITER $$
+
+CREATE PROCEDURE AddInternedConsultation(
+    IN paciente_cpf VARCHAR(11),
+    IN medico_cpf VARCHAR(11),
+    IN conduta VARCHAR(50),
+    IN evolucao VARCHAR(500),
+    IN historico_exames VARCHAR(500),
+    IN data_consulta DATE
+)
+BEGIN
+    DECLARE registro_codigo INT;
+
+    -- Inserir um novo registro
+    INSERT INTO registro (conduta) VALUES (conduta);
+    SET registro_codigo = LAST_INSERT_ID();
+
+    -- Inserir registro de internado associado
+    INSERT INTO registro_internado  (fk_registro_codigo, evolucao , historico_exames) 
+    VALUES (registro_codigo, evolucao , historico_exames);
+
+    -- Inserir consulta de internado associada
+    INSERT INTO consulta_internado (data_realizacao, fk_registro_internado_codigo, fk_medico_cpf, fk_paciente_cpf)
+    VALUES (data_consulta, registro_codigo, medico_cpf, paciente_cpf);
 END $$
 
 DELIMITER ;
@@ -151,6 +194,16 @@ CALL AddUrgencyConsultation(
     'Exame de emergência',
     'Histórico da doença do paciente',
     'Exame físico detalhado',
+    '2024-05-21',  -- Data da consulta
+    registro_codigo
+);
+
+call AddInternedConsultation(
+	'12345678907', -- CPF do paciente
+    '12345678910', -- CPF do médico
+    'Exame de emergência',
+    'Evolução do paciente',
+    'Histórico de exames do paciente',
     '2024-05-21'  -- Data da consulta
 );
 
