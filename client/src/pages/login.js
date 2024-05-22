@@ -44,7 +44,7 @@ export default function Login() {
             sameSite: 'Strict'
           });
           setTimeout(() => {
-            router.push('/data');
+            router.push('/home');
           }, 2000);
           return data;
         }),

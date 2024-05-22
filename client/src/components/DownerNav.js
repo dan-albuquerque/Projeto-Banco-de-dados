@@ -15,8 +15,8 @@ export default function DownerNav({ doctors }) {
   }
 
   return (
-    <div className="h-16 flex justify-center items-center mb-2 shadow-above fixed bottom-0 w-full bg-white opacity-80">
-      <div className=" flex gap-16">
+    <div className="h-16 flex justify-center items-center shadow-above fixed bottom-0 w-full bg-white">
+      <div className=" flex gap-16 items-center justify-center mt-4">
         <div className="flex flex-col items-center justify-center">
           <button onClick={() => router.push('/data')} className="w-8 h-8 flex items-center justify-center">
             <img src="/img/database.png" className="w-8 h-8 transition-transform duration-200 hover:scale-125" alt="database icon" />
