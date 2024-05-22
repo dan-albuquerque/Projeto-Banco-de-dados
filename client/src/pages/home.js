@@ -94,60 +94,103 @@ export default function Home({ latestConsultations, doctorsCount, internsCount, 
 
   return (
     <Layout>
-      <div>
-      <div className='px-8 py-3 flex w-full items-center justify-between'>
-        <div className='flex items-center '>
-          <img src  = "img/fullHospital.svg" className='w-40 h-40'></img>
-            <h1 className='text-4xl'>Home</h1>
-        </div>
-            <div className='flex flex-col items-center text-xl'>
-            <img src = "img/medicalteam.svg" className='w-20 h-20'></img>
-            <h1>{doctorsCount.doctorCount}</h1>
-              <h1>Médicos</h1>
-            </div>
-            <div className='flex items-center'>
-              <h1>Em destaque:</h1>
-              <div className='flex flex-col items-center text-xl'>
-                <img src = "img/onlineConsultation.svg" className='w-20 h-20'></img>
-                <h1>{internsCount.internCount}</h1>
-                <h1>Internos</h1>
-              </div>
-              <div  className='flex flex-col items-center text-xl'>
-                <img src = "img/femaledoc.svg" className='w-20 h-20'></img>
-                <h1>Médico #1</h1>
-                <h1>{doctorWithMoreConsultations.nome}</h1>
-              </div>
-            </div>
+      <div className='items-center flex flex-col'>
+  <div className='flex justify-between w-[90%] items-center mt-10 '>
+    <h1 className='text-3xl w-[90%] font-semibold'>Olá, bem vindo de volta!</h1>
+    <div className="flex items-center justify-center">
+        <img src="/img/logo.png" alt="Logo eHospital" className="h-8 mr-2" />
+        <h2 className="text-2xl font-bold text-gray-900">
+          eHospital
+        </h2>
+      </div>
+  </div>
+  <div className='px-6 w-[90%] h-42 rounded-lg bg-gradient-to-r from-blue-200 to-blue-500 flex justify-between mt-6 shadow-lg items-center'>
+    <div className='flex flex-col gap-1 justify-center'>
+      <h1 className='font-semibold  text-lg'>O eHospital lhe ajuda a ver todas as características de seu hospital!</h1>
+      <p className='italic text-grey-100'>Basta acompanhar os dados abaixo!</p>
+    </div>
+    <div className='flex items-center gap-14'>
+      <div className='flex flex-col items-center justify-center'>
+        <h1 className='font-bold text-6xl'>{internedCount.internCount}</h1>
+        <p className='font-semibold'>Internados</p>
+      </div>
+      <div className='flex flex-col items-center justify-center'>
+        <h1 className='font-bold text-6xl'>{urgentCount.urgenciaCount}</h1>
+        <p className='font-semibold'>Casos Urgentes</p>
+      </div>
+      <div className='flex flex-col items-center justify-center'>
+        <h1 className='font-bold text-6xl'>{doctorsCount.doctorCount}</h1>
+        <p className='font-semibold'>Médicos</p>
+      </div>
+    </div>
+    <img src="img/fullHospital.svg" className='w-40 h-40'></img>
+  </div>
+  <div className='w-[90%] mt-10 flex gap-10 h-48'>
+    <div className='w-1/2 px-6 h-full flex items-center justify-between bg-gradient-to-r from-blue-400 to-blue-600 rounded-lg shadow-lg'>
+      <div className='flex flex-col'>
+        <h1 className='font-semibold text-lg text-white'>Médico em destaque no seu hospital</h1>
+        <p className='italic text-grey-100 text-white'>Doutor que mais efetivou consultas</p>
+      </div>
+      <div className='flex flex-col items-center justify-center'>
+      <div className='h-32 w-32 rounded-full bg-blue-200 border-customBlue border-4'>
+      <img className='h-full w-full object-cover rounded-full' src='img/femaledoc.svg' alt='Foto do médico' />
+    </div>
+        <h1 className='font-bold text-white'>{doctorWithMoreConsultations.nome}</h1>
+      </div>
+    </div>
+    <div className='w-1/2 px-6 h-full flex items-center justify-between bg-gradient-to-r from-orange-300 to-orange-400 rounded-lg shadow-lg'>
+      <div className='flex flex-col'>
+        <h1 className='font-semibold text-lg text-white'>Interno em destaque no seu hospital</h1>
+        <p className='italic text-grey-100 text-white'>Interno que mais monitora pacientes</p>
+      </div>
+      <div className='flex flex-col items-center justify-center'>
+      <div className='h-32 w-32 rounded-full bg-blue-200 border-customBlue border-4'>
+      <img className='h-full w-full object-cover rounded-full' src='img/internado.svg' alt='Foto do médico' />
+    </div>
+        <h1 className='font-bold text-white'>{internStar.nome}</h1>
+      </div>
+    </div>
+  </div>
+  <div className='flex w-[90%] items-center gap-10 mt-10'>
+    <div className='h-64 bg-gradient-to-r from-green-100 to-green-300 w-1/3 rounded-lg flex-col items-center shadow-lg overflow-auto'>
+      <div className='w-full h-20 px-6 flex justify-between items-center shadow-lg bg-gradient-to-r from-green-200 to-green-400'>
+        <h1 className='font-bold text-lg'>Pacientes mais graves</h1>
+        <img src="img/importantPatient.svg" className='w-14 h-14'></img>
+      </div>
+      <ul className='w-full px-6 flex justify-between mt-6 items-center'>
+        {patientsMoreUrgent && patientsMoreUrgent.map((patient, index) => (
+          <li key={index}>
+            <p>• {patient.nome}</p>
 
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div className='h-64 bg-gradient-to-r from-green-200 to-green-300 w-1/3 rounded-lg shadow-lg overflow-auto flex flex-col items-center'>
+      <div className='w-full h-20 px-6 flex justify-between items-center shadow-lg bg-gradient-to-r from-green-200 to-green-400'>
+        <h1 className='font-bold text-lg'>Consultas por Especialidade</h1>
+        <img src="img/medicalteam.svg" className='w-14 h-14'></img>
       </div>
-        <div>
-          <h1>Medico com mais consultas: {doctorWithMoreConsultations.nome}</h1>
-          <h1>Interno destaque: {internStar.nome}</h1>
-          <h1>Pacientes mais graves: </h1>
-          <ul>
-            {patientsMoreUrgent && patientsMoreUrgent.map((patient, index) => (
-              <li key={index}>
-                <p>{patient.nome}</p>
-                <p>{patient.nivel_triagem}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <p>Consultas Recentes:</p>
-        <ul>
-          {latestConsultations.map((consultation, index) => (
-            <li key={index}>
-              <p>{consultation.type}</p>
-              <p>{consultation.date}</p>
-              <p>{consultation.doctor}</p>
-              <p>{consultation.patient}</p>
-            </li>
-          ))}
-        </ul>
-        <p>Paicentes Internados {internedCount.internCount}</p>
-        <p>Pacientes Urgentes {urgentCount.urgenciaCount}</p>
+    </div>
+    <div className='h-64 bg-gradient-to-r from-green-200 to-green-300 w-1/3 rounded-lg shadow-lg overflow-auto flex flex-col items-center'>
+      <div className='w-full h-20 px-6 flex justify-between items-center shadow-lg bg-gradient-to-r from-green-200 to-green-400'>
+        <h1 className='font-bold text-lg '>Consultas Recentes</h1>
+        <img src="img/onlineconsultation.svg" className='w-14 h-14'></img>
       </div>
-      <DownerNav />
+      <ul className='w-full px-6 flex justify-between mt-6 items-center'>
+        {latestConsultations.map((consultation, index) => (
+          <li key={index} className='rounded-lg px-4 py-2 shadow-lg border border-black'>
+            <p className=''>{consultation.type}</p>
+            <p className=''>{consultation.date}</p>
+            <p className=''>{consultation.doctor}</p>
+            <p className=''>{consultation.patient}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</div>
+<DownerNav />
     </Layout>
   );
 }
