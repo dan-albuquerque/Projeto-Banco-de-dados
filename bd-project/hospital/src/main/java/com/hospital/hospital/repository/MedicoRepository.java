@@ -61,9 +61,10 @@ public class MedicoRepository {
     };
 
     public void updateMedico(Medico medico) {
+        String encodedPassword = new BCryptPasswordEncoder().encode(medico.getSenha());
         jdbcTemplate.update(
                 "update medico set rqe = ?, nome = ?, senha = ?, especialidade = ?, crm = ?, fk_medico_cpf_gerente = ? where cpf = ?",
-                medico.getRqe(), medico.getNome(), medico.getSenha(), medico.getEspecialidade(), medico.getCrm(),
+                medico.getRqe(), medico.getNome(), encodedPassword, medico.getEspecialidade(), medico.getCrm(),
                 medico.getMedicoCpfGerente(), medico.getCpf());
     }
 

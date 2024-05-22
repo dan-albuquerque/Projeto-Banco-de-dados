@@ -184,6 +184,8 @@ BEGIN
     -- Inserir consulta de internado associada
     INSERT INTO consulta_internado (data_realizacao, fk_registro_internado_codigo, fk_medico_cpf, fk_paciente_cpf)
     VALUES (data_consulta, registro_codigo, medico_cpf, paciente_cpf);
+   
+   	select registro_codigo;
 END $$
 
 DELIMITER ;
