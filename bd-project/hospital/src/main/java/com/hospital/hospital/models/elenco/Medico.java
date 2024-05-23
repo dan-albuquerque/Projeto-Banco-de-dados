@@ -7,6 +7,7 @@ public class Medico {
     public String senha;
     public String especialidade;
     public String crm;
+    public boolean ativo;
     public String fk_medico_cpf_gerente;
 
     public Medico(String cpf, int rqe, String nome, String senha, String especialidade, String crm,
@@ -17,6 +18,7 @@ public class Medico {
         this.senha = senha;
         this.especialidade = especialidade;
         this.crm = crm;
+        this.ativo = true;
         this.fk_medico_cpf_gerente = fk_medico_cpf_gerente;
     }
 
@@ -87,6 +89,16 @@ public class Medico {
 
     public void setMedicoCpfGerente(String fk_medico_cpf_gerente) {
         this.fk_medico_cpf_gerente = fk_medico_cpf_gerente;
+
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
 
     }
 }

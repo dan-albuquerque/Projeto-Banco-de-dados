@@ -52,6 +52,7 @@ public class MedicoRepository {
         medico.setSenha(rs.getString("senha"));
         medico.setEspecialidade(rs.getString("especialidade"));
         medico.setCrm(rs.getString("crm"));
+        medico.setAtivo(rs.getBoolean("ativo"));
         if (rs.getString("fk_medico_cpf_gerente") != null) {
             medico.setMedicoCpfGerente(rs.getString("fk_medico_cpf_gerente"));
         } else {
@@ -104,5 +105,13 @@ public class MedicoRepository {
                         rs.getInt("total_consultas"));
             }
         });
+    }
+
+    public void fireDoctor(String cpf) {
+        jdbcTemplate.update("UPDATE medico SET ativo = false WHERE cpf = ?", cpf);
+    }
+
+    public void hireDoctor(String cpf) {
+        jdbcTemplate.update("UPDATE medico SET ativo = true WHERE cpf = ?", cpf);
     }
 }

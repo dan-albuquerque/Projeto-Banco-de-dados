@@ -92,6 +92,7 @@ create table medico(
 	senha varchar (200) not null,
 	crm varchar(10) not null,
 	fk_medico_cpf_gerente varchar(11),
+	ativo BOOLEAN DEFAULT TRUE NOT NULL,
 	foreign key (fk_medico_cpf_gerente) references medico(cpf)
 );
 
@@ -331,9 +332,15 @@ LIMIT 1;
 select m.nome from consulta_internado ci, medico m
 where m.cpf = ci.fk_medico_cpf;
 
-INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, fk_medico_cpf_gerente) VALUES
-('12345678911', 12345, 'Dr. João Silva', 'Cardiologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM12345', NULL),
-('23456789012', 23456, 'Dra. Maria Souza', 'Pediatria', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM23456', '12345678911'),
-('34567890123', 34567, 'Dr. Pedro Oliveira', 'Ortopedia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM34567', '12345678911'),
-('45678901234', 45678, 'Dra. Ana Santos', 'Dermatologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM45678', '23456789012'),
-('56789012345', 56789, 'Dr. Lucas Lima', 'Ginecologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM56789', '23456789012');
+select * from medico;
+
+INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, ativo, fk_medico_cpf_gerente) VALUES
+('12345678911', 12345, 'Dr. João Silva', 'Cardiologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM12345', true, NULL),
+('23456789012', 23456, 'Dra. Maria Souza', 'Pediatria', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM23456', true,'12345678911'),
+('34567890123', 34567, 'Dr. Pedro Oliveira', 'Ortopedia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM34567', true, '12345678911'),
+('45678901234', 45678, 'Dra. Ana Santos', 'Dermatologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM45678', true, '23456789012'),
+('56789012345', 56789, 'Dr. Lucas Lima', 'Ginecologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM56789', true, '23456789012');
+
+
+INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, ativo, fk_medico_cpf_gerente) VALUES
+('12345678913', 12345, 'Dr. João Campos', 'Cardiologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM12345', false, NULL);

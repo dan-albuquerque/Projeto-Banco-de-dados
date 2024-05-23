@@ -65,4 +65,16 @@ public class MedicoController {
     public MedicoDTO getTopMedico() {
         return medicoRepository.findTopMedico();
     }
+
+    @PutMapping("/desativar/{cpf}")
+    public String desativarMedico(@PathVariable String cpf) {
+        medicoRepository.fireDoctor(cpf);
+        return "Medico desativado!";
+    }
+
+    @PutMapping("/ativar/{cpf}")
+    public String ativarMedico(@PathVariable String cpf) {
+        medicoRepository.hireDoctor(cpf);
+        return "Medico ativado!";
+    }
 }
