@@ -193,7 +193,6 @@ export default function InternTableView({ interns }) {
                           Preencha os campos abaixo!
                           <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6 w-full items-center justify-center">
                             <input type="text" name="nome" onChange={handleChange} placeholder="Nome" className="w-full h-10 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
-                            <input type="text" name="cpf" onChange={handleChange} placeholder="CPF" className="w-full h-10 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
                             <input type="text" name="matricula" onChange={handleChange} placeholder="Matricula" className="w-full h-10 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
                             <button className="bg-customBlue text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full h-10 text-medium transition-transform duration-200 hover:scale-105">Concluir</button>
                           </form>
