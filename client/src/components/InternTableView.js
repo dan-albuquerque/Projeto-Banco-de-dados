@@ -34,7 +34,6 @@ export default function InternTableView({ interns }) {
   const [intern, setIntern] = useState(
     {
       nome: null,
-      cpf: null,
       matricula: null,
     }
   );

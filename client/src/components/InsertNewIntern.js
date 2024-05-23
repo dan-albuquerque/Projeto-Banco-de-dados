@@ -33,6 +33,7 @@ export default function InsertNewIntern() {
     const success = await postNewIntern(intern);
     if (success) {
       toast.success('Interno inserido com sucesso!');
+      window.location.reload()
     } else {
       toast.error('Erro ao inserir interno.');
     }

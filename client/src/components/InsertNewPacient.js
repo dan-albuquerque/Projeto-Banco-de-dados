@@ -119,6 +119,7 @@ export default function InsertNewPacient() {
     }
     if (success) {
       toast.success('Paciente inserido com sucesso!');
+      window.location.reload();
     } else {
       toast.error('Erro ao inserir paciente.');
     }

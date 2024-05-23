@@ -68,6 +68,7 @@ export default function CriarMedico() {
       });
       if (response.ok) {
         toast.success('Médico inserido com sucesso!');
+        window.location.reload();
       } else {
         throw new Error('Falha ao inserir médico!');
       }

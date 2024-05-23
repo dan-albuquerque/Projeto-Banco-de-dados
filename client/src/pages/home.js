@@ -22,10 +22,11 @@ export const getServerSideProps = async (context) => {
     patientsMoreUrgent: `http://localhost:8080/pacienturgencia/mais-graves`,
     internedCount: `http://localhost:8080/dashboard/internados/count`,
     urgentCount: `http://localhost:8080/dashboard/urgencia/count`,
+    specialityDemand: `http://localhost:8080/dashboard/speciality-demand/demand`
   };
 
   try {
-    const [latestConsultationsResponse, doctorsCountResponse, internsCountResponse, doctorWithMoreConsultationsResponse, internStarResponse, patientsMoreUrgentResponse, internedCountResponse, urgentCountResponse] = await Promise.all([
+    const [latestConsultationsResponse, doctorsCountResponse, internsCountResponse, doctorWithMoreConsultationsResponse, internStarResponse, patientsMoreUrgentResponse, internedCountResponse, urgentCountResponse, specialityDemandResponse] = await Promise.all([
       fetchWithAuth(urls.latestConsultations),
       fetchWithAuth(urls.doctorsCount),
       fetchWithAuth(urls.internsCount),
@@ -33,10 +34,11 @@ export const getServerSideProps = async (context) => {
       fetchWithAuth(urls.internStar),
       fetchWithAuth(urls.patientsMoreUrgent),
       fetchWithAuth(urls.internedCount),
-      fetchWithAuth(urls.urgentCount)
+      fetchWithAuth(urls.urgentCount),
+      fetchWithAuth(urls.specialityDemand)
     ]);
 
-    const [latestConsultations, doctorsCount, internsCount, doctorWithMoreConsultations, internStar, patientsMoreUrgent, internedCount, urgentCount] = await Promise.all([
+    const [latestConsultations, doctorsCount, internsCount, doctorWithMoreConsultations, internStar, patientsMoreUrgent, internedCount, urgentCount, specialityDemand] = await Promise.all([
       latestConsultationsResponse.json(),
       doctorsCountResponse.json(),
       internsCountResponse.json(),
@@ -44,10 +46,11 @@ export const getServerSideProps = async (context) => {
       internStarResponse.json(),
       patientsMoreUrgentResponse.json(),
       internedCountResponse.json(),
-      urgentCountResponse.json()
+      urgentCountResponse.json(),
+      specialityDemandResponse.json()
     ]);
 
-    if (!doctorsCount || !internsCount || !latestConsultations || !doctorWithMoreConsultations || !internStar || !patientsMoreUrgent || !internedCount || !urgentCount) {
+    if (!doctorsCount || !internsCount || !latestConsultations || !doctorWithMoreConsultations || !internStar || !patientsMoreUrgent || !internedCount || !urgentCount || !specialityDemand) {
       return {
         props: {
           latestConsultations: [],
@@ -57,7 +60,8 @@ export const getServerSideProps = async (context) => {
           urgentCount: 0,
           doctorWithMoreConsultations: {},
           internStar: {},
-          patientsMoreUrgent: []
+          patientsMoreUrgent: [],
+          specialityDemand: []
         }
       };
     }
@@ -70,7 +74,8 @@ export const getServerSideProps = async (context) => {
         internStar,
         patientsMoreUrgent,
         internedCount,
-        urgentCount
+        urgentCount,
+        specialityDemand
       },
     };
   } catch (error) {
@@ -84,13 +89,14 @@ export const getServerSideProps = async (context) => {
         urgentCount: 0,
         doctorWithMoreConsultations: {},
         internStar: {},
-        patientsMoreUrgent: []
+        patientsMoreUrgent: [],
+        specialityDemand: []
       }
     };
   }
 };
 
-export default function Home({ latestConsultations, doctorsCount, internsCount, doctorWithMoreConsultations, internStar, patientsMoreUrgent, internedCount, urgentCount}) {
+export default function Home({ latestConsultations, doctorsCount, internsCount, doctorWithMoreConsultations, internStar, patientsMoreUrgent, internedCount, urgentCount, specialityDemand}) {
 
   return (
     <Layout>
@@ -109,18 +115,22 @@ export default function Home({ latestConsultations, doctorsCount, internsCount, 
       <h1 className='font-semibold  text-lg'>O eHospital lhe ajuda a ver todas as características de seu hospital!</h1>
       <p className='italic text-grey-100'>Basta acompanhar os dados abaixo!</p>
     </div>
-    <div className='flex items-center gap-14'>
+    <div className='flex items-center gap-7'>
       <div className='flex flex-col items-center justify-center'>
-        <h1 className='font-bold text-6xl'>{internedCount.internCount}</h1>
-        <p className='font-semibold'>Internados</p>
+        <h1 className='font-bold text-5xl'>{internedCount.internCount}</h1>
+        <p className='font-semibold text-sm'>Internados</p>
       </div>
       <div className='flex flex-col items-center justify-center'>
-        <h1 className='font-bold text-6xl'>{urgentCount.urgenciaCount}</h1>
-        <p className='font-semibold'>Casos Urgentes</p>
+        <h1 className='font-bold text-5xl'>{urgentCount.urgenciaCount}</h1>
+        <p className='font-semibold text-sm'>Casos Urgentes</p>
       </div>
       <div className='flex flex-col items-center justify-center'>
-        <h1 className='font-bold text-6xl'>{doctorsCount.doctorCount}</h1>
-        <p className='font-semibold'>Médicos</p>
+        <h1 className='font-bold text-5xl'>{doctorsCount.doctorCount}</h1>
+        <p className='font-semibold text-sm'>Médicos</p>
+      </div>
+      <div className='flex flex-col items-center justify-center'>
+        <h1 className='font-bold text-5xl'>{internsCount.internCount}</h1>
+        <p className='font-semibold text-sm'>Internos</p>
       </div>
     </div>
     <img src="img/fullHospital.svg" className='w-40 h-40'></img>
@@ -151,13 +161,13 @@ export default function Home({ latestConsultations, doctorsCount, internsCount, 
       </div>
     </div>
   </div>
-  <div className='flex w-[90%] items-center gap-10 mt-10'>
+  <div className='flex w-[90%] items-center gap-10 mt-10 mb-20'>
     <div className='h-64 bg-gradient-to-r from-green-100 to-green-300 w-1/3 rounded-lg flex-col items-center shadow-lg overflow-auto'>
       <div className='w-full h-20 px-6 flex justify-between items-center shadow-lg bg-gradient-to-r from-green-200 to-green-400'>
         <h1 className='font-bold text-lg'>Pacientes mais graves</h1>
         <img src="img/importantPatient.svg" className='w-14 h-14'></img>
       </div>
-      <ul className='w-full px-6 flex justify-between mt-6 items-center'>
+      <ul className='w-full px-6 flex justify-between mt-6 flex-col'>
         {patientsMoreUrgent && patientsMoreUrgent.map((patient, index) => (
           <li key={index}>
             <p>• {patient.nome}</p>
@@ -168,16 +178,23 @@ export default function Home({ latestConsultations, doctorsCount, internsCount, 
     </div>
     <div className='h-64 bg-gradient-to-r from-green-200 to-green-300 w-1/3 rounded-lg shadow-lg overflow-auto flex flex-col items-center'>
       <div className='w-full h-20 px-6 flex justify-between items-center shadow-lg bg-gradient-to-r from-green-200 to-green-400'>
-        <h1 className='font-bold text-lg'>Consultas por Especialidade</h1>
+        <h1 className='font-bold text-lg'>Especialidades em alta</h1>
         <img src="img/medicalteam.svg" className='w-14 h-14'></img>
       </div>
+      <ul className='w-full px-6 flex justify-between mt-6 flex-col'>
+        {specialityDemand && specialityDemand.map((speciality, index) => (
+          <li key={index}>
+            <p>• {speciality.speciality} | {speciality.totalConsultations}</p>
+          </li>
+        ))}
+      </ul>
     </div>
     <div className='h-64 bg-gradient-to-r from-green-200 to-green-300 w-1/3 rounded-lg shadow-lg overflow-auto flex flex-col items-center'>
       <div className='w-full h-20 px-6 flex justify-between items-center shadow-lg bg-gradient-to-r from-green-200 to-green-400'>
         <h1 className='font-bold text-lg '>Consultas Recentes</h1>
         <img src="img/onlineconsultation.svg" className='w-14 h-14'></img>
       </div>
-      <ul className='w-full px-6 flex justify-between mt-6 items-center'>
+      <ul className='w-full px-6 flex justify-between mt-6 flex-col'>
         {latestConsultations.map((consultation, index) => (
           <li key={index} className='rounded-lg px-4 py-2 shadow-lg border border-black'>
             <p className=''>{consultation.type}</p>
