@@ -10,7 +10,7 @@ public class QuantidadeInternadosController {
     private QuantidadeInternadosRepository internadosRepository;
 
     @GetMapping("dashboard/internados/count")
-    public QuantidadeInternadosDTO getInternCount() {
-        return internadosRepository.getInternCount();
+    public QuantidadeInternadosDTO getInternadoCount() {
+        return internadosRepository.getInternadoCount();
     }
 }

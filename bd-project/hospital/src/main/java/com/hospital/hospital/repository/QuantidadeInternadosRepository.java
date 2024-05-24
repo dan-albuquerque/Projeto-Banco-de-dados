@@ -9,12 +9,12 @@ public class QuantidadeInternadosRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     
-    public QuantidadeInternadosDTO getInternCount() {
-        String sql = "SELECT COUNT(*) AS internCount FROM interno";
+    public QuantidadeInternadosDTO getInternadoCount() {
+        String sql = "SELECT COUNT(*) AS internadoCount FROM paciente_internado";
         System.out.println(sql);
         
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> new QuantidadeInternadosDTO(
-                rs.getInt("internCount")));
+                rs.getInt("internadoCount")));
     }
 
     

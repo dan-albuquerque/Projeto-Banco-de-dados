@@ -1,18 +1,18 @@
 package com.hospital.hospital.models.DTOs;
 
 public class QuantidadeInternadosDTO {
-    private int internCount;
+    private int internadoCount;
 
     public QuantidadeInternadosDTO(int internCount) {
-        this.internCount = internCount;
+        this.internadoCount = internCount;
     }
 
-    public int getInternCount() {
-        return internCount;
+    public int getInternadoCount() {
+        return internadoCount;
     }
 
-    public void setInternCount(int internCount) {
-        this.internCount = internCount;
+    public void setInternadoCount(int internCount) {
+        this.internadoCount = internCount;
     }
     
 }

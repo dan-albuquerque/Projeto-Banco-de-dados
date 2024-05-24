@@ -123,7 +123,7 @@ export default function Home({ latestConsultations, doctorsCount, internsCount, 
     </div>
     <div className='flex items-center gap-7'>
       <div className='flex flex-col items-center justify-center'>
-        <h1 className='font-bold text-5xl'>{internedCount.internCount}</h1>
+        <h1 className='font-bold text-5xl'>{internedCount.internadoCount}</h1>
         <p className='font-semibold text-sm'>Internados</p>
       </div>
       <div className='flex flex-col items-center justify-center'>
