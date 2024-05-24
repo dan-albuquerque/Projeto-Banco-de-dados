@@ -22,11 +22,12 @@ export const getServerSideProps = async (context) => {
     patientsMoreUrgent: `http://localhost:8080/pacienturgencia/mais-graves`,
     internedCount: `http://localhost:8080/dashboard/internados/count`,
     urgentCount: `http://localhost:8080/dashboard/urgencia/count`,
-    specialityDemand: `http://localhost:8080/dashboard/speciality-demand/demand`
+    specialityDemand: `http://localhost:8080/dashboard/speciality-demand/demand`,
+    avgConsultas: `http://localhost:8080//dashboard/media-consultas`
   };
 
   try {
-    const [latestConsultationsResponse, doctorsCountResponse, internsCountResponse, doctorWithMoreConsultationsResponse, internStarResponse, patientsMoreUrgentResponse, internedCountResponse, urgentCountResponse, specialityDemandResponse] = await Promise.all([
+    const [latestConsultationsResponse, doctorsCountResponse, internsCountResponse, doctorWithMoreConsultationsResponse, internStarResponse, patientsMoreUrgentResponse, internedCountResponse, urgentCountResponse, specialityDemandResponse, avgConsultasResponse] = await Promise.all([
       fetchWithAuth(urls.latestConsultations),
       fetchWithAuth(urls.doctorsCount),
       fetchWithAuth(urls.internsCount),
@@ -35,10 +36,11 @@ export const getServerSideProps = async (context) => {
       fetchWithAuth(urls.patientsMoreUrgent),
       fetchWithAuth(urls.internedCount),
       fetchWithAuth(urls.urgentCount),
-      fetchWithAuth(urls.specialityDemand)
+      fetchWithAuth(urls.specialityDemand),
+      fetchWithAuth(urls.avgConsultas)
     ]);
 
-    const [latestConsultations, doctorsCount, internsCount, doctorWithMoreConsultations, internStar, patientsMoreUrgent, internedCount, urgentCount, specialityDemand] = await Promise.all([
+    const [latestConsultations, doctorsCount, internsCount, doctorWithMoreConsultations, internStar, patientsMoreUrgent, internedCount, urgentCount, specialityDemand, avgConsultas] = await Promise.all([
       latestConsultationsResponse.json(),
       doctorsCountResponse.json(),
       internsCountResponse.json(),
@@ -47,10 +49,11 @@ export const getServerSideProps = async (context) => {
       patientsMoreUrgentResponse.json(),
       internedCountResponse.json(),
       urgentCountResponse.json(),
-      specialityDemandResponse.json()
+      specialityDemandResponse.json(),
+      avgConsultasResponse.json()
     ]);
 
-    if (!doctorsCount || !internsCount || !latestConsultations || !doctorWithMoreConsultations || !internStar || !patientsMoreUrgent || !internedCount || !urgentCount || !specialityDemand) {
+    if (!doctorsCount || !internsCount || !latestConsultations || !doctorWithMoreConsultations || !internStar || !patientsMoreUrgent || !internedCount || !urgentCount || !specialityDemand || !avgConsultas) {
       return {
         props: {
           latestConsultations: [],
@@ -61,7 +64,8 @@ export const getServerSideProps = async (context) => {
           doctorWithMoreConsultations: {},
           internStar: {},
           patientsMoreUrgent: [],
-          specialityDemand: []
+          specialityDemand: [],
+          avgConsultas: 0
         }
       };
     }
@@ -75,7 +79,8 @@ export const getServerSideProps = async (context) => {
         patientsMoreUrgent,
         internedCount,
         urgentCount,
-        specialityDemand
+        specialityDemand,
+        avgConsultas
       },
     };
   } catch (error) {
@@ -90,13 +95,14 @@ export const getServerSideProps = async (context) => {
         doctorWithMoreConsultations: {},
         internStar: {},
         patientsMoreUrgent: [],
-        specialityDemand: []
+        specialityDemand: [],
+        avgConsultas: 0
       }
     };
   }
 };
 
-export default function Home({ latestConsultations, doctorsCount, internsCount, doctorWithMoreConsultations, internStar, patientsMoreUrgent, internedCount, urgentCount, specialityDemand}) {
+export default function Home({ latestConsultations, doctorsCount, internsCount, doctorWithMoreConsultations, internStar, patientsMoreUrgent, internedCount, urgentCount, specialityDemand, avgConsultas}) {
 
   return (
     <Layout>
@@ -113,7 +119,7 @@ export default function Home({ latestConsultations, doctorsCount, internsCount, 
   <div className='px-6 w-[90%] h-42 rounded-lg bg-gradient-to-r from-blue-200 to-blue-500 flex justify-between mt-6 shadow-lg items-center'>
     <div className='flex flex-col gap-1 justify-center'>
       <h1 className='font-semibold  text-lg'>O eHospital lhe ajuda a ver todas as características de seu hospital!</h1>
-      <p className='italic text-grey-100'>Basta acompanhar os dados abaixo!</p>
+      <p className='italic text-grey-100'>A média de consultas do seu hospital é </p>
     </div>
     <div className='flex items-center gap-7'>
       <div className='flex flex-col items-center justify-center'>
@@ -132,6 +138,7 @@ export default function Home({ latestConsultations, doctorsCount, internsCount, 
         <h1 className='font-bold text-5xl'>{internsCount.internCount}</h1>
         <p className='font-semibold text-sm'>Internos</p>
       </div>
+
     </div>
     <img src="img/fullHospital.svg" className='w-40 h-40'></img>
   </div>

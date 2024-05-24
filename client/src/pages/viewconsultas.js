@@ -4,6 +4,7 @@ import DownerNav from '@/components/DownerNav';
 import ConsultaUrgenciaTableView from '@/components/ConsultaUrgenciaTableView';
 import ConsultaInternadoTableView from '@/components/ConsultaInternadoTableView';
 import cookie from 'cookie';
+import { Layout } from '@/app/layout';
 
 export async function getServerSideProps(context) {
   const { req, res } = context;
@@ -138,7 +139,7 @@ export default function ViewConsultas({ consultationUrgent, consultatioHospitali
   };
 
   return (
-    <>
+    <Layout>
       <UppernavConsultas
         swapUrgent={handleChooseUrgent}
         swapHospitalized={handleChooseHospitalized}
@@ -151,6 +152,6 @@ export default function ViewConsultas({ consultationUrgent, consultatioHospitali
         {renderTable()}
       </div>
       <DownerNav />
-    </>
+    </Layout>
   );
 }

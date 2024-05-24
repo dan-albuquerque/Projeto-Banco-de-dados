@@ -228,7 +228,7 @@ export default function DoctorsTableView({ doctors }) {
   return (
     <>
       <Toaster />
-      <div className="container mx-auto mt-8 flex items-center justify-center">
+      <div className="container mx-auto mt-8 flex items-center justify-center gap-4">
         <table className="w-5/6 table-auto border-collapse border border-gray-300 ml-3">
           <thead>
             <tr>
@@ -236,7 +236,6 @@ export default function DoctorsTableView({ doctors }) {
               <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-left text-sm">CPF</th>
               <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-left text-sm">RQE</th>
               <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-left text-sm">CRM</th>
-              <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-left text-sm">Status</th>
               <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-left text-sm">Médico Gerente</th>
               <th className="border-b-2 border-gray-300 px-5 py-2 text-left text-sm">Ações</th>
             </tr>
@@ -248,9 +247,7 @@ export default function DoctorsTableView({ doctors }) {
                 <td className="border-b border-gray-300 border-r px-5 py-2 text-left text-sm">{doctor.cpf}</td>
                 <td className="border-b border-gray-300 border-r px-5 py-2 text-left text-sm">{doctor.rqe}</td>
                 <td className="border-b border-gray-300 border-r px-5 py-2 text-left text-sm">{doctor.crm}</td>
-                <td className="border-b border-gray-300 border-r px-5 py-2 text-center">
-                  <img src={doctor.ativo ? "/img/active.svg" : "/img/deactive.svg"} className="w-6 h-6 mx-auto"  alt={doctor.ativo ? "Ativo" : "Inativo"} />
-                </td>
+                
                 <td className="border-b border-gray-300 border-r px-5 py-2 text-left text-sm">{doctor.fk_medico_cpf_gerente}</td>
                 <td className="flex gap-2 items-start justify-start border-b border-gray-300 border-r px-5 py-2 ">
                   <HoverCard>
@@ -296,7 +293,7 @@ export default function DoctorsTableView({ doctors }) {
 
                   {canEditOrDelete(doctor) && (doctor.ativo ? (
                     <AlertDialog>
-                      <AlertDialogTrigger><img onClick={() => handleEditClick(doctor.cpf)} src="/img/firedoc.svg" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
+                      <AlertDialogTrigger><img onClick={() => handleEditClick(doctor.cpf)} src="/img/redcancel.svg" className="w-8 h-8 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
                           <AlertDialogTitle>Desativar médico?</AlertDialogTitle>
@@ -311,7 +308,7 @@ export default function DoctorsTableView({ doctors }) {
                     </AlertDialog>
                   ) : (
                     <AlertDialog>
-                      <AlertDialogTrigger><img onClick={() => handleEditClick(doctor.cpf)} src="/img/hiredoc.svg" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
+                      <AlertDialogTrigger><img onClick={() => handleEditClick(doctor.cpf)} src="/img/plus.svg" className="w-8 w-8 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
                           <AlertDialogTitle>Ativar médico?</AlertDialogTitle>
@@ -332,6 +329,18 @@ export default function DoctorsTableView({ doctors }) {
             ))}
           </tbody>
         </table>
+        <ul className="mt-7">
+         {doctors && doctors.map((doctor) => (
+          <li key={doctor.cpf}>
+                  <div className="mt-1 flex gap-3 items-center">
+                  <p className={`text-4xl ${doctor.ativo ? "text-green-500" : "text-red-500"}`} style={{ textShadow: doctor.ativo ? '0 0 15px green, 0 0 20px green' : '0 0 15px green, 0 0 20px green' }}>•</p>
+
+                    <p className="text-xs">{doctor.ativo ? "Ativo" : "Inativo"}</p>
+                  </div>
+          </li>
+         ))}
+        </ul>
+
       </div>
     </>
 

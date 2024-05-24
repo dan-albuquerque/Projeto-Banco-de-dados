@@ -1,7 +1,9 @@
 import React from 'react';
 import DownerNav from '@/components/DownerNav';
 import MonitoriasTableView from '@/components/MonitoriasTableView';
-
+import UpperNavConsultas from '@/components/UpperNavConsultas';
+import UpperNavMonitorias from '@/components/UpperNavMonitorias';
+import { Layout } from '@/app/layout';
 export async function getServerSideProps() {
   const urls = {
     monitorias: 'http://localhost:8080/monitora',
@@ -46,11 +48,12 @@ export default function ViewMonitorias({ monitorias }) {
   };
 
   return (
-    <>
+    <Layout>
+      <UpperNavMonitorias />
       <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '70vh' }}>
         {renderTable()}
       </div>
       <DownerNav />
-    </>
+    </Layout>
   );
 }
