@@ -150,15 +150,16 @@ export default function PatientTableView({ patients }) {
   };
 
   const TrytoGetInterned = (pacient) => {
-
-    if (pacient.sala === -1) {
+    if (pacient.sala !== -1) {
       setIsInterned(true);
       setIsUrgent(false);
-      console.log("O paciente não é internado nem de urgência. setIsUrgent e setIsInterned estão como false");
-    } else {
+      console.log("O paciente  é internado.");
+    } else if (pacient.nivel_triagem !== -1){
       setIsInterned(false);
       setIsUrgent(true);
-      console.log("O paciente não é internado nem de urgência. setIsUrgent e setIsInterned estão como false");
+      console.log("O paciente é de urgência.");
+    }else{
+      console.log("O paciente não é internado nem urgente, algo esta errado.");
     }
   };
 
@@ -295,6 +296,7 @@ export default function PatientTableView({ patients }) {
   };
 
   const deletePatient = async (patient) => {
+    console.log("Patient to be deleted: ", patient.cpf);
     const jwtToken = localStorage.getItem('jwtToken');
     let deleteUrl;
     if (patient.sala !== -1) {
@@ -389,9 +391,9 @@ export default function PatientTableView({ patients }) {
                       </SheetHeader>
                     </SheetContent>
                   </Sheet>
-
+                  {((patient.sala !== -1) || (patient.nivel_triagem !== -1)) &&
                   <AlertDialog>
-                    <AlertDialogTrigger onClick={() => handleDeleteClick(patient.cpf)}><img src="/img/Delete.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
+                    <AlertDialogTrigger onClick={() => handleDeleteClick(patient)}><img src="/img/Delete.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
                         <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
@@ -405,7 +407,7 @@ export default function PatientTableView({ patients }) {
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
-
+                  }
                   {patient.nivel_triagem !== -1 && (
                     <AlertDialog>
                       <AlertDialogTrigger><img src="/img/intern_patient.svg" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
