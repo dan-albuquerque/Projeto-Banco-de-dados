@@ -33,7 +33,7 @@ export default function PatientTableView({ patients }) {
   const [isInterned, setIsInterned] = useState(false);
   const [isUrgent, setIsUrgent] = useState(false);
   const [hoverContent, setHoverContent] = useState(null);
-
+  const [roomNumber, setRoomNumber] = useState(null);
 
   const [patient, setPatient] = useState(
     {
@@ -164,6 +164,7 @@ export default function PatientTableView({ patients }) {
 
   const handleHospitalize = async (cpf, sala) => {
     const jwtToken = localStorage.getItem('jwtToken');
+    console.log("numero da sala: ", roomNumber);
     try {
       const response = await fetch(`http://localhost:8080/pacienturgencia/${cpf}`, {
         method: 'DELETE',
@@ -180,7 +181,7 @@ export default function PatientTableView({ patients }) {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${jwtToken}`
             },
-            body: JSON.stringify({ fk_paciente_cpf: cpf, sala: 0 })
+            body: JSON.stringify({ fk_paciente_cpf: cpf, sala: sala })
           });
           console.log(`Data to be sent to the API:  ${JSON.stringify({ fk_paciente_cpf: cpf, sala: 0 })}`);
           if (response.ok) {
@@ -413,11 +414,14 @@ export default function PatientTableView({ patients }) {
                           <AlertDialogTitle>Você gostaria de internar esse paciente?</AlertDialogTitle>
                           <AlertDialogDescription>
                             Você está prestes a internar um paciente.
+                            <br/>
+                            Insira o número da sala para internar o paciente.
+                            <input type="number" onChange={(e) => setRoomNumber(e.target.value)} placeholder="Número da Sala" className="w-full  border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium mt-6" />
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => handleHospitalize(patient.cpf)}>Continuar</AlertDialogAction>
+                          <AlertDialogAction onClick={() => handleHospitalize(patient.cpf, roomNumber)}>Continuar</AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>)}
