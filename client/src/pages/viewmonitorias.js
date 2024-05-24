@@ -13,19 +13,9 @@ export async function getServerSideProps() {
     const monitoriasRes = await fetch(urls.monitorias);
     const monitorias = await monitoriasRes.json();
 
-    const monitoriasWithNames = await Promise.all(monitorias.map(async (monitoria) => {
-      const responsePaciente = await fetch(`http://localhost:8080/pacient/${monitoria.fk_paciente_cpf}`);
-      const paciente = await responsePaciente.json();
-
-      const responseInterno = await fetch(`http://localhost:8080/intern/${monitoria.fk_interno_cpf}`);
-      const interno = await responseInterno.json();
-
-      return { ...monitoria, nomePaciente: paciente.nome, nomeInterno: interno.nome };
-    }));
-
     return {
       props: {
-        monitorias: monitoriasWithNames,
+        monitorias: monitorias
       },
     };
   } catch (error) {

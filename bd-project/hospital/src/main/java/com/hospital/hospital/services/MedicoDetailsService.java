@@ -24,6 +24,10 @@ public class MedicoDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("Não foi possível encontrar usuário com CPF: " + cpf);
         }
 
+        if (!medico.isAtivo()) {
+            throw new UsernameNotFoundException("Usuário inativo");
+        }
+
         return new User(medico);
     }
 }

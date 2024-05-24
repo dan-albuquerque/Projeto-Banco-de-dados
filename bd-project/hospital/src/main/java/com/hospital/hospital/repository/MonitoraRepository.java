@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.hospital.hospital.models.DTOs.InternoDTO;
 import com.hospital.hospital.models.relacoes.Monitora;
+import com.hospital.hospital.models.DTOs.MonitoriaDTO;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -71,6 +72,26 @@ public class MonitoraRepository {
                     rs.getString("cpf"),
                     rs.getString("nome"),
                     rs.getInt("total_pacientes")
+                );
+            }
+        });
+    }
+
+    public List<MonitoriaDTO> findMonitorias() {
+        String sql = 
+            "SELECT p.nome AS nomePaciente, i.nome AS nomeInterno, p.cpf AS cpf_paciente, i.cpf AS cpf_interno " +
+            "FROM paciente p " +
+            "JOIN monitora m ON p.cpf = m.fk_cpf_paciente " +
+            "JOIN interno i ON i.cpf = m.fk_cpf_interno";
+
+        return jdbcTemplate.query(sql, new RowMapper<MonitoriaDTO>() {
+            @Override
+            public MonitoriaDTO mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
+                return new MonitoriaDTO(
+                    rs.getString("nomePaciente"),
+                    rs.getString("nomeInterno"),
+                    rs.getString("cpf_paciente"),
+                    rs.getString("cpf_interno")
                 );
             }
         });

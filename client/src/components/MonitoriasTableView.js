@@ -65,7 +65,7 @@ export default function MonitoriasTableView({ monitoria }) {
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                      <AlertDialogAction onClick={() => handleDelete(relacao.fk_paciente_cpf, relacao.fk_interno_cpf)}>Continuar</AlertDialogAction>
+                      <AlertDialogAction onClick={() => handleDelete(relacao.cpf_paciente, relacao.cpf_interno)}>Continuar</AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>

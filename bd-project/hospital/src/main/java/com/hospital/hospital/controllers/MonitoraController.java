@@ -1,6 +1,7 @@
 package com.hospital.hospital.controllers;
 import com.hospital.hospital.models.DTOs.InternoDTO;
 import com.hospital.hospital.models.relacoes.Monitora;
+import com.hospital.hospital.models.DTOs.MonitoriaDTO;
 import com.hospital.hospital.repository.MonitoraRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,8 @@ public class MonitoraController {
     }
 
     @GetMapping
-    public List<Monitora> getAllMonitoras() {
-        return monitoraRepository.selectMonitoras();
+    public List<MonitoriaDTO> getMonitoras(){
+        return monitoraRepository.findMonitorias();
     }
 
     @PutMapping("/{fk_cpf_interno}")
@@ -50,4 +51,5 @@ public class MonitoraController {
     public InternoDTO getTopInterno() {
         return monitoraRepository.findTopInterno();
     }
+
 }
