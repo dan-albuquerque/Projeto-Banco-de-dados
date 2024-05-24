@@ -96,4 +96,25 @@ public class MonitoraRepository {
             }
         });
     }
+
+    public List<MonitoriaDTO> findMonitoriasByInterno(String nomeInterno) {
+        String sql = 
+            "SELECT p.nome AS nomePaciente, i.nome AS nomeInterno, p.cpf AS cpf_paciente, i.cpf AS cpf_interno " +
+            "FROM paciente p " +
+            "JOIN monitora m ON p.cpf = m.fk_cpf_paciente " +
+            "JOIN interno i ON i.cpf = m.fk_cpf_interno " +
+            "WHERE i.nome LIKE ?";
+    
+        return jdbcTemplate.query(sql, new RowMapper<MonitoriaDTO>() {
+            @Override
+            public MonitoriaDTO mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
+                return new MonitoriaDTO(
+                    rs.getString("nomePaciente"),
+                    rs.getString("nomeInterno"),
+                    rs.getString("cpf_paciente"),
+                    rs.getString("cpf_interno")
+                );
+            }
+        }, "%" + nomeInterno + "%");
+    }
 }

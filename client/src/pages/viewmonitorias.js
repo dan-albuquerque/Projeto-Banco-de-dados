@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DownerNav from '@/components/DownerNav';
 import MonitoriasTableView from '@/components/MonitoriasTableView';
-import UpperNavConsultas from '@/components/UpperNavConsultas';
 import UpperNavMonitorias from '@/components/UpperNavMonitorias';
 import { Layout } from '@/app/layout';
+
 export async function getServerSideProps() {
   const urls = {
     monitorias: 'http://localhost:8080/monitora',
@@ -25,11 +25,33 @@ export async function getServerSideProps() {
 }
 
 export default function ViewMonitorias({ monitorias }) {
+
+  const [isSearch, setIsSearch] = useState(false);
+  const [upperNavSearch, setUpperNavSearch] = useState(null);
+
+  const handleUpperNavSearch = (data) => {
+    setIsSearch(true);
+    console.log("is Search");
+    console.log('data: ', data);
+    setUpperNavSearch(data);
+  }
+
+  const undoSearch = () => {
+    console.log("3. terceira e final etapa. undo search foi acionado. Estou em viewconsultas.js"); 
+    setIsSearch(false);
+    setUpperNavSearch(null);
+  };
+
   const renderTable = () => {
-    // Certifica-se de que monitorias é um array antes de passar para MonitoriasTableView
     if (!Array.isArray(monitorias)) {
       console.log('Monitorias is not an array:', monitorias);
       return <div>No data available</div>;
+    }
+
+    if (isSearch && upperNavSearch) {
+      return (
+        <MonitoriasTableView monitoria={upperNavSearch} />
+      );
     }
 
     return (
@@ -39,7 +61,10 @@ export default function ViewMonitorias({ monitorias }) {
 
   return (
     <Layout>
-      <UpperNavMonitorias />
+      <UpperNavMonitorias
+        onData={handleUpperNavSearch}
+        cancelSearch={undoSearch}
+      />
       <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '70vh' }}>
         {renderTable()}
       </div>

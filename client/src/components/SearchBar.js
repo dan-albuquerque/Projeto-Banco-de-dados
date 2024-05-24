@@ -49,6 +49,30 @@ export async function getConsultasInternado(cpfPaciente) {
 
 }
 
+export async function getMonitorasByInternName(searchQuery) {
+    const url = `http://localhost:8080/monitora/${searchQuery}`;
+    console.log(searchQuery, url);
+    console.log("attempting to fetch data from URL:", url);
+
+    try {
+        const jwtToken = localStorage.getItem('jwtToken');
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`
+            }
+    });
+    const monitoras = await response.json();
+    console.log(monitoras);
+    return monitoras;
+    } catch (error) {
+        console.error("Failed to fetch data:", error);
+        return null;
+    }
+
+}
+
 export async function getConsultasUrgentesByNomePaciente(searchQuery) {
     const url = `http://localhost:8080/consulta_urgencia/paciente/${searchQuery}`;
     console.log(searchQuery, url);
@@ -150,6 +174,9 @@ export default function SearchBar({onSearch, userType, onCancelSearch}) {
         }else if (userType === 'consulta_urgencia'){
             const searchedConsultas = await getConsultasUrgentesByNomePaciente(searchQuery);
             data = searchedConsultas;
+        }else if (userType === 'monitora'){
+            const searchedMonitoras = await getMonitorasByInternName(searchQuery);
+            data = searchedMonitoras;
         } else {
             const searchedPatients = await getPatients(searchQuery);
             data = searchedPatients;

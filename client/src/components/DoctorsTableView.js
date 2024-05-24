@@ -308,7 +308,7 @@ export default function DoctorsTableView({ doctors }) {
                     </AlertDialog>
                   ) : (
                     <AlertDialog>
-                      <AlertDialogTrigger><img onClick={() => handleEditClick(doctor.cpf)} src="/img/plus.svg" className="w-8 w-8 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
+                      <AlertDialogTrigger><img onClick={() => handleEditClick(doctor.cpf)} src="/img/plus.svg" className="w-8 h-8 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
                           <AlertDialogTitle>Ativar médico?</AlertDialogTitle>
@@ -333,7 +333,7 @@ export default function DoctorsTableView({ doctors }) {
          {doctors && doctors.map((doctor) => (
           <li key={doctor.cpf}>
                   <div className="mt-1 flex gap-3 items-center">
-                  <p className={`text-4xl ${doctor.ativo ? "text-green-500" : "text-red-500"}`} style={{ textShadow: doctor.ativo ? '0 0 15px green, 0 0 20px green' : '0 0 15px green, 0 0 20px green' }}>•</p>
+                  <p className={`text-4xl ${doctor.ativo ? "text-green-500" : "text-red-500"}`} style={{ textShadow: doctor.ativo ? '0 0 15px green' : '0 0 15px green' }}>•</p>
 
                     <p className="text-xs">{doctor.ativo ? "Ativo" : "Inativo"}</p>
                   </div>

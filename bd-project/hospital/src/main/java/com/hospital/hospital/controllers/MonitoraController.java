@@ -31,6 +31,11 @@ public class MonitoraController {
         return monitoraRepository.findMonitorias();
     }
 
+    @GetMapping("/{nomeInterno}")
+    public List<MonitoriaDTO> getMonitorasByInterno(@PathVariable String nomeInterno){
+        return monitoraRepository.findMonitoriasByInterno(nomeInterno);
+    }
+
     @PutMapping("/{fk_cpf_interno}")
     public String updateMonitora(@PathVariable String fk_cpf_interno, @RequestBody Monitora monitora) {
         monitoraRepository.updateMonitora(fk_cpf_interno, monitora);
@@ -42,14 +47,10 @@ public class MonitoraController {
         return monitoraRepository.selectMonitora(fk_cpf_interno, fk_cpf_paciente);
     }
 
-    @GetMapping("/{fk_cpf_interno}")
-    public List<Monitora> getMonitorasByInternoCPF(@PathVariable String fk_cpf_interno){
-        return monitoraRepository.selectMonitorasByInternoCPF(fk_cpf_interno);
-    }
-
     @GetMapping("/mais-monitora")
     public InternoDTO getTopInterno() {
         return monitoraRepository.findTopInterno();
     }
+
 
 }

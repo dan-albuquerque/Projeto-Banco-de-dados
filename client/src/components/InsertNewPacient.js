@@ -161,7 +161,7 @@ export default function InsertNewPacient() {
           <p>Tipo de Paciente:</p>
           <Select onValueChange={handleValueChange}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Tipo" />
+              <SelectValue placeholder="Genérico" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="interned" onClick={handleChangeInterned}>Paciente Internado</SelectItem>

@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import "../app/globals.css";
 import SearchBar from './SearchBar';
 
-export default function UpperNavMonitorias() {
+export default function UpperNavMonitorias({ onData, cancelSearch }) {
+  const [searchData, setSearchData] = useState('');
+
+  const handleSearchData = (data) => {
+    setSearchData(data);
+    onData(data);
+  }
 
   return (
     <div className="h-16 flex justify-between items-center mt-5 mr-12">
@@ -10,8 +16,14 @@ export default function UpperNavMonitorias() {
         <h1 className="text-3xl font-medium text-customBlue">Visualizar Monitorias</h1>
       </div>
 
-      <SearchBar/>
-
+      <SearchBar
+        onSearch={handleSearchData}
+        onCancelSearch={() => {
+          cancelSearch();
+          console.log("2. Estou na segunda etapa. fui passado de searchbar para uppernavmonitorias");
+        }}
+        userType={'monitora'}
+      />
     </div>
   );
 }
