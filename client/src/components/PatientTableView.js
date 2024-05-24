@@ -26,6 +26,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
+import { to } from "react-spring";
 
 
 export default function PatientTableView({ patients }) {
@@ -158,6 +159,47 @@ export default function PatientTableView({ patients }) {
       setIsInterned(false);
       setIsUrgent(true);
       console.log("O paciente não é internado nem de urgência. setIsUrgent e setIsInterned estão como false");
+    }
+  };
+
+  const handleHospitalize = async (cpf, sala) => {
+    const jwtToken = localStorage.getItem('jwtToken');
+    try {
+      const response = await fetch(`http://localhost:8080/pacienturgencia/${cpf}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application',
+          'Authorization': `Bearer ${jwtToken}`
+        }
+      });
+      if (response.ok) {
+        try {
+          const response = await fetch('http://localhost:8080/paciente_internado', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${jwtToken}`
+            },
+            body: JSON.stringify({ fk_paciente_cpf: cpf, sala: 0 })
+          });
+          console.log(`Data to be sent to the API:  ${JSON.stringify({ fk_paciente_cpf: cpf, sala: 0 })}`);
+          if (response.ok) {
+            toast.success('Paciente internado com sucesso!');
+            return true;
+          }
+          else {
+            toast.error('Falha ao internar paciente. Tente novamente.');
+            return false;
+          }
+        }
+        catch (error) {
+          console.error('Error:', error);
+          return false;
+        }
+      };
+    } catch (error) {
+      console.error('Error:', error);
+      return false;
     }
   };
 
@@ -362,9 +404,26 @@ export default function PatientTableView({ patients }) {
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
+
+                  {patient.nivel_triagem !== -1 && (
+                    <AlertDialog>
+                      <AlertDialogTrigger><img src="/img/intern_patient.svg" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Você gostaria de internar esse paciente?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Você está prestes a internar um paciente.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => handleHospitalize(patient.cpf)}>Continuar</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>)}
                 </td>
                 <td className="border-b border-gray-300 border-r px-5 py-2 text-xs text-left">
-                  {patient.nivel_triagem !== -1 && (
+                  {patient.sala !== -1 && (
                     <HoverCard>
                       <HoverCardTrigger onMouseEnter={() => fetchPatientInfo(patient)}><img src="/img/hospitalized_status.svg" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" /></HoverCardTrigger>
                       {(hoverContent !== null && hoverContent !== undefined) && (
@@ -376,7 +435,7 @@ export default function PatientTableView({ patients }) {
                       )}
                     </HoverCard>
                   )}
-                  {patient.sala !== -1 && (
+                  {patient.nivel_triagem !== -1 && (
                     <HoverCard>
                       <HoverCardTrigger onMouseEnter={() => fetchPatientInfo(patient)}><img src="/img/urgent_status.svg" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" /></HoverCardTrigger>
                       {(hoverContent !== null && hoverContent !== undefined) && (
