@@ -77,19 +77,17 @@ public class ConsultaInternadoRepository {
                                 consultaInternadoMapper,
                                 cpf);
         }
-
         @SuppressWarnings("deprecation")
         public List<ConsultaInternadoDTO> searchByPatientName(String name) {
                 return jdbcTemplate.query(
-                                "SELECT c.data_realizacao, p.nome as paciente_nome, m.nome as medico_nome FROM consulta_internado c "
-                                                +
-                                                "INNER JOIN paciente pi ON c.fk_paciente_cpf = pi.fk_paciente_cpf " +
-                                                "INNER JOIN paciente p ON p.cpf = pi.fk_paciente_cpf " +
-                                                "INNER JOIN medico m ON m.cpf = c.fk_medico_cpf " +
-                                                "WHERE p.nome LIKE ?",
-                                new Object[] { "%" + name + "%" },
-                                consultaInternadoDTOMapper);
-        }
+                    "SELECT c.data_realizacao, p.nome as paciente_nome, m.nome as medico_nome " +
+                    "FROM consulta_internado c " +
+                    "INNER JOIN paciente p ON c.fk_paciente_cpf = p.cpf " +
+                    "INNER JOIN medico m ON c.fk_medico_cpf = m.cpf " +
+                    "WHERE p.nome LIKE ?",
+                    new Object[] { "%" + name + "%" },
+                    consultaInternadoDTOMapper);
+            }
 
         public ConsultaInternadoDTO selectConsultaInternadoDTOById(int fk_registro_internado_codigo,
                         String fk_medico_cpf,

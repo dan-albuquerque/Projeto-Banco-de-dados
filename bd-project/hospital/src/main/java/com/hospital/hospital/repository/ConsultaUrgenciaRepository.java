@@ -80,17 +80,14 @@ public class ConsultaUrgenciaRepository {
         @SuppressWarnings("deprecation")
         public List<ConsultaUrgenciaDTO> selectConsultaUrgenciaDTOByPaciente(String nomePaciente) {
                 return jdbcTemplate.query(
-                                "SELECT c.data_realizacao, p.nome as paciente_nome, m.nome as medico_nome FROM consulta_urgencia c "
-                                                +
-                                                "INNER JOIN paciente_urgencia pi ON c.fk_paciente_cpf = pi.fk_paciente_cpf "
-                                                +
-                                                "INNER JOIN paciente p ON p.cpf = pi.fk_paciente_cpf " +
-                                                "INNER JOIN medico m ON m.cpf = c.fk_medico_cpf " +
-                                                "WHERE p.nome LIKE ?",
-                                new Object[] { "%" + nomePaciente + "%" },
-                                consultaUrgenciaDTOMapper);
-        }
-
+                    "SELECT c.data_realizacao, p.nome as paciente_nome, m.nome as medico_nome " +
+                    "FROM consulta_urgencia c " +
+                    "INNER JOIN paciente p ON c.fk_paciente_cpf = p.cpf " +
+                    "INNER JOIN medico m ON c.fk_medico_cpf = m.cpf " +
+                    "WHERE p.nome LIKE ?",
+                    new Object[] { "%" + nomePaciente + "%" },
+                    consultaUrgenciaDTOMapper);
+            }
         public List<ConsultaUrgenciaDTO> selectConsultaUrgenciaDTO() {
                 return jdbcTemplate.query(
                                 "SELECT c.data_realizacao, p.nome as paciente_nome, m.nome as medico_nome FROM consulta_urgencia c "
