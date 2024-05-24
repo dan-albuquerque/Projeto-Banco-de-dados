@@ -127,7 +127,6 @@ export default function PatientTableView({ patients }) {
 
   const handleEditClick = (pacient) => {
     setCpf(pacient.cpf);
-    TrytoGetInterned(pacient);
   };
 
   const handleDeleteClick = (pacient) => {
