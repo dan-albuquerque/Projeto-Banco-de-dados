@@ -25,6 +25,21 @@ create table monitora(
     foreign key (fk_cpf_paciente) references paciente(cpf)
 );
 
+CREATE TABLE backup_monitora (
+    fk_cpf_interno VARCHAR(11) NOT NULL,
+    fk_cpf_paciente VARCHAR(11) NOT NULL,
+    deleted_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TRIGGER trg_backup_monitora
+AFTER DELETE ON monitora
+FOR EACH ROW
+BEGIN
+    INSERT INTO backup_monitora (fk_cpf_interno, fk_cpf_paciente, deleted_at)
+    VALUES (OLD.fk_cpf_interno, OLD.fk_cpf_paciente, CURRENT_TIMESTAMP);
+END;
+
+
 create table paciente_internado(
 	fk_paciente_cpf varchar(11) not null,
 	sala integer not null,

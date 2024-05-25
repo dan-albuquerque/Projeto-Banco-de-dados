@@ -34,6 +34,7 @@ export default function PatientTableView({ patients }) {
   const [isUrgent, setIsUrgent] = useState(false);
   const [hoverContent, setHoverContent] = useState(null);
   const [roomNumber, setRoomNumber] = useState(null);
+  const [nivelTriagem, setTriagemNivel] = useState(null);
 
   const [patient, setPatient] = useState(
     {
@@ -184,9 +185,9 @@ export default function PatientTableView({ patients }) {
             },
             body: JSON.stringify({ fk_paciente_cpf: cpf, sala: sala })
           });
-          console.log(`Data to be sent to the API:  ${JSON.stringify({ fk_paciente_cpf: cpf, sala: 0 })}`);
           if (response.ok) {
             toast.success('Paciente internado com sucesso!');
+            window.location.reload();
             return true;
           }
           else {
@@ -200,6 +201,33 @@ export default function PatientTableView({ patients }) {
         }
       };
     } catch (error) {
+      console.error('Error:', error);
+      return false;
+    }
+  };
+
+  const handleUrgent = async (cpf, nivel_triagem) => {
+    const jwtToken = localStorage.getItem('jwtToken');
+    try {
+      const response = await fetch('http://localhost:8080/pacienturgencia', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`
+        },
+        body: JSON.stringify({ fk_paciente_cpf: cpf, nivel_triagem: nivel_triagem })
+      });
+      if (response.ok) {
+        toast.success('Paciente se tornou urgente com sucesso!');
+        window.location.reload();
+        return true;
+      }
+      else {
+        toast.error('Falha ao internar paciente. Tente novamente.');
+        return false;
+      }
+    }
+    catch (error) {
       console.error('Error:', error);
       return false;
     }
@@ -317,6 +345,7 @@ export default function PatientTableView({ patients }) {
 
       if (response.ok) {
         toast.success('Paciente deletado com sucesso!');
+        window.location.reload();
       } else {
         toast.error('Falha ao deletar paciente. Tente novamente.');
       }
@@ -393,12 +422,12 @@ export default function PatientTableView({ patients }) {
                   </Sheet>
                   {((patient.sala !== -1) || (patient.nivel_triagem !== -1)) &&
                   <AlertDialog>
-                    <AlertDialogTrigger onClick={() => handleDeleteClick(patient)}><img src="/img/Delete.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
+                    <AlertDialogTrigger onClick={() => handleDeleteClick(patient)}><img src="/img/discharge.svg" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
+                        <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
                         <AlertDialogDescription>
-                          Você está prestes a remover um paciente desta tabela. Seu historico de consultas será mantido.
+                          Você está prestes a dar alta a um paciente.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
@@ -408,9 +437,9 @@ export default function PatientTableView({ patients }) {
                     </AlertDialogContent>
                   </AlertDialog>
                   }
-                  {patient.nivel_triagem !== -1 && (
+                  {(patient.nivel_triagem !== -1 || (patient.nivel_triagem === -1 && patient.sala === -1)) && (
                     <AlertDialog>
-                      <AlertDialogTrigger><img src="/img/intern_patient.svg" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
+                      <AlertDialogTrigger><img src="/img/hospitalized.svg" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
                           <AlertDialogTitle>Você gostaria de internar esse paciente?</AlertDialogTitle>
@@ -424,6 +453,25 @@ export default function PatientTableView({ patients }) {
                         <AlertDialogFooter>
                           <AlertDialogCancel>Cancelar</AlertDialogCancel>
                           <AlertDialogAction onClick={() => handleHospitalize(patient.cpf, roomNumber)}>Continuar</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>)}
+                    {patient.nivel_triagem === -1 && patient.sala === -1 && (
+                    <AlertDialog>
+                      <AlertDialogTrigger><img src="/img/urgent_patient.svg" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Você gostaria de tornar esse paciente urgente?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Você está prestes a tornar um paciente urgente.
+                            <br/>
+                            Insira o nível da triagem para tornar urgente o paciente.
+                            <input type="number" onChange={(e) => setTriagemNivel(e.target.value)} placeholder="Nível da triagem" className="w-full  border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium mt-6" />
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => handleUrgent(patient.cpf, nivelTriagem)}>Continuar</AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>)}
