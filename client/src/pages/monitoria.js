@@ -47,6 +47,12 @@ export default function ConsultaPage() {
               <p className='text-4xl'>Atribuir</p>
               <p className='text-lg font-light'>Um interno à um paciente monitorado</p>
             </button>
+            <button onClick={() => router.push('/viewbackupmonitorias')}
+              className="flex flex-col gap-4 text-center items-center py-3 px-3 text-xl w-1/2 bg-customGrey text-black rounded-lg shadow-md transition-transform duration-200 hover:scale-105">
+              <img src="/img/idk.svg" alt="medico icon" style = {{width: '90px', height:'84px'}}/>
+              <p className='text-4xl'>Backup</p>
+              <p className='text-lg font-light'>Das antigas monitorias entre internos e pacientes</p>
+            </button>
           </div>
         </div>
       <DownerNav></DownerNav>
