@@ -237,7 +237,8 @@ export default function DoctorsTableView({ doctors }) {
               <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-left text-sm">RQE</th>
               <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-left text-sm">CRM</th>
               <th className="border-b-2 border-gray-300 border-r px-5 py-2 text-left text-sm">Médico Gerente</th>
-              <th className="border-b-2 border-gray-300 px-5 py-2 text-left text-sm">Ações</th>
+              <th className="border-b-2 border-gray-300 px-5 py-2 text-left text-sm border-r">Ações</th>
+              <th className="border-b-2 border-gray-300 px-5 py-2 text-left text-sm ">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -247,9 +248,8 @@ export default function DoctorsTableView({ doctors }) {
                 <td className="border-b border-gray-300 border-r px-5 py-2 text-left text-sm">{doctor.cpf}</td>
                 <td className="border-b border-gray-300 border-r px-5 py-2 text-left text-sm">{doctor.rqe}</td>
                 <td className="border-b border-gray-300 border-r px-5 py-2 text-left text-sm">{doctor.crm}</td>
-                
                 <td className="border-b border-gray-300 border-r px-5 py-2 text-left text-sm">{doctor.fk_medico_cpf_gerente}</td>
-                <td className="flex gap-2 items-start justify-start border-b border-gray-300 border-r px-5 py-2 ">
+                <td className="flex gap-2 items-start justify-start border-b border-gray-300 border-r px-5 py-2">
                   <HoverCard>
                     <HoverCardTrigger onMouseEnter={() => handleHoverCard(doctor)}> <img src="/img/MoreInfo.png" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110 cursor-pointer" alt="perfil icon" /> </HoverCardTrigger>
                     <HoverCardContent>
@@ -325,21 +325,19 @@ export default function DoctorsTableView({ doctors }) {
                   )
                   }
                 </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <ul className="mt-7">
-         {doctors && doctors.map((doctor) => (
-          <li key={doctor.cpf}>
-                  <div className="mt-1 flex gap-3 items-center">
+                <td className="border-b border-gray-300 border-r">
+                <div className="ml-2 flex gap-3 items-center">
                   <p className={`text-4xl ${doctor.ativo ? "text-green-500" : "text-red-500"}`} style={{ textShadow: doctor.ativo ? '0 0 15px green' : '0 0 15px green' }}>•</p>
 
                     <p className="text-xs">{doctor.ativo ? "Ativo" : "Inativo"}</p>
                   </div>
-          </li>
-         ))}
-        </ul>
+
+                  </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+  
 
       </div>
     </>

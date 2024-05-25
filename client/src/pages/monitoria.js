@@ -17,7 +17,7 @@ export default function ConsultaPage() {
   return (
     <CentralizedLayout className = "mb-16">
       
-        <div className="flex items-center w-2/5 gap-5 justify-center mb-16 flex-col">
+        <div className="flex items-center w-3/5 gap-5 justify-center mb-16 flex-col">
         <div className='w-full flex justify-between items-center mb-6'>
         <h1 className='text-4xl font-light text-normalBlue'>Inicie sua operação</h1>
         <Popover>

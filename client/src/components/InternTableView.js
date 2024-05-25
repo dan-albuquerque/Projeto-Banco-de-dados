@@ -53,6 +53,7 @@ export default function InternTableView({ interns }) {
     const success = await EditIntern(intern, cpf); // Pass cpf to EditIntern function
     if (success) {
       toast.success('Interno editado com sucesso!');
+      window.location.reload();
     } else {
       toast.error('Erro ao editar interno.');
     }

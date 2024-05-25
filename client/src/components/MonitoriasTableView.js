@@ -35,7 +35,7 @@ export default function MonitoriasTableView({ monitoria }) {
     } catch (error) {
       console.error('Failed to delete monitoria:', error);
     }
-    window.location.reload();
+    
   }
 
   return (

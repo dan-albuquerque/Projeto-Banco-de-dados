@@ -22,6 +22,16 @@ import {
 } from "@/components/ui/sheet"
 
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+
+import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
@@ -122,6 +132,7 @@ export default function PatientTableView({ patients }) {
     }
     if (success) {
       toast.success('Paciente editado com sucesso!');
+      window.location.reload();
     } else {
       toast.error('Falha ao editar paciente. Tente novamente.');
     }
@@ -129,6 +140,7 @@ export default function PatientTableView({ patients }) {
 
   const handleEditClick = (pacient) => {
     setCpf(pacient.cpf);
+    fetchPatientInfo(pacient);
   };
 
   const handleDeleteClick = (pacient) => {
@@ -318,7 +330,6 @@ export default function PatientTableView({ patients }) {
     } else {
       setIsInterned(false);
       setIsUrgent(false);
-      setHoverContent(' ');
       console.log("O paciente não é internado nem de urgência. setIsUrgent e setIsInterned estão como false");
     }
   };
@@ -395,6 +406,12 @@ export default function PatientTableView({ patients }) {
                           {isUrgent && (
                             <p>Nível de Triagem: {hoverContent}</p>
                           )}
+                          {
+                            (!isInterned && !isUrgent) && (
+                              <p>Paciente cadastrado</p>
+                            )
+
+                          }
                         </div>
                       </HoverCardContent>
                     )}
@@ -437,44 +454,65 @@ export default function PatientTableView({ patients }) {
                     </AlertDialogContent>
                   </AlertDialog>
                   }
-                  {(patient.nivel_triagem !== -1 || (patient.nivel_triagem === -1 && patient.sala === -1)) && (
-                    <AlertDialog>
-                      <AlertDialogTrigger><img src="/img/hospitalized.svg" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Você gostaria de internar esse paciente?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            Você está prestes a internar um paciente.
-                            <br/>
-                            Insira o número da sala para internar o paciente.
-                            <input type="number" onChange={(e) => setRoomNumber(e.target.value)} placeholder="Número da Sala" className="w-full  border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium mt-6" />
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => handleHospitalize(patient.cpf, roomNumber)}>Continuar</AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>)}
-                    {patient.nivel_triagem === -1 && patient.sala === -1 && (
-                    <AlertDialog>
-                      <AlertDialogTrigger><img src="/img/urgent_patient.svg" className="w-6 h-6 mt-1 transition-transform duration-200 hover:scale-110" alt="perfil icon" /></AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Você gostaria de tornar esse paciente urgente?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            Você está prestes a tornar um paciente urgente.
-                            <br/>
-                            Insira o nível da triagem para tornar urgente o paciente.
-                            <input type="number" onChange={(e) => setTriagemNivel(e.target.value)} placeholder="Nível da triagem" className="w-full  border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium mt-6" />
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => handleUrgent(patient.cpf, nivelTriagem)}>Continuar</AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>)}
+                  
+                    
+                   {((patient.sala === -1) && 
+                    <DropdownMenu>
+                      <DropdownMenuTrigger><img src = "img/moreoptions.svg" className="mt-1 w-6 h-6 transition-transform duration-200 hover:scale-110"/></DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuLabel>Mais opções</DropdownMenuLabel>
+                        <div className="flex flex-col">
+                          {patient.nivel_triagem === -1 && patient.sala === -1 && (
+                          <AlertDialog>
+                            <AlertDialogTrigger>
+                            <div className="flex items-center justify-center px-2 py-2 ">
+                              <img src="/img/urgent_patient.svg" className="w-6 h-6 transition-transform duration-200 hover:scale-110" alt="perfil icon" />
+                              <p className="text-sm ">Transferir para urgência</p>
+                            </div></AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Você gostaria de tornar esse paciente urgente?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Você está prestes a tornar um paciente urgente.
+                                  <br/>
+                                  Insira o nível da triagem para tornar urgente o paciente.
+                                  <input type="number" onChange={(e) => setTriagemNivel(e.target.value)} placeholder="Nível da triagem" className="w-full  border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium mt-6" />
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => handleUrgent(patient.cpf, nivelTriagem)}>Continuar</AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>)}
+                          {(patient.nivel_triagem !== -1 || (patient.nivel_triagem === -1 && patient.sala === -1)) && (
+                          <AlertDialog>
+                            <AlertDialogTrigger>
+                              <div className="flex items-center px-2 py-2 gap-1">
+                              <img src="/img/hospitalized.svg" className="w-6 h-6 transition-transform duration-200 hover:scale-110" alt="perfil icon" />
+                              <p className="text-sm ">Internar Paciente</p>
+                            </div></AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Você gostaria de internar esse paciente?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Você está prestes a internar um paciente.
+                                  <br/>
+                                  Insira o número da sala para internar o paciente.
+                                  <input type="number" onChange={(e) => setRoomNumber(e.target.value)} placeholder="Número da Sala" className="w-full  border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium mt-6" />
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => handleHospitalize(patient.cpf, roomNumber)}>Continuar</AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>)}
+                        </div>
+
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    )}
                 </td>
                 <td className="border-b border-gray-300 border-r px-5 py-2 text-xs text-left">
                   {patient.sala !== -1 && (
