@@ -14,8 +14,13 @@ public class MonitoraBackupController {
     @Autowired
     private MonitoraBackupRepository monitoraBackupRepository;
 
-    @GetMapping
+    @GetMapping()
     public List<MonitoraBackupDTO> getAllBackupMonitora() {
         return monitoraBackupRepository.selectAll();
+    }
+
+    @GetMapping("/{nomeInterno}")
+    public List<MonitoraBackupDTO> getBackupMonitoraByInterno(@PathVariable String nomeInterno) {
+        return monitoraBackupRepository.selectByIternName(nomeInterno);
     }
 }

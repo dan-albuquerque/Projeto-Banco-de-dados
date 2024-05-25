@@ -52,5 +52,9 @@ public class MonitoraController {
         return monitoraRepository.findTopInterno();
     }
 
+    @GetMapping("interno/{fk_cpf_interno}")
+    public List<Monitora> getMonitorasByInternoCPF(@PathVariable String fk_cpf_interno){
+        return monitoraRepository.selectMonitorasByInternoCPF(fk_cpf_interno);
+    }
 
 }

@@ -122,7 +122,7 @@ export default function InternTableView({ interns }) {
   const fetchInternInfo = async (cpfIntern) => {
     // Fetch the CPFs of the patients
     console.log("Fetching CPFs of the patients...");
-    return fetch(`http://localhost:8080/monitora/${cpfIntern}`)
+    return fetch(`http://localhost:8080/monitora/interno/${cpfIntern}`)
       .then(response => response.json())
       .then(data => {
         // Extract only the fk_paciente_cpf from the data

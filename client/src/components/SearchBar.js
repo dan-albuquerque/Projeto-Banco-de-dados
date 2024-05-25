@@ -1,4 +1,4 @@
-import React, {useState} from  'react';
+import React, { useState } from 'react';
 
 export async function getInterns(searchQuery) {
     const url = `http://localhost:8080/intern?searchName=${searchQuery}`;
@@ -9,8 +9,8 @@ export async function getInterns(searchQuery) {
         const response = await fetch(url, {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${jwtToken}`
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`
             }
         });
         const interns = await response.json();
@@ -37,10 +37,10 @@ export async function getConsultasInternado(cpfPaciente) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${jwtToken}`
             }
-    });
-    const consultas_urgentes = await response.json();
-    console.log(consultas_urgentes);
-    return consultas_urgentes;
+        });
+        const consultas_urgentes = await response.json();
+        console.log(consultas_urgentes);
+        return consultas_urgentes;
     } catch (error) {
         console.error("Failed to fetch data:", error);
         return null;
@@ -62,10 +62,33 @@ export async function getMonitorasByInternName(searchQuery) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${jwtToken}`
             }
-    });
-    const monitoras = await response.json();
-    console.log(monitoras);
-    return monitoras;
+        });
+        const monitoras = await response.json();
+        console.log(monitoras);
+        return monitoras;
+    } catch (error) {
+        console.error("Failed to fetch data:", error);
+        return null;
+    }
+
+}
+
+export async function getBackupMonitorasByInternName(searchQuery) {
+    const url = `http://localhost:8080/backup-monitora/${searchQuery}`;
+    console.log(searchQuery, url);
+    console.log("attempting to fetch data from URL:", url);
+
+    try {
+        const jwtToken = localStorage.getItem('jwtToken');
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${jwtToken}`
+            }
+        });
+        const backupMonitoras = await response.json();
+        console.log(backupMonitoras);
+        return backupMonitoras;
     } catch (error) {
         console.error("Failed to fetch data:", error);
         return null;
@@ -86,10 +109,10 @@ export async function getConsultasUrgentesByNomePaciente(searchQuery) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${jwtToken}`
             }
-    });
-    const consultas_urgentes = await response.json();
-    console.log(consultas_urgentes);
-    return consultas_urgentes;
+        });
+        const consultas_urgentes = await response.json();
+        console.log(consultas_urgentes);
+        return consultas_urgentes;
     } catch (error) {
         console.error("Failed to fetch data:", error);
         return null;
@@ -106,8 +129,8 @@ export async function getPatients(searchQuery) {
         const response = await fetch(url, {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${jwtToken}`
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`
             }
         });
         const patients = await response.json();
@@ -129,8 +152,8 @@ export async function getDoctors(searchQuery) {
         const response = await fetch(url, {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${jwtToken}`
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`
             }
         });
         const doctors = await response.json();
@@ -143,18 +166,18 @@ export async function getDoctors(searchQuery) {
     }
 }
 
-export default function SearchBar({onSearch, userType, onCancelSearch}) {
+export default function SearchBar({ onSearch, userType, onCancelSearch }) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [interns, setInterns] = useState([]);
     const [doctors, setDoctors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isSearch, setIsSearch] = useState(false);
-    
+
     const undoSearch = () => {
         setIsSearch(false);
-      };
-    
+    };
+
     const handleSearch = async () => {
         setIsSearch(true);
         setIsLoading(true);
@@ -164,19 +187,22 @@ export default function SearchBar({onSearch, userType, onCancelSearch}) {
             console.log("chegou no handleSearch", searchedInterns);
             setInterns(searchedInterns);
             data = searchedInterns;
-        }else if (userType === 'doctor') {
+        } else if (userType === 'doctor') {
             const searchedDoctors = await getDoctors(searchQuery);
             setDoctors(searchedDoctors);
             data = searchedDoctors;
-        }else if (userType === 'consulta_internado'){
+        } else if (userType === 'consulta_internado') {
             const searchedConsultas = await getConsultasInternado(searchQuery);
             data = searchedConsultas;
-        }else if (userType === 'consulta_urgencia'){
+        } else if (userType === 'consulta_urgencia') {
             const searchedConsultas = await getConsultasUrgentesByNomePaciente(searchQuery);
             data = searchedConsultas;
-        }else if (userType === 'monitora'){
+        } else if (userType === 'monitora') {
             const searchedMonitoras = await getMonitorasByInternName(searchQuery);
             data = searchedMonitoras;
+        } else if (userType === 'backup-monitora') {
+            const searchedBackupMonitoras = await getBackupMonitorasByInternName(searchQuery);
+            data = searchedBackupMonitoras;
         } else {
             const searchedPatients = await getPatients(searchQuery);
             data = searchedPatients;
@@ -184,41 +210,40 @@ export default function SearchBar({onSearch, userType, onCancelSearch}) {
         setIsLoading(false);
         onSearch(data);
     };
-    
 
     return (
         <div className='w-1/3 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 flex justify-between'>
-          <input
-            className='w-full bg-transparent focus:outline-none'
-            type="text"
-            placeholder="Pesquisar..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter' && searchQuery.trim() !== '') {
-                handleSearch();
-              }
-            }}
-          />
-          {isSearch ? (
-            <img
-              src="/img/cancel.svg"
-              alt="cancel"
-              onClick={()=>[undoSearch(), onCancelSearch(), console.log("1. Estou na primeira etapa. o x foi clicado.")]}
-              className="w-6 h-6 cursor-pointer transition-transform duration-200 hover:scale-125"
+            <input
+                className='w-full bg-transparent focus:outline-none'
+                type="text"
+                placeholder="Pesquisar..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={(e) => {
+                    if (e.key === 'Enter' && searchQuery.trim() !== '') {
+                        handleSearch();
+                    }
+                }}
             />
-          ):(
-            <img
-            src="/img/search.png"
-            alt="search"
-            onClick={() => {
-              if (searchQuery.trim() !== '' && !searchQuery.includes(']')) {
-                handleSearch();
-              }
-            }}
-            className="w-6 h-6 ml-2 cursor-pointer transition-transform duration-200 hover:scale-125"
-          />
-        )}
+            {isSearch ? (
+                <img
+                    src="/img/cancel.svg"
+                    alt="cancel"
+                    onClick={() => [undoSearch(), onCancelSearch(), console.log("1. Estou na primeira etapa. o x foi clicado.")]}
+                    className="w-6 h-6 cursor-pointer transition-transform duration-200 hover:scale-125"
+                />
+            ) : (
+                <img
+                    src="/img/search.png"
+                    alt="search"
+                    onClick={() => {
+                        if (searchQuery.trim() !== '' && !searchQuery.includes(']')) {
+                            handleSearch();
+                        }
+                    }}
+                    className="w-6 h-6 ml-2 cursor-pointer transition-transform duration-200 hover:scale-125"
+                />
+            )}
         </div>
-      );
+    );
 }

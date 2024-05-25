@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import "../app/globals.css";
 import SearchBar from './SearchBar';
 
-export default function UpperNavMonitorias({ onData, cancelSearch }) {
+export default function UpperNavMonitorias({ onData, cancelSearch, monitoraType }) {
   const [searchData, setSearchData] = useState('');
 
   const handleSearchData = (data) => {
     setSearchData(data);
     onData(data);
-  }
+  };
+
 
   return (
     <div className="h-16 flex justify-between items-center mt-5 mr-12">
@@ -22,7 +23,7 @@ export default function UpperNavMonitorias({ onData, cancelSearch }) {
           cancelSearch();
           console.log("2. Estou na segunda etapa. fui passado de searchbar para uppernavmonitorias");
         }}
-        userType={'monitora'}
+        userType={monitoraType}
       />
     </div>
   );

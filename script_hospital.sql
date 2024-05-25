@@ -21,7 +21,7 @@ create table monitora(
 	fk_cpf_interno VARCHAR(11) NOT NULL,
     fk_cpf_paciente VARCHAR(11) NOT NULL,
     primary key (fk_cpf_interno, fk_cpf_paciente),
-    foreign key (fk_cpf_interno) references interno(cpf),
+    foreign key (fk_cpf_interno) references interno(cpf) ON DELETE CASCADE,
     foreign key (fk_cpf_paciente) references paciente(cpf)
 );
 
