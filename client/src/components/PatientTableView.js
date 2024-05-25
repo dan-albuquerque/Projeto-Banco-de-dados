@@ -119,21 +119,23 @@ export default function PatientTableView({ patients }) {
     e.preventDefault();
     const patientData = { ...patient, cpf };
     let success = false;
+    let patientEditSuccess = false;
     if (isInterned) {
       console.log("Interned patient data: ", internedPatient);
-      await EditPatient(patientData, cpf);
+      patientEditSuccess = await EditPatient(patientData, cpf);
       success = await EditInternedPatient(internedPatient, cpf);
     } else if (isUrgent) {
       console.log("Urgent patient data: ", urgentPatient);
-      await EditPatient(patientData, cpf);
+      patientEditSuccess = await EditPatient(patientData, cpf);
       success = await EditUrgentPatient(urgentPatient, cpf);
     } else {
       success = await EditPatient(patientData, cpf);
+      patientEditSuccess = true;
     }
-    if (success) {
+    if (success && patientEditSuccess) {
       toast.success('Paciente editado com sucesso!');
       window.location.reload();
-    } else {
+          } else {
       toast.error('Falha ao editar paciente. Tente novamente.');
     }
   };
