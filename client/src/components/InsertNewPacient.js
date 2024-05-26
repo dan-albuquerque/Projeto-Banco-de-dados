@@ -103,21 +103,27 @@ export default function InsertNewPacient() {
     e.preventDefault();
     const pacientData = { ...pacient }; // Clone the pacient data
     let success = false;
+    let successPostGenericPatient = false;
+    let haveInsertedGenericPatient = false;
 
     if (Interned) {
       console.log(`Data to be sent to the API:  ${JSON.stringify(paciente_urgencia)}`);
-      await postNewPacient(pacientData);
+      successPostGenericPatient = await postNewPacient(pacientData);
       success = await postNewInternedPacient(paciente_internado);
     }
     else if (Urgency) {
       console.log(`Data to be sent to the API: ${JSON.stringify(paciente_urgencia)}`);
-      await postNewPacient(pacientData);
+      successPostGenericPatient = await postNewPacient(pacientData);
       success = await postNewUrgencyPacient(paciente_urgencia);
     }
     else {
-      success = await postNewPacient(pacientData);
+      successPostGenericPatient = await postNewPacient(pacientData);
+      haveInsertedGenericPatient = true;
     }
-    if (success) {
+    if (successPostGenericPatient && haveInsertedGenericPatient) {
+      toast.success('Paciente inserido com sucesso!');
+      window.location.reload();
+    } else if (success && successPostGenericPatient ) {
       toast.success('Paciente inserido com sucesso!');
       window.location.reload();
     } else {
