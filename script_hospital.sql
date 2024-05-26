@@ -26,6 +26,7 @@ create table monitora(
 );
 
 CREATE TABLE backup_monitora (
+	nome_interno VARCHAR(100) NOT NULL,
     fk_cpf_interno VARCHAR(11) NOT NULL,
     fk_cpf_paciente VARCHAR(11) NOT NULL,
     deleted_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -359,3 +360,14 @@ INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, ativo, fk_medico_
 
 INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, ativo, fk_medico_cpf_gerente) VALUES
 ('12345678913', 12345, 'Dr. João Campos', 'Cardiologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM12345', false, NULL);
+
+CREATE TRIGGER trg_backup_interno
+AFTER DELETE ON interno
+FOR EACH ROW
+BEGIN
+    INSERT INTO backup_monitora (nome_interno, fk_cpf_interno, fk_cpf_paciente, deleted_at)
+    SELECT i.nome, i.cpf, m.fk_cpf_paciente, CURRENT_TIMESTAMP
+    FROM monitora m
+    JOIN interno i ON i.cpf = m.fk_cpf_interno
+    WHERE m.fk_cpf_interno = OLD.cpf;
+END;
