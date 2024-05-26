@@ -50,6 +50,8 @@ export default function UpperNavConsultas({ swapUrgent, swapHospitalized, onData
       <SearchBar userType={chooseUserType()}
         onSearch={handleSearchData} 
         onCancelSearch={()=>[cancelSearch(), console.log("2. Estou na segunda etapa. fui passado de searchbar para uppernavconsultas")]}
+        searchText={'Pesquise por pacientes...'}
+
         sear/>
 
       <div className="mr-12 flex gap-4">

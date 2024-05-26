@@ -66,6 +66,7 @@ export default function ViewMonitorias({ monitorias }) {
         onData={handleUpperNavSearch}
         cancelSearch={undoSearch}
         monitoraType={monitoraType}
+       
       />
       <div className="border border-gray-300 mt-4 rounded-lg bg-customGrey mx-auto shadow-md hover:shadow-lg focus:shadow-xl w-11/12 overflow-auto" style={{ height: '70vh' }}>
         {renderTable()}

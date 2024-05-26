@@ -166,7 +166,7 @@ export async function getDoctors(searchQuery) {
     }
 }
 
-export default function SearchBar({ onSearch, userType, onCancelSearch }) {
+export default function SearchBar({ onSearch, userType, onCancelSearch, searchText}) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [interns, setInterns] = useState([]);
@@ -216,7 +216,7 @@ export default function SearchBar({ onSearch, userType, onCancelSearch }) {
             <input
                 className='w-full bg-transparent focus:outline-none'
                 type="text"
-                placeholder="Pesquisar..."
+                placeholder={searchText}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyPress={(e) => {

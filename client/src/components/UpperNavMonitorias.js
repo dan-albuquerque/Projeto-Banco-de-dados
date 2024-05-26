@@ -22,7 +22,9 @@ export default function UpperNavMonitorias({ onData, cancelSearch, monitoraType 
         onCancelSearch={() => {
           cancelSearch();
           console.log("2. Estou na segunda etapa. fui passado de searchbar para uppernavmonitorias");
+
         }}
+        searchText={'Pesquise por internos...'}
         userType={monitoraType}
       />
     </div>

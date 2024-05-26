@@ -75,6 +75,7 @@ export default function UpperNav({ swapPatient, swapIntern, swapDoctor, searchBy
                 onSearch={handleSearchData}
                 userType={userType}
                 onCancelSearch={() => [cancelSearch(), console.log("2. Estou na segunda etapa. fui passado de searchbar para uppernavconsultas")]}
+                searchText={'Pesquise por nome...'}
             />
             <div className="mr-12 flex gap-4">
                 <p className='text-xl text-normalBlue font-light cursor-pointer transition-transform duration-200 hover:scale-125' onClick={() => { swapPatient(); handleChoosePatient(); }} style={{ color: isPatient ? '#063866' : '#0671D3' }}>Paciente</p>
