@@ -11,9 +11,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import Cookies from 'js-cookie';
 
 export default function MonitoriasTableView({ monitoria }) {
   const router = useRouter();
+
+  const jwtToken = Cookies.get('jwtToken');
 
   // Verifica se monitoria é um array
   if (!Array.isArray(monitoria)) {
@@ -25,6 +28,9 @@ export default function MonitoriasTableView({ monitoria }) {
     try {
       const response = await fetch(`http://localhost:8080/monitora/${cpfInterno}/${cpfPaciente}`, {
         method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
       });
 
       if (response.ok) {
