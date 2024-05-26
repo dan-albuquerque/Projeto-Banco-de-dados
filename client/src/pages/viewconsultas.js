@@ -11,6 +11,15 @@ export async function getServerSideProps(context) {
 
   const parsedCookies = cookie.parse(req ? req.headers.cookie || "" : "");
   const docCpf = parsedCookies.cpf
+  const jwtToken = parsedCookies.jwtToken;
+
+  const fetchWithAuth = async (url) => {
+    return await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    });
+  }
 
   const urls = {
     consultationUrgent: 'http://localhost:8080/consulta_urgencia',
@@ -21,10 +30,10 @@ export async function getServerSideProps(context) {
 
   try{
     const [consultationUrgentRes, consultatioHospitalizedRes, consultasUrgenciaByMedicoRes, consultaInternadoByMedicoRes] = await Promise.all([
-      fetch(urls.consultationUrgent),
-      fetch(urls.consultatioHospitalized),
-      fetch(urls.consultasUrgenciaByMedico),
-      fetch(urls.consultasInternadoByMedico),
+      fetchWithAuth(urls.consultationUrgent),
+      fetchWithAuth(urls.consultatioHospitalized),
+      fetchWithAuth(urls.consultasUrgenciaByMedico),
+      fetchWithAuth(urls.consultasInternadoByMedico),
     ]);
 
     const [consultationUrgent, consultatioHospitalized, consultasUrgenciaByMedico, consultaInternadoByMedico] = await Promise.all([
@@ -35,37 +44,37 @@ export async function getServerSideProps(context) {
     ]);
 
     const consultationUrgentWithNames = await Promise.all(consultationUrgent.map(async (consulta) => {
-      const responsePaciente = await fetch(`http://localhost:8080/pacient/${consulta.fk_paciente_cpf}`);
+      const responsePaciente = await fetchWithAuth(`http://localhost:8080/pacient/${consulta.fk_paciente_cpf}`);
       const paciente = await responsePaciente.json();
 
-      const responseMedico = await fetch(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);
+      const responseMedico = await fetchWithAuth(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);
       const medico = await responseMedico.json();
       return { ...consulta, nomePaciente: paciente.nome, nomeMedico: medico.nome };
     }));
 
     const consultaInternadoNomes = await Promise.all(consultatioHospitalized.map(async (consulta) => {
-      const responsePaciente = await fetch(`http://localhost:8080/pacient/${consulta.fk_paciente_cpf}`);
+      const responsePaciente = await fetchWithAuth(`http://localhost:8080/pacient/${consulta.fk_paciente_cpf}`);
       const paciente = await responsePaciente.json();
 
-      const responseMedico = await fetch(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);
+      const responseMedico = await fetchWithAuth(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);
       const medico = await responseMedico.json();
       return { ...consulta, nomePaciente: paciente.nome, nomeMedico: medico.nome };
     }));
 
     const consultasUrgenciaByMedicoWithNames = await Promise.all(consultasUrgenciaByMedico.map(async (consulta) => {
-      const responsePaciente = await fetch(`http://localhost:8080/pacient/${consulta.fk_paciente_cpf}`);
+      const responsePaciente = await fetchWithAuth(`http://localhost:8080/pacient/${consulta.fk_paciente_cpf}`);
       const paciente = await responsePaciente.json();
 
-      const responseMedico = await fetch(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);
+      const responseMedico = await fetchWithAuth(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);
       const medico = await responseMedico.json();
       return { ...consulta, nomePaciente: paciente.nome, nomeMedico: medico.nome };
     }));
 
     const consultaInternadoByMedicoWithNames = await Promise.all(consultaInternadoByMedico.map(async (consulta) => {
-      const responsePaciente = await fetch(`http://localhost:8080/pacient/${consulta.fk_paciente_cpf}`);
+      const responsePaciente = await fetchWithAuth(`http://localhost:8080/pacient/${consulta.fk_paciente_cpf}`);
       const paciente = await responsePaciente.json();
 
-      const responseMedico = await fetch(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);
+      const responseMedico = await fetchWithAuth(`http://localhost:8080/medico/${consulta.fk_medico_cpf}`);
       const medico = await responseMedico.json();
       return { ...consulta, nomePaciente: paciente.nome, nomeMedico: medico.nome };
     }));

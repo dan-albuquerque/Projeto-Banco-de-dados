@@ -11,9 +11,14 @@ export default function CriarMedico() {
   useEffect(() => {
     const fetchUserData = async () => {
       const cpf = Cookies.get('cpf');
+      const jwtToken = Cookies.get('jwtToken');
       if (cpf) {
         try {
-          const response = await fetch(`http://localhost:8080/medico/${cpf}`);
+          const response = await fetch(`http://localhost:8080/medico/${cpf}`, {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          });
           if (response.ok) {
             const data = await response.json();
             if (data.fk_medico_cpf_gerente === null) {
@@ -48,13 +53,14 @@ export default function CriarMedico() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const jwtToken = Cookies.get('jwtToken');
     console.log(medico);
     try {
       const response = await fetch('http://localhost:8080/medico', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
-
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${jwtToken}`,
         },
         body: JSON.stringify({
           cpf: medico.cpf,

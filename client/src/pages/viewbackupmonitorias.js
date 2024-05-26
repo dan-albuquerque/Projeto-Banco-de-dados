@@ -3,14 +3,29 @@ import DownerNav from '@/components/DownerNav';
 import MonitoriasBackupTableView from '@/components/MonitoriasBackupTableView';
 import UpperNavMonitorias from '@/components/UpperNavMonitorias';
 import { Layout } from '@/app/layout';
+import cookie from 'cookie';
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
   const urls = {
     monitorias: 'http://localhost:8080/backup-monitora',
   };
 
+  const { req, res } = context;
+
+  const parsedCookies = cookie.parse(req ? req.headers.cookie || "" : "");
+  const docCpf = parsedCookies.cpf
+  const jwtToken = parsedCookies.jwtToken;
+
+  const fetchWithAuth = async (url) => {
+    return await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    });
+  }
+
   try {
-    const monitoriasRes = await fetch(urls.monitorias);
+    const monitoriasRes = await fetchWithAuth(urls.monitorias);
     const monitorias = await monitoriasRes.json();
 
     return {
@@ -38,7 +53,7 @@ export default function ViewMonitorias({ monitorias }) {
   }
 
   const undoSearch = () => {
-    console.log("3. terceira e final etapa. undo search foi acionado. Estou em viewconsultas.js"); 
+    console.log("3. terceira e final etapa. undo search foi acionado. Estou em viewconsultas.js");
     setIsSearch(false);
     setUpperNavSearch(null);
   };

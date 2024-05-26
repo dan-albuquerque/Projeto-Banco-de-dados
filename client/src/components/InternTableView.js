@@ -27,8 +27,12 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
 
+import Cookies from "js-cookie";
+
 
 export default function InternTableView({ interns }) {
+  const jwtToken = Cookies.get('jwtToken');
+
   const [hoverContent, setHoverContent] = useState(null);
 
   const [intern, setIntern] = useState(
@@ -122,7 +126,17 @@ export default function InternTableView({ interns }) {
   const fetchInternInfo = async (cpfIntern) => {
     // Fetch the CPFs of the patients
     console.log("Fetching CPFs of the patients...");
-    return fetch(`http://localhost:8080/monitora/interno/${cpfIntern}`)
+    return fetch(`http://localhost:8080/monitora/interno/${cpfIntern}`, {
+      headers: {
+        'Authorization': `Bearer ${jwtToken}`
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch data.");
+        }
+        return response;
+      })
       .then(response => response.json())
       .then(data => {
         // Extract only the fk_paciente_cpf from the data
@@ -131,7 +145,11 @@ export default function InternTableView({ interns }) {
         // For each CPF, fetch the patient's name
         console.log("Fetching names of the patients...");
         const fetchPromises = cpfs.map(async cpfPaciente => {
-          const response = await fetch(`http://localhost:8080/pacient/${cpfPaciente}`);
+          const response = await fetch(`http://localhost:8080/pacient/${cpfPaciente}`, {
+            headers: {
+              'Authorization': `Bearer ${jwtToken}`
+            }
+          });
           return await response.json();
         });
 

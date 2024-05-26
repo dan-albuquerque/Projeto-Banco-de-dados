@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { CentralizedLayout } from '@/app/layout';
 import DownerNav from '@/components/DownerNav';
+import Cookies from 'js-cookie';
 
 export default function ConsultaDetalhes() {
   const router = useRouter();
@@ -10,6 +11,17 @@ export default function ConsultaDetalhes() {
   const [comorbidades, setComorbidades] = useState([]);
   const [hipoteses, setHipoteses] = useState([]);
   const [medicacoes, setMedicacoes] = useState([]);
+
+  const jwtToken = Cookies.get('jwtToken');
+
+  const fetchWithAuth = async (url) => {
+    return await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    });
+  }
+
   const [detalhesConsulta, setDetalhesConsulta] = useState({
     data_realizacao: '',
     nomePaciente: '',
@@ -19,31 +31,31 @@ export default function ConsultaDetalhes() {
   useEffect(() => {
     if (codigo && cpf_medico && cpf_paciente) {
       // Fetch the consulta details using the codigo
-      fetch(`http://localhost:8080/registro_urgencia/${codigo}`)
+      fetchWithAuth(`http://localhost:8080/registro_urgencia/${codigo}`)
         .then(res => res.json())
         .then(data => setConsulta(data))
-        .catch(error => console.error('Error fetching consulta:', error));
+        .catch(error => console.error('Error fetchWithAuthing consulta:', error));
 
-      // Fetch the comorbidades using the codigo
-      fetch(`http://localhost:8080/comorbidade/${codigo}`)
+      // fetchWithAuth the comorbidades using the codigo
+      fetchWithAuth(`http://localhost:8080/comorbidade/${codigo}`)
         .then(res => res.json())
         .then(data => setComorbidades(data))
-        .catch(error => console.error('Error fetching comorbidades:', error));
+        .catch(error => console.error('Error fetchWithAuthing comorbidades:', error));
 
-      // Fetch the hipoteses using the codigo
-      fetch(`http://localhost:8080/hipotese/${codigo}`)
+      // fetchWithAuth the hipoteses using the codigo
+      fetchWithAuth(`http://localhost:8080/hipotese/${codigo}`)
         .then(res => res.json())
         .then(data => setHipoteses(data))
-        .catch(error => console.error('Error fetching hipoteses:', error));
+        .catch(error => console.error('Error fetchWithAuthing hipoteses:', error));
 
-      // Fetch the medicacoes using the codigo
-      fetch(`http://localhost:8080/medicacao/${codigo}`)
+      // fetchWithAuth the medicacoes using the codigo
+      fetchWithAuth(`http://localhost:8080/medicacao/${codigo}`)
         .then(res => res.json())
         .then(data => setMedicacoes(data))
-        .catch(error => console.error('Error fetching medicacoes:', error));
+        .catch(error => console.error('Error fetchWithAuthing medicacoes:', error));
 
-      // Fetch consulta details using the codigo, cpf_medico and cpf_paciente
-      fetch(`http://localhost:8080/consulta_urgencia/details/${codigo}/${cpf_medico}/${cpf_paciente}`)
+      // fetchWithAuth consulta details using the codigo, cpf_medico and cpf_paciente
+      fetchWithAuth(`http://localhost:8080/consulta_urgencia/details/${codigo}/${cpf_medico}/${cpf_paciente}`)
         .then(res => res.json())
         .then(data => setDetalhesConsulta(data))
         .catch(error => console.error('Error fetching consulta details:', error));

@@ -27,6 +27,8 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
 
+import Cookies from "js-cookie";
+
 export default function DoctorsTableView({ doctors }) {
   const [medico, setMedico] = useState({
     nome: null,
@@ -40,6 +42,8 @@ export default function DoctorsTableView({ doctors }) {
   const [isGerente, setIsGerente] = useState(false);
   const [nomeGerente, setNomeGerente] = useState('');
   const [cpf, setCpf] = useState('');
+
+  const jwtToken = Cookies.get('jwtToken');
 
   const [User, setUser] = useState({
     cpf: "",
@@ -91,7 +95,8 @@ export default function DoctorsTableView({ doctors }) {
       const response = await fetch(`http://localhost:8080/medico/${cpf}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`
         },
         body: JSON.stringify(medico)
       });
@@ -116,7 +121,8 @@ export default function DoctorsTableView({ doctors }) {
       const response = await fetch(`http://localhost:8080/medico/desativar/${cpf}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + jwtToken,
         }
       });
       if (response.ok) {
@@ -136,7 +142,8 @@ export default function DoctorsTableView({ doctors }) {
       const response = await fetch(`http://localhost:8080/medico/ativar/${cpf}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + jwtToken,
         }
       });
       if (response.ok) {
@@ -155,7 +162,13 @@ export default function DoctorsTableView({ doctors }) {
     console.log('cpf gerente: ', nomeMedicoGerente);
 
     try {
-      const response = await fetch(`http://localhost:8080/medico/${nomeMedicoGerente}`);
+      const response = await fetch(`http://localhost:8080/medico/${nomeMedicoGerente}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application',
+          'Authorization': 'Bearer ' + jwtToken,
+        }
+      });
       if (response.ok) {
         const data = await response.json();
         setNomeGerente(data.nome);
@@ -172,7 +185,14 @@ export default function DoctorsTableView({ doctors }) {
       const cpf = localStorage.getItem('cpf');
       if (cpf) {
         try {
-          const response = await fetch(`http://localhost:8080/medico/${cpf}`);
+          const response = await fetch(`http://localhost:8080/medico/${cpf}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application',
+              'Authorization': 'Bearer ' + jwtToken,
+            }
+          }
+          );
           if (response.ok) {
             const data = await response.json();
             setUser(data);
@@ -193,7 +213,14 @@ export default function DoctorsTableView({ doctors }) {
       if (cpf) {
         try {
           console.log('url: ', `http://localhost:8080/medico/${cpf}`);
-          const response = await fetch(`http://localhost:8080/medico/${cpf}`);
+          const response = await fetch(`http://localhost:8080/medico/${cpf}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application',
+              'Authorization': 'Bearer ' + jwtToken,
+            }
+          }
+          );
           if (response.ok) {
             const data = await response.json();
             setUser(data);

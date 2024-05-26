@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { CentralizedLayout } from '@/app/layout';
 import DownerNav from '@/components/DownerNav';
+import Cookies from 'js-cookie';
 export default function Perfil() {
   const [medico, setMedico] = useState({
     cpf: "",
@@ -13,6 +14,16 @@ export default function Perfil() {
     fk_medico_cpf_gerente: null
   });
 
+  const jwtToken = Cookies.get('jwtToken');
+
+  const fetchWithAuth = async (url) => {
+    return await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    });
+  }
+
   const [nomeGerente, setNomeGerente] = useState('');
   const [cpfGerente, setCpfGerente] = useState('');
 
@@ -21,7 +32,7 @@ export default function Perfil() {
       const cpf = localStorage.getItem('cpf');
       if (cpf) {
         try {
-          const response = await fetch(`http://localhost:8080/medico/${cpf}`);
+          const response = await fetchWithAuth(`http://localhost:8080/medico/${cpf}`);
           if (response.ok) {
             const data = await response.json();
             setMedico(data);
@@ -40,7 +51,7 @@ export default function Perfil() {
     const fetchUserData = async () => {
       if (cpfGerente) {
         try {
-          const response = await fetch(`http://localhost:8080/medico/${cpfGerente}`);
+          const response = await fetchWithAuth(`http://localhost:8080/medico/${cpfGerente}`);
           if (response.ok) {
             const data = await response.json();
             setNomeGerente(data.nome);

@@ -32,8 +32,8 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/hello", "/consulta", "/user", "/registro", "/pacient", "/intern").authenticated()
-                .anyRequest().permitAll())
+                .requestMatchers("/login").permitAll()
+                .anyRequest().authenticated())
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
     }
