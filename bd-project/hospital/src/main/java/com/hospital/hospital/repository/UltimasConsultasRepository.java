@@ -27,6 +27,8 @@ public class UltimasConsultasRepository {
                      "JOIN paciente p ON pi.fk_paciente_cpf = p.cpf " +
                      "ORDER BY date DESC " +
                      "LIMIT 10";
+                     
+        System.out.println(sql);
 
         return jdbcTemplate.query(sql, (rs, rowNum) ->
                 new UltimasConsultasDTO(
