@@ -43,7 +43,8 @@ A step-by-step series of examples that tell you how to get a development environ
 2. **Setup the backend**
    ```bash
     cd bd-project/hospital
-    ./mvnw spring-boot:run
+    mvn clean install
+    mvn spring-boot:run 
 
 3. **Setup the front-end**
    ```bash
