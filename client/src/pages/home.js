@@ -211,7 +211,7 @@ export default function Home({
             <ul className='w-full px-6 flex justify-between mt-6 flex-col'>
               {specialityDemand && specialityDemand.map((speciality, index) => (
                 <li key={index}>
-                  <p>• {speciality.speciality} | {speciality.totalConsultations}</p>
+                  <p>• {speciality.speciality} | {speciality.totalConsultations} Consultas</p>
                 </li>
               ))}
             </ul>

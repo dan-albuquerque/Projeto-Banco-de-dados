@@ -12,6 +12,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import Cookies from 'js-cookie';
+import { Toaster, toast } from 'react-hot-toast';
+
 
 export default function MonitoriasTableView({ monitoria }) {
   const router = useRouter();
@@ -34,9 +36,11 @@ export default function MonitoriasTableView({ monitoria }) {
       });
 
       if (response.ok) {
-        router.reload();
+        toast.success('Monitoria deletada com sucesso');
+        window.location.reload();
       } else {
         console.error('Failed to delete monitoria:', response);
+        toast.error('Falha ao deletar monitoria');
       }
     } catch (error) {
       console.error('Failed to delete monitoria:', error);
@@ -45,6 +49,8 @@ export default function MonitoriasTableView({ monitoria }) {
   }
 
   return (
+    <>
+    <Toaster />
     <div className="container mx-auto mt-8 flex items-center justify-center">
       <table className="table-auto border-collapse border border-gray-300">
         <thead>
@@ -81,5 +87,6 @@ export default function MonitoriasTableView({ monitoria }) {
         </tbody>
       </table>
     </div>
+    </>
   );
 }

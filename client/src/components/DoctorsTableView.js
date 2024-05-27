@@ -104,6 +104,10 @@ export default function DoctorsTableView({ doctors }) {
         console.log('Médico atualizado com sucesso!');
         toast.success('Médico atualizado com sucesso!');
       }
+      else {
+        console.error('Erro ao atualizar médico:', response);
+        toast.error('Erro ao atualizar médico.');
+      }
     }
     catch (error) {
       console.error('Erro ao atualizar médico:', error);

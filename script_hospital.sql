@@ -194,7 +194,10 @@ END $$
 
 DELIMITER ;
 
--- Contando o interno que mais monitora pacientes
+
+
+
+-- CONSULTAS DE TESTE: Contando o interno que mais monitora pacientes
 SELECT i.cpf, i.nome, COUNT(m.fk_cpf_paciente) AS total_pacientes
 FROM interno i
 JOIN monitora m ON i.cpf = m.fk_cpf_interno
@@ -231,9 +234,29 @@ where m.cpf = ci.fk_medico_cpf;
 
 select * from medico;
 
+
 INSERT INTO interno (cpf, nome, matricula) VALUES ('12345678901', 'João Silva', 1001);
 INSERT INTO interno (cpf, nome, matricula) VALUES ('98765432109', 'Maria Oliveira', 1002);
 INSERT INTO interno (cpf, nome, matricula) VALUES ('55544433322', 'Carlos Pereira', 1003);
+
+INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, fk_medico_cpf_gerente) 
+VALUES ('12345678901', 12345, 'Dr. João Silva', 'Cardiologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM123456', NULL);
+
+-- Médico utilizado na consulta de urgência do paciente 'Rodrigo Alves'
+INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, fk_medico_cpf_gerente) 
+VALUES ('98765432109', 23456, 'Dra. Maria Oliveira', 'Endocrinologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM234567', NULL);
+
+-- Médico utilizado na consulta de urgência do paciente 'Camila Costa'
+INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, fk_medico_cpf_gerente) 
+VALUES ('55544433322', 34567, 'Dr. Carlos Pereira', 'Pneumologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM345678', NULL);
+
+-- Médico 1 gerenciado pelo Dr. João Silva
+INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, fk_medico_cpf_gerente) 
+VALUES ('11122233344', 45678, 'Dr. Felipe Almeida', 'Ortopedia', 'hashed_password_4', 'CRM456789', '12345678901');
+
+-- Médico 2 gerenciado pelo Dr. João Silva
+INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, fk_medico_cpf_gerente) 
+VALUES ('22233344455', 56789, 'Dra. Beatriz Souza', 'Dermatologia', 'hashed_password_5', 'CRM567890', '12345678901');
 
 INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) 
 VALUES ('11122233344', 'Ana Souza', '1122334455', '9988776655', 'São Paulo', 'Centro', 'Rua A', 10);
@@ -273,27 +296,6 @@ INSERT INTO paciente_internado (fk_paciente_cpf, sala) VALUES ('55566677788', 10
 -- Assumindo que os pacientes 'Rodrigo Alves' e 'Camila Costa' serão pacientes de urgência
 INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('66677788899', 2);
 INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('77788899900', 4);
-
--- Médico utilizado na consulta de urgência do paciente 'Pedro Santos'
-INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, fk_medico_cpf_gerente) 
-VALUES ('12345678901', 12345, 'Dr. João Silva', 'Cardiologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM123456', NULL);
-
--- Médico utilizado na consulta de urgência do paciente 'Rodrigo Alves'
-INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, fk_medico_cpf_gerente) 
-VALUES ('98765432109', 23456, 'Dra. Maria Oliveira', 'Endocrinologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM234567', NULL);
-
--- Médico utilizado na consulta de urgência do paciente 'Camila Costa'
-INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, fk_medico_cpf_gerente) 
-VALUES ('55544433322', 34567, 'Dr. Carlos Pereira', 'Pneumologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM345678', NULL);
-
--- Médico 1 gerenciado pelo Dr. João Silva
-INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, fk_medico_cpf_gerente) 
-VALUES ('11122233344', 45678, 'Dr. Felipe Almeida', 'Ortopedia', 'hashed_password_4', 'CRM456789', '12345678901');
-
--- Médico 2 gerenciado pelo Dr. João Silva
-INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, fk_medico_cpf_gerente) 
-VALUES ('22233344455', 56789, 'Dra. Beatriz Souza', 'Dermatologia', 'hashed_password_5', 'CRM567890', '12345678901');
-
 
 -- Criar consulta de urgência para o paciente 'Pedro Santos' com CPF '22233344455'
 CALL AddUrgencyConsultation(
@@ -402,5 +404,3 @@ INSERT INTO hipotese (fk_registro_codigo, id, descricao) VALUES (5, 2, 'Necessid
 -- Assumindo que o registro_codigo gerado para a consulta de internado de 'Juliana Ferreira' foi 6
 INSERT INTO hipotese (fk_registro_codigo, id, descricao) VALUES (6, 1, 'Dor crônica não controlada');
 INSERT INTO hipotese (fk_registro_codigo, id, descricao) VALUES (6, 2, 'Dependência de opioides');
-
-DELETE FROM monitora WHERE fk_cpf_interno = '12345678901' AND fk_cpf_paciente = '11122233344';
