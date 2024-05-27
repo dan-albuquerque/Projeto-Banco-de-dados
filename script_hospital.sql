@@ -1,4 +1,5 @@
 create database hospital;
+use hospital;
 
 create table interno(
 	cpf varchar(11) primary key,
@@ -193,47 +194,6 @@ BEGIN
 END $$
 
 DELIMITER ;
-
-
-
-
--- CONSULTAS DE TESTE: Contando o interno que mais monitora pacientes
-SELECT i.cpf, i.nome, COUNT(m.fk_cpf_paciente) AS total_pacientes
-FROM interno i
-JOIN monitora m ON i.cpf = m.fk_cpf_interno
-GROUP BY i.cpf, i.nome
-ORDER BY total_pacientes DESC
-LIMIT 1;
-
--- Mostrar os pacientes em estado mais grave
-SELECT p.cpf, p.nome, pu.nivel_triagem
-FROM paciente p
-JOIN paciente_urgencia pu ON p.cpf = pu.fk_paciente_cpf
-ORDER BY pu.nivel_triagem DESC
-LIMIT 10;
-
--- Médico que mais realizou consultas
-SELECT m.cpf, m.nome, 
-       (COALESCE(cu.total_consultas_urgencia, 0) + COALESCE(ci.total_consultas_internado, 0)) AS total_consultas
-FROM medico m
-LEFT JOIN (
-    SELECT fk_medico_cpf, COUNT(*) AS total_consultas_urgencia
-    FROM consulta_urgencia
-    GROUP BY fk_medico_cpf
-) cu ON m.cpf = cu.fk_medico_cpf
-LEFT JOIN (
-    SELECT fk_medico_cpf, COUNT(*) AS total_consultas_internado
-    FROM consulta_internado
-    GROUP BY fk_medico_cpf
-) ci ON m.cpf = ci.fk_medico_cpf
-ORDER BY total_consultas DESC
-LIMIT 1;
-
-select m.nome from consulta_internado ci, medico m
-where m.cpf = ci.fk_medico_cpf;
-
-select * from medico;
-
 
 INSERT INTO interno (cpf, nome, matricula) VALUES ('12345678901', 'João Silva', 1001);
 INSERT INTO interno (cpf, nome, matricula) VALUES ('98765432109', 'Maria Oliveira', 1002);

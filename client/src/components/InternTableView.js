@@ -97,6 +97,7 @@ export default function InternTableView({ interns }) {
     const isDeleted = await deleteIntern(cpf);
 
     isDeleted ? toast.success('Interno deletado com sucesso!') : toast.error('Erro ao deletar interno.');
+    window.location.reload();
   };
 
   const deleteIntern = async (cpf) => {
@@ -118,7 +119,7 @@ export default function InternTableView({ interns }) {
         return false;
       }
     } catch (error) {
-      console.error("Error deleting intern: ", error);
+      console.error("Error deleting intern: ", error);   
       return false;
     }
   };

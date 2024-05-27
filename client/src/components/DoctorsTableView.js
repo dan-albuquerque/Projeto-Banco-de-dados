@@ -103,6 +103,7 @@ export default function DoctorsTableView({ doctors }) {
       if (response.ok) {
         console.log('Médico atualizado com sucesso!');
         toast.success('Médico atualizado com sucesso!');
+        window.location.reload();
       }
       else {
         console.error('Erro ao atualizar médico:', response);
