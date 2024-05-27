@@ -11,7 +11,7 @@ export default function DownerNav({ doctors }) {
   const handleLogout = () => {
     localStorage.removeItem('jwtToken');
     Cookies.remove('jwtToken');
-    router.push('/login');
+    router.push('/');
   }
 
   return (

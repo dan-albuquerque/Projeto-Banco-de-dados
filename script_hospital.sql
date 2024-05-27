@@ -26,11 +26,12 @@ create table monitora(
 );
 
 CREATE TABLE backup_monitora (
-	nome_interno VARCHAR(100) NOT NULL,
     fk_cpf_interno VARCHAR(11) NOT NULL,
     fk_cpf_paciente VARCHAR(11) NOT NULL,
     deleted_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+drop table backup_monitora;
 
 CREATE TRIGGER trg_backup_monitora
 AFTER DELETE ON monitora
@@ -39,7 +40,6 @@ BEGIN
     INSERT INTO backup_monitora (fk_cpf_interno, fk_cpf_paciente, deleted_at)
     VALUES (OLD.fk_cpf_interno, OLD.fk_cpf_paciente, CURRENT_TIMESTAMP);
 END;
-
 
 create table paciente_internado(
 	fk_paciente_cpf varchar(11) not null,
@@ -165,17 +165,6 @@ END $$
 
 DELIMITER ;
 
-drop procedure AddUrgencyConsultation;
-
-CALL AddUrgencyConsultation(
-    '23456789018', -- CPF do paciente
-    '12345678910', -- CPF do médico
-    'Exame de emergência',
-    'Histórico da doença do paciente',
-    'Exame físico detalhado',
-    '2024-05-21'  -- Data da consulta
-);
-
 -- Procedure para criar consulta internado
 DELIMITER $$
 
@@ -207,101 +196,6 @@ END $$
 
 DELIMITER ;
 
-CALL AddUrgencyConsultation(
-    '23456789018', -- CPF do paciente
-    '12345678910', -- CPF do médico
-    'Exame de emergência',
-    'Histórico da doença do paciente',
-    'Exame físico detalhado',
-    '2024-05-21',  -- Data da consulta
-    registro_codigo
-);
-
-call AddInternedConsultation(
-	'12345678907', -- CPF do paciente
-    '12345678910', -- CPF do médico
-    'Exame de emergência',
-    'Evolução do paciente',
-    'Histórico de exames do paciente',
-    '2024-05-21'  -- Data da consulta
-);
-
-INSERT INTO interno (cpf, nome, senha, matricula) VALUES
-('12345678904', 'João Silva', 'senha123', 1001),
-('23456789015', 'Maria Souza', 'senha456', 1002),
-('34567890126', 'Carlos Pereira', 'senha789', 1003);
-
--- Inserir registros na tabela registro
-INSERT INTO registro (codigo, conduta) VALUES
-(1, 'Conduta 1'),
-(2, 'Conduta 2'),
-(3, 'Conduta 3'),
-(4, 'Conduta 4'),
-(5, 'Conduta 5'),
-(6, 'Conduta 6');
-
--- Inserir registros na tabela registro_urgencia
-INSERT INTO registro_urgencia (fk_registro_codigo, historico_doenca, exame_fisico) VALUES
-(1, 'Histórico de Doença 1', 'Exame Físico 1'),
-(2, 'Histórico de Doença 2', 'Exame Físico 2'),
-(3, 'Histórico de Doença 3', 'Exame Físico 3');
-
--- Inserir registros na tabela registro_internado
-INSERT INTO registro_internado (fk_registro_codigo, evolucao, historico_exames) VALUES
-(4, 'Evolução 4', 'Histórico de Exames 4'),
-(5, 'Evolução 5', 'Histórico de Exames 5'),
-(6, 'Evolução 6', 'Histórico de Exames 6');
-
--- Agora inserir os dados nas tabelas consulta_urgencia e consulta_internado
-INSERT INTO consulta_urgencia (fk_registro_urgencia_codigo, fk_medico_cpf, fk_paciente_cpf, data_realizacao) VALUES
-(1, '12345678910', '23456789018', '2024-04-27'),
-(2, '12345678910', '23456789018', '2024-04-28'),
-(3, '12345678910', '23456789018', '2024-04-29');
-
-INSERT INTO consulta_internado (fk_registro_internado_codigo, fk_medico_cpf, fk_paciente_cpf, data_realizacao) VALUES
-(4, '12345678910', '12345678907', '2024-04-27'),
-(5, '12345678910', '12345678907', '2024-04-28'),
-(6, '12345678910', '12345678907', '2024-04-29');
-
-INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES
-('12345678907', 'João Silva', '3132123456', '31987654321', 'Belo Horizonte', 'Centro', 'Rua Floresta', 100),
-('23456789018', 'Maria Oliveira', '2123456789', '21987654321', 'Rio de Janeiro', 'Copacabana', 'Av Atlântica', 321),
-('34567890129', 'Carlos Souza', '1134567890', '11987654321', 'São Paulo', 'Jardins', 'Alameda Santos', 213);
-
-INSERT INTO paciente_internado (fk_paciente_cpf, sala) VALUES
-('12345678907', 3),
-('23456789018', 2),
-('34567890129', 1);
-
-select m.nome as "Nome do Doutor", i.nome as "Nome do interno" from medico m, interno i;
-
--- Inserindo internos
-INSERT INTO interno (cpf, nome, senha, matricula) VALUES ('12345678901', 'Interno A', 'senhaA', 1001);
-INSERT INTO interno (cpf, nome, senha, matricula) VALUES ('23456789012', 'Interno B', 'senhaB', 1002);
-INSERT INTO interno (cpf, nome, senha, matricula) VALUES ('34567890123', 'Interno C', 'senhaC', 1003);
-
--- Inserindo pacientes
-INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES ('98765432101', 'Paciente 1', '123456789', '987654321', 'Cidade A', 'Bairro A', 'Rua A', 1);
-INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES ('87654321012', 'Paciente 2', '123456789', '987654321', 'Cidade A', 'Bairro A', 'Rua A', 2);
-INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES ('76543210123', 'Paciente 3', '123456789', '987654321', 'Cidade B', 'Bairro B', 'Rua B', 3);
-INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES ('65432101234', 'Paciente 4', '123456789', '987654321', 'Cidade B', 'Bairro B', 'Rua B', 4);
-INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES ('54321012345', 'Paciente 5', '123456789', '987654321', 'Cidade C', 'Bairro C', 'Rua C', 5);
-INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES ('43210123456', 'Paciente 6', '123456789', '987654321', 'Cidade C', 'Bairro C', 'Rua C', 6);
-INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES ('32101234567', 'Paciente 7', '123456789', '987654321', 'Cidade D', 'Bairro D', 'Rua D', 7);
-INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) VALUES ('21012345678', 'Paciente 8', '123456789', '987654321', 'Cidade D', 'Bairro D', 'Rua D', 8);
-
--- Inserindo relações de monitoramento
-INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('12345678901', '98765432101');
-INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('12345678901', '87654321012');
-INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('12345678901', '76543210123');
-INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('23456789012', '65432101234');
-INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('23456789012', '54321012345');
-INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('23456789012', '43210123456');
-INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('34567890123', '32101234567');
-INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('34567890123', '21012345678');
-INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('34567890123', '98765432101');
-INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('34567890123', '87654321012');
-
 -- Contando o interno que mais monitora pacientes
 SELECT i.cpf, i.nome, COUNT(m.fk_cpf_paciente) AS total_pacientes
 FROM interno i
@@ -309,17 +203,6 @@ JOIN monitora m ON i.cpf = m.fk_cpf_interno
 GROUP BY i.cpf, i.nome
 ORDER BY total_pacientes DESC
 LIMIT 1;
-
--- Inserindo pacientes de urgência
-INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('98765432101', 4);
-INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('87654321012', 3);
-INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('76543210123', 2);
-INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('65432101234', 4);
-INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('54321012345', 1);
-INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('43210123456', 0);
-INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('32101234567', 4);
-INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('21012345678', 2);
-
 
 -- Mostrar os pacientes em estado mais grave
 SELECT p.cpf, p.nome, pu.nivel_triagem
@@ -350,17 +233,6 @@ where m.cpf = ci.fk_medico_cpf;
 
 select * from medico;
 
-INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, ativo, fk_medico_cpf_gerente) VALUES
-('12345678911', 12345, 'Dr. João Silva', 'Cardiologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM12345', true, NULL),
-('23456789012', 23456, 'Dra. Maria Souza', 'Pediatria', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM23456', true,'12345678911'),
-('34567890123', 34567, 'Dr. Pedro Oliveira', 'Ortopedia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM34567', true, '12345678911'),
-('45678901234', 45678, 'Dra. Ana Santos', 'Dermatologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM45678', true, '23456789012'),
-('56789012345', 56789, 'Dr. Lucas Lima', 'Ginecologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM56789', true, '23456789012');
-
-
-INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, ativo, fk_medico_cpf_gerente) VALUES
-('12345678913', 12345, 'Dr. João Campos', 'Cardiologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM12345', false, NULL);
-
 CREATE TRIGGER trg_backup_interno
 AFTER DELETE ON interno
 FOR EACH ROW
@@ -371,3 +243,176 @@ BEGIN
     JOIN interno i ON i.cpf = m.fk_cpf_interno
     WHERE m.fk_cpf_interno = OLD.cpf;
 END;
+
+INSERT INTO interno (cpf, nome, matricula) VALUES ('12345678901', 'João Silva', 1001);
+INSERT INTO interno (cpf, nome, matricula) VALUES ('98765432109', 'Maria Oliveira', 1002);
+INSERT INTO interno (cpf, nome, matricula) VALUES ('55544433322', 'Carlos Pereira', 1003);
+
+INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) 
+VALUES ('11122233344', 'Ana Souza', '1122334455', '9988776655', 'São Paulo', 'Centro', 'Rua A', 10);
+
+INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) 
+VALUES ('22233344455', 'Pedro Santos', '2233445566', '9876543210', 'Rio de Janeiro', 'Copacabana', 'Rua B', 20);
+
+INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) 
+VALUES ('33344455566', 'Fernanda Lima', '3344556677', '9123456789', 'Belo Horizonte', 'Savassi', 'Rua C', 30);
+
+INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('12345678901', '11122233344');
+INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('98765432109', '22233344455');
+INSERT INTO monitora (fk_cpf_interno, fk_cpf_paciente) VALUES ('55544433322', '33344455566');
+
+-- Assumindo que o paciente 'Ana Souza' com CPF '11122233344' será um paciente internado
+INSERT INTO paciente_internado (fk_paciente_cpf, sala) VALUES ('11122233344', 101);
+
+-- Assumindo que o paciente 'Pedro Santos' com CPF '22233344455' será um paciente de urgência
+INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('22233344455', 3);
+
+INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) 
+VALUES ('44455566677', 'Lucas Mendes', '4455667788', '9012345678', 'Curitiba', 'Centro', 'Rua D', 40);
+
+INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) 
+VALUES ('55566677788', 'Juliana Ferreira', '5566778899', '8765432109', 'Porto Alegre', 'Moinhos de Vento', 'Rua E', 50);
+
+INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) 
+VALUES ('66677788899', 'Rodrigo Alves', '6677889900', '7654321098', 'Salvador', 'Pituba', 'Rua F', 60);
+
+INSERT INTO paciente (cpf, nome, telefone_residencial, telefone_pessoal, cidade, bairro, rua, numero) 
+VALUES ('77788899900', 'Camila Costa', '7788990011', '6543210987', 'Fortaleza', 'Aldeota', 'Rua G', 70);
+
+-- Assumindo que os pacientes 'Lucas Mendes' e 'Juliana Ferreira' serão pacientes internados
+INSERT INTO paciente_internado (fk_paciente_cpf, sala) VALUES ('44455566677', 102);
+INSERT INTO paciente_internado (fk_paciente_cpf, sala) VALUES ('55566677788', 103);
+
+-- Assumindo que os pacientes 'Rodrigo Alves' e 'Camila Costa' serão pacientes de urgência
+INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('66677788899', 2);
+INSERT INTO paciente_urgencia (fk_paciente_cpf, nivel_triagem) VALUES ('77788899900', 4);
+
+-- Criar consulta de urgência para o paciente 'Pedro Santos' com CPF '22233344455'
+CALL AddUrgencyConsultation(
+    '22233344455',
+    '12345678901',  -- CPF de um médico fictício para este exemplo
+    'Administração de medicamentos',
+    'Histórico de hipertensão',
+    'Pressão arterial elevada, pulso rápido',
+    '2024-05-27'
+);
+
+-- Criar consulta de urgência para o paciente 'Rodrigo Alves' com CPF '66677788899'
+CALL AddUrgencyConsultation(
+    '66677788899',
+    '98765432109',  -- CPF de um médico fictício para este exemplo
+    'Monitoramento contínuo',
+    'Histórico de diabetes tipo 2',
+    'Nível de glicose elevado, sinais de cetoacidose',
+    '2024-05-27'
+);
+
+-- Criar consulta de urgência para o paciente 'Camila Costa' com CPF '77788899900'
+CALL AddUrgencyConsultation(
+    '77788899900',
+    '55544433322',  -- CPF de um médico fictício para este exemplo
+    'Intervenção imediata',
+    'Histórico de asma severa',
+    'Dificuldade respiratória, sibilos audíveis',
+    '2024-05-27'
+);
+
+-- Criar consulta de internado para o paciente 'Ana Souza' com CPF '11122233344'
+CALL AddInternedConsultation(
+    '11122233344',
+    '12345678901',  -- CPF de um médico fictício para este exemplo
+    'Administração de antibióticos',
+    'Melhora gradual, sem febre nos últimos 2 dias',
+    'Exames de sangue, Raio-X do tórax',
+    '2024-05-27'
+);
+
+-- Criar consulta de internado para o paciente 'Lucas Mendes' com CPF '44455566677'
+CALL AddInternedConsultation(
+    '44455566677',
+    '98765432109',  -- CPF de um médico fictício para este exemplo
+    'Reabilitação física',
+    'Aumento na mobilidade, resposta positiva ao tratamento',
+    'Exames de imagem, Avaliação fisioterápica',
+    '2024-05-27'
+);
+
+-- Criar consulta de internado para o paciente 'Juliana Ferreira' com CPF '55566677788'
+CALL AddInternedConsultation(
+    '55566677788',
+    '55544433322',  -- CPF de um médico fictício para este exemplo
+    'Controle de dor',
+    'Redução significativa na dor, sem necessidade de morfina nas últimas 24 horas',
+    'Exames laboratoriais, Consulta com especialista em dor',
+    '2024-05-27'
+);
+
+-- Hipótese para o registro de urgência do paciente 'Pedro Santos'
+INSERT INTO hipotese (fk_registro_codigo, id, descricao) VALUES (1, 1, 'Hipertensão arterial devido ao estresse');
+
+-- Hipótese para o registro de urgência do paciente 'Rodrigo Alves'
+INSERT INTO hipotese (fk_registro_codigo, id, descricao) VALUES (2, 1, 'Cetoacidose diabética');
+
+-- Hipótese para o registro de urgência do paciente 'Camila Costa'
+INSERT INTO hipotese (fk_registro_codigo, id, descricao) VALUES (3, 1, 'Exacerbação aguda de asma');
+
+-- Medicações para o registro de urgência do paciente 'Pedro Santos'
+INSERT INTO medicacao (fk_registro_urgencia_codigo, id, nome) VALUES (1, 1, 'Captopril');
+INSERT INTO medicacao (fk_registro_urgencia_codigo, id, nome) VALUES (1, 2, 'Atenolol');
+
+-- Medicações para o registro de urgência do paciente 'Rodrigo Alves'
+INSERT INTO medicacao (fk_registro_urgencia_codigo, id, nome) VALUES (2, 1, 'Insulina');
+INSERT INTO medicacao (fk_registro_urgencia_codigo, id, nome) VALUES (2, 2, 'Bicarbonato de sódio');
+
+-- Medicações para o registro de urgência do paciente 'Camila Costa'
+INSERT INTO medicacao (fk_registro_urgencia_codigo, id, nome) VALUES (3, 1, 'Salbutamol');
+INSERT INTO medicacao (fk_registro_urgencia_codigo, id, nome) VALUES (3, 2, 'Prednisolona');
+
+-- Comorbidades para o registro de urgência do paciente 'Pedro Santos'
+INSERT INTO comorbidade (fk_registro_urgencia_codigo, id, nome) VALUES (1, 1, 'Diabetes Mellitus');
+INSERT INTO comorbidade (fk_registro_urgencia_codigo, id, nome) VALUES (1, 2, 'Obesidade');
+
+-- Comorbidades para o registro de urgência do paciente 'Rodrigo Alves'
+INSERT INTO comorbidade (fk_registro_urgencia_codigo, id, nome) VALUES (2, 1, 'Hipertensão arterial');
+INSERT INTO comorbidade (fk_registro_urgencia_codigo, id, nome) VALUES (2, 2, 'Dislipidemia');
+
+-- Comorbidades para o registro de urgência do paciente 'Camila Costa'
+INSERT INTO comorbidade (fk_registro_urgencia_codigo, id, nome) VALUES (3, 1, 'Rinite alérgica');
+INSERT INTO comorbidade (fk_registro_urgencia_codigo, id, nome) VALUES (3, 2, 'Eczema atópico');
+
+-- Hipóteses para o registro de internado do paciente 'Ana Souza'
+-- Assumindo que o registro_codigo gerado para a consulta de internado de 'Ana Souza' foi 4
+INSERT INTO hipotese (fk_registro_codigo, id, descricao) VALUES (4, 1, 'Pneumonia bacteriana');
+INSERT INTO hipotese (fk_registro_codigo, id, descricao) VALUES (4, 2, 'Possível complicação pulmonar');
+
+-- Hipóteses para o registro de internado do paciente 'Lucas Mendes'
+-- Assumindo que o registro_codigo gerado para a consulta de internado de 'Lucas Mendes' foi 5
+INSERT INTO hipotese (fk_registro_codigo, id, descricao) VALUES (5, 1, 'Lesão muscular');
+INSERT INTO hipotese (fk_registro_codigo, id, descricao) VALUES (5, 2, 'Necessidade de fisioterapia intensiva');
+
+-- Hipóteses para o registro de internado do paciente 'Juliana Ferreira'
+-- Assumindo que o registro_codigo gerado para a consulta de internado de 'Juliana Ferreira' foi 6
+INSERT INTO hipotese (fk_registro_codigo, id, descricao) VALUES (6, 1, 'Dor crônica não controlada');
+INSERT INTO hipotese (fk_registro_codigo, id, descricao) VALUES (6, 2, 'Dependência de opioides');
+
+-- Médico utilizado na consulta de urgência do paciente 'Pedro Santos'
+INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, fk_medico_cpf_gerente) 
+VALUES ('12345678901', 12345, 'Dr. João Silva', 'Cardiologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM123456', NULL);
+
+-- Médico utilizado na consulta de urgência do paciente 'Rodrigo Alves'
+INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, fk_medico_cpf_gerente) 
+VALUES ('98765432109', 23456, 'Dra. Maria Oliveira', 'Endocrinologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM234567', NULL);
+
+-- Médico utilizado na consulta de urgência do paciente 'Camila Costa'
+INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, fk_medico_cpf_gerente) 
+VALUES ('55544433322', 34567, 'Dr. Carlos Pereira', 'Pneumologia', '$2a$10$sJ8SwOaequ0W8Qwwgkj1b.UWwFR2ra6028J862e8QL.Iui.oKwHlC', 'CRM345678', NULL);
+
+-- Médico 1 gerenciado pelo Dr. João Silva
+INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, fk_medico_cpf_gerente) 
+VALUES ('11122233344', 45678, 'Dr. Felipe Almeida', 'Ortopedia', 'hashed_password_4', 'CRM456789', '12345678901');
+
+-- Médico 2 gerenciado pelo Dr. João Silva
+INSERT INTO medico (cpf, rqe, nome, especialidade, senha, crm, fk_medico_cpf_gerente) 
+VALUES ('22233344455', 56789, 'Dra. Beatriz Souza', 'Dermatologia', 'hashed_password_5', 'CRM567890', '12345678901');
+
+DELETE FROM monitora WHERE fk_cpf_interno = '12345678901' AND fk_cpf_paciente = '11122233344';

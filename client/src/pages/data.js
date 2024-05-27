@@ -24,7 +24,7 @@ export async function getServerSideProps(context) {
   })
     .then((response) => {
       if (!response.ok) {
-        res.writeHead(302, { Location: '/login' });
+        res.writeHead(302, { Location: '/' });
         res.end();
         return { props: {} };
       }
