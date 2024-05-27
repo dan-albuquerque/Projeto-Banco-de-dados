@@ -300,7 +300,7 @@ export default function DoctorsTableView({ doctors }) {
                         <SheetHeader>
                           <SheetTitle>Edite um médico</SheetTitle>
                           <SheetDescription>
-                            <p>Preencha os campos abaixo para atualizar as informações do médico.</p>
+                            <p>Preencha <strong>TODOS</strong> os campos abaixo para atualizar as informações do médico.</p>
                             <form onSubmit={(e) => handleSubmit(e, cpf)}>
                               <div className="mt-4 flex flex-col gap-4">
                                 <input type="text" name="nome" id="nome" onChange={handleChange} placeholder="Nome" className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />

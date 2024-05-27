@@ -424,7 +424,7 @@ export default function PatientTableView({ patients }) {
                       <SheetHeader>
                         <SheetTitle>Edite um Paciente</SheetTitle>
                         <SheetDescription>
-                          Preencha os campos abaixo!
+                          Preencha <strong>TODOS</strong> os campos abaixo!
                           <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6 w-full items-center justify-center">
                             <input type="text" name="nome" onChange={handleChange} placeholder="Nome" className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
                             <input type="text" name="telefone_residencial" onChange={handleChange} placeholder="Telefone Residencial" className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 text-medium" />
