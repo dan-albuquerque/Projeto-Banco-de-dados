@@ -221,7 +221,7 @@ export default function Home({
               <h1 className='font-bold text-lg '>Consultas Recentes</h1>
               <img src="img/onlineconsultation.svg" className='w-14 h-14'></img>
             </div>
-            <ul className='w-full px-6 flex justify-between mt-6 flex-col'>
+            <ul className='w-full px-6 flex justify-between mt-6 flex-col gap-4'>
               {latestConsultations.map((consultation, index) => (
                 <li key={index} className='rounded-lg px-4 py-2 shadow-lg border border-black'>
                   <p className=''>{consultation.type}</p>
