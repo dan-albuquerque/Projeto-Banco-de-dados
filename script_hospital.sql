@@ -31,8 +31,6 @@ CREATE TABLE backup_monitora (
     deleted_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-drop table backup_monitora;
-
 CREATE TRIGGER trg_backup_monitora
 AFTER DELETE ON monitora
 FOR EACH ROW
