@@ -10,6 +10,7 @@ export default function ConsultaDetalhes() {
   const { codigo, cpf_medico, cpf_paciente } = router.query;
   const [consulta, setConsulta] = useState(null);
   const [hipoteses, setHipoteses] = useState([]);
+  const [conduta, setConduta] = useState([]);
   const [detalhesConsulta, setDetalhesConsulta] = useState({
     data_realizacao: '',
     nomePaciente: '',
@@ -36,6 +37,16 @@ export default function ConsultaDetalhes() {
           setConsulta(data);
         })
         .catch(error => console.error('Error fetchWithAuthing consulta:', error));
+
+        fetchWithAuth(`http://localhost:8080/registro/${codigo}`)
+        .then(res => res.json())
+        .then(data => {
+          console.log("Consulta data:", data);
+          setConduta(data)
+    } )
+        .catch(error => console.error('Error fetchWithAuthing consulta:', error));
+
+        
 
       // fetchWithAuth the hipoteses using the codigo
       fetchWithAuth(`http://localhost:8080/hipotese/${codigo}`)
@@ -70,6 +81,7 @@ export default function ConsultaDetalhes() {
             <p className='w-2/3'><strong>Evolução:</strong> {consulta.evolucao}</p>
             <p className='w-2/3'><strong>Histórico de exames:</strong> {consulta.historico_exames}</p>
             <img src="/img/consulta.svg" alt="Imagem" className="absolute bottom-2 right-2 w-36 h-36" />
+            <p className='w-2/3'><strong>Conduta:</strong>{conduta.conduta}</p>
           </div>
         </div>
         <div className='flex items-start justify-between gap-10 w-full'>

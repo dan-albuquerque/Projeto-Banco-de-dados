@@ -11,6 +11,7 @@ export default function ConsultaDetalhes() {
   const [comorbidades, setComorbidades] = useState([]);
   const [hipoteses, setHipoteses] = useState([]);
   const [medicacoes, setMedicacoes] = useState([]);
+  const [conduta, setConduta] = useState([]);
 
   const jwtToken = Cookies.get('jwtToken');
 
@@ -35,6 +36,13 @@ export default function ConsultaDetalhes() {
         .then(res => res.json())
         .then(data => setConsulta(data))
         .catch(error => console.error('Error fetchWithAuthing consulta:', error));
+
+        fetchWithAuth(`http://localhost:8080/registro/${codigo}`)
+        .then(res => res.json())
+        .then(data => setConduta(data))
+        .catch(error => console.error('Error fetchWithAuthing consulta:', error));
+
+        console.log('consulta:', conduta);
 
       // fetchWithAuth the comorbidades using the codigo
       fetchWithAuth(`http://localhost:8080/comorbidade/${codigo}`)
@@ -80,7 +88,7 @@ export default function ConsultaDetalhes() {
           <div className='relative flex flex-col w-full border h-56 px-6 py-4 border-blue-400 shadow-md rounded-md overflow-auto'>
             <p className='w-2/3'><strong>Histórico da Doença:</strong> {consulta.historico_doenca || consulta.historicoDoenca}</p>
             <p className='w-2/3'><strong>Exame Físico:</strong> {consulta.exame_fisico || consulta.exameFisico}</p>
-            
+            <p className= 'w-2/3'><strong>Conduta:</strong> {conduta.conduta}</p>
             <img src="/img/consulta.svg" alt="Imagem" className="absolute bottom-2 right-2 w-36 h-36" />
           </div>
           <div className='relative flex flex-col border h-56 px-6 py-4 border-blue-400 shadow-md rounded-md w-full overflow-auto'>
